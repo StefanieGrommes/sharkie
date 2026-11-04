@@ -25,10 +25,7 @@ class Jellyfish extends MoveableObject {
     animate() {
         this.moveLeft();
         setInterval( () => {
-            let index = this.currentImage % this.IMAGES_SUPER_DANGEROUS.length; // % heisst modulo also Rest
-            let path = this.IMAGES_SUPER_DANGEROUS[index];
-            this.img = this.imageCache[path];
-            this.currentImage++;
+            this.playAnimation(this.IMAGES_SUPER_DANGEROUS);
         }, 180);
     }
 }

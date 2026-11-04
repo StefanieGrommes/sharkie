@@ -2,6 +2,7 @@ class Character extends MoveableObject {
     y = 200;
     height = 200;
     width = 280;
+    speed = 10;
     IMAGES_IDLE = [
             'img/1.Sharkie/1.IDLE/1.png',
             'img/1.Sharkie/1.IDLE/2.png',
@@ -22,7 +23,8 @@ class Character extends MoveableObject {
             'img/1.Sharkie/1.IDLE/17.png',
             'img/1.Sharkie/1.IDLE/18.png'
         ];
-        currentImage = 0;
+    currentImage = 0;
+    world;
 
     constructor(){
         super().loadImage('img/1.Sharkie/1.IDLE/1.png');
@@ -34,12 +36,22 @@ class Character extends MoveableObject {
 
     animate() {
         setInterval(() => {
-            let index = this.currentImage % this.IMAGES_IDLE.length; // % heisst modulo also Rest
-            let path = this.IMAGES_IDLE[index];
-            this.img = this.imageCache[path];
-            this.currentImage++;
+            if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+                this.x += this.speed;
+                this.otherDirection = false;
+            }
+            if(this.world.keyboard.LEFT && this.x > 0) {
+                this.x -= this.speed;
+                this.otherDirection = true;
+            }
+            this.world.camera_x = -this.x + 100;
+         }, 1000 / 60);
+
+        setInterval(() => {
+               this.playAnimation(this.IMAGES_IDLE);
         }, 180);
     }
+
 
     jump() {
 

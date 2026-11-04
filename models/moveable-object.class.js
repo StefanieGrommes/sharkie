@@ -5,6 +5,7 @@ class MoveableObject {
     height = 100;
     width = 150;
     speed = 0.3;
+    otherDirection = false;
     imageCache = {};
 
     loadImage(path) {
@@ -12,7 +13,7 @@ class MoveableObject {
         this.img.src = path
     }
 
-    loadImages(arr){
+    loadImages(arr) {
         arr.forEach((path) => {
             let img = new Image();
             img.src = path;
@@ -20,14 +21,21 @@ class MoveableObject {
         });
     }
 
-    moveRight(){
+    moveRight() {
         console.log('Move right');
     }
 
-    moveLeft(){
+    moveLeft() {
     setInterval(() => {
         this.x -= this.speed;
     }, 1000 / 60);
+    }
+
+    playAnimation(images) {
+        let index = this.currentImage % images.length; // % heisst modulo also Rest
+            let path = images[index];
+            this.img = this.imageCache[path];
+            this.currentImage++;
     }
 
 
