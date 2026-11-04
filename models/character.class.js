@@ -1,5 +1,5 @@
 class Character extends MoveableObject {
-    y = 200;
+    y = 80;
     height = 200;
     width = 280;
     speed = 10;
@@ -23,13 +23,24 @@ class Character extends MoveableObject {
             'img/1.Sharkie/1.IDLE/17.png',
             'img/1.Sharkie/1.IDLE/18.png'
         ];
+
+    IMAGES_SWIMMING = [
+        'img/1.Sharkie/3.Swim/1.png',
+        'img/1.Sharkie/3.Swim/2.png',
+        'img/1.Sharkie/3.Swim/3.png',
+        'img/1.Sharkie/3.Swim/4.png',
+        'img/1.Sharkie/3.Swim/5.png',
+        'img/1.Sharkie/3.Swim/6.png'
+        ];
+
     currentImage = 0;
     world;
 
     constructor(){
         super().loadImage('img/1.Sharkie/1.IDLE/1.png');
         this.loadImages(this.IMAGES_IDLE);
-
+        this.loadImages(this.IMAGES_SWIMMING);
+        this.applyGravity();
         this.animate();
 
     }
@@ -48,7 +59,11 @@ class Character extends MoveableObject {
          }, 1000 / 60);
 
         setInterval(() => {
-               this.playAnimation(this.IMAGES_IDLE);
+            if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                this.playAnimation(this.IMAGES_SWIMMING);
+            } else {
+            this.playAnimation(this.IMAGES_IDLE);
+            }
         }, 180);
     }
 
