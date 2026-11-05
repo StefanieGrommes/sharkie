@@ -2,6 +2,9 @@ class World {
     character = new Character();
     enemies = level1.enemies;
     backgrounds = level1.backgrounds;
+    statusbarPoison = new StatusbarPoison();
+    statusbarHeart = new StatusbarHeart();
+    statusbarCoins = new StatusbarCoins();
     level = level1;
     canvas;
     ctx;
@@ -25,6 +28,7 @@ class World {
             this.level.enemies.forEach((enemy) => {
                if (this.character.isColliding(enemy)) {
                 this.character.hit();
+                this.statusbarHeart.setPercentage(this.character.energy);
                 console.log('Collision with Character', this.character.energy)
                }
             })
@@ -37,10 +41,15 @@ class World {
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgrounds);
         this.addObjectsToMap(this.level.enemies);
+        this.ctx.translate(-this.camera_x, 0);
+        // ------- SPACE FOR FIXED OBJECTS --------------
+        this.addToMap(this.statusbarPoison);
+        this.addToMap(this.statusbarHeart);
+        this.addToMap(this.statusbarCoins);
+        this.ctx.translate(this.camera_x, 0); //FORWARDS
+
         this.addToMap(this.character);
         this.ctx.translate(-this.camera_x, 0);
-
-
         // Draw() wird immer wieder aufgerufen
         let self = this;
         requestAnimationFrame(function() {
