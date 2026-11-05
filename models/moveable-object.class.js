@@ -8,20 +8,9 @@ class MoveableObject {
     otherDirection = false;
     imageCache = {};
     speedY = 0;
-    acceleration = 2.5;
+    energy = 100;
+    lastHit =  0;
 
-    applyGravity(){
-        setInterval(() => {
-            if(this.isAboveGround()) {
-                this.y -= this.speedY;
-                this.speedY -=this.acceleration;
-                }
-        }, 1000 / 25);
-    }
-
-    isAboveGround() {
-    return this.y < 120;
-    }
 
     loadImage(path) {
         this.img = new Image();
@@ -36,8 +25,52 @@ class MoveableObject {
         });
     }
 
+    draw(ctx) {
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    }
+
+    drawBorder(ctx) {
+        if(this instanceof Jellyfish || this instanceof Character || this instanceof Pufferfish || this instanceof Endboss) {
+            ctx.beginPath();
+            ctx.lineWidth = '5';
+            ctx.strokeStyle = 'blue';
+            ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.stroke();
+        }
+    }
+
+    isColliding(mo) {
+        return  this.x + this.width > mo.x &&
+                this.y + this.height > mo.y &&
+                this.x < mo.x &&
+                this.y < mo.y + mo.height;
+    }
+
+    hit() {
+    this.energy -= 5;
+    if (this.energy < 0) {
+        this.energy = 0;
+    } else {
+        this.lastHit = new Date().getTime();
+    }
+    }
+
+    isDead() {
+        return this.energy == 0;
+    }
+
+    isHurt() {
+        let timepassed = new Date().getTime() - this.lastHit; //Diffence in ms
+        timepassed = timepassed / 1000 // Differenz in sekunden
+        return timepassed < 1;
+    }
+
+    moveUp() {
+        this.y += this.speed;
+    }
+
     moveRight() {
-        console.log('Move right');
+        this.x += this.speed;
     }
 
     moveLeft() {
