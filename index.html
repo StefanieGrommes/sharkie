@@ -18,15 +18,143 @@
     <script src="./models/level.class.js"></script>
     <script src="./models/endboss.class.js"></script>
     <script src="./models/collidable-object.class.js"></script>
+    <script src="./models/throwable-object.class.js"></script>
     <script src="./levels/level1.js"></script>
     <script src="./models/keyboard.class.js"></script>
     <script src="./js/game.js"></script>
 </head>
-<body onload="init()">
-    <h1>Sharkie</h1>
+<body>
+    <h1 id="game-name" class="game-name">Sharkie</h1>
+    <div class="rotate-warning-container">
+        <div id="rotate-warning" class="rotate-warning d-none">
+        Rotate your device for the best experience
+        </div>
+    </div>
+    <div class="start-screen d-flex">
+         <button type="button" id="start-game-btn" class="start-game-btn" onclick="init();"><img src="./img/6.Botones/Start/2.png" alt="start game"></button>
+    </div>
+    </div>
+     <div id="game-container" class="game-container d-none">
+        <canvas id="canvas" width="720" height="480">
 
-    <canvas id="canvas" width="720" height="480">
+        </canvas>
+     </div>
+      <div id="game-over-screen" class="game-over-screen d-none">
+        <img src="../img/6.Botones/Tittles/Game Over/Recurso 9.png" alt="" />
+        <div class="winscreen-btn">
+          <button class="ocean-btn" onclick="endGame()">Menu</button>
+        <button class="ocean-btn" onclick="restartGame()">Retry</button>
+      </div>
 
-    </canvas>
+      <div id="win-screen" class="win-screen d-none">
+        <img src="../img/6.Botones/Try again/Mesa de trabajo 1.png" alt="" />
+        <div class="winscreen-btn">
+          <button class="ocean-btn" onclick="endGame()">Menu</button>
+        <button class="ocean-btn" onclick="restartGame()">Retry</button>
+      </div>
+
+      </div>
+    </div>
+
+    <dialog id="options-overlay" class="options-overlay d-none">
+      <div id="options-content" class="options-content">
+        <button
+          id="options-overlay-close-button"
+          class="options-overlay-close-button ocean-btn"
+          onclick="closeOptions()"
+        >
+          ✖
+        </button>
+
+        <h2>Controls</h2>
+
+        <ul class="controls-list">
+          <li data-action="moveLeft">
+            <span>Move left</span>
+            <button class="keybind-btn">←</button>
+          </li>
+
+          <li data-action="moveRight">
+            <span>Move right</span>
+            <button class="keybind-btn">→</button>
+          </li>
+
+          <li data-action="moveUp">
+            <span>Move up</span>
+            <button class="keybind-btn">↑</button>
+          </li>
+
+          <li data-action="moveDown">
+            <span>Move down</span>
+            <button class="keybind-btn">↓</button>
+          </li>
+
+          <li data-action="FIN_SLAP">
+            <span>Fin Slap</span>
+            <button class="keybind-btn">V</button>
+          </li>
+
+          <li data-action="poisonAttack">
+            <span>Poison Attack</span>
+            <button class="keybind-btn">B</button>
+          </li>
+
+          <li data-action="normalAttack">
+            <span>Normal Attack</span>
+            <button class="keybind-btn">Space</button>
+          </li>
+        </ul>
+      </div>
+    </dialog>
+
+    <dialog id="imprint-overlay" class="imprint-overlay d-none">
+      <div id="imprint" class="imprint-content d-none">
+        <div class="imprint">
+          <button
+            class="ocean-btn options-overlay-close-button"
+            onclick="closeImprint()"
+          >
+            ✕
+          </button>
+
+          <h2>Imprint</h2>
+
+          <div class="imprint-grid">
+            <div class="left-column">
+              <p>
+                Stefanie Grommes<br />
+                Offenbachstr. 6<br />
+                53359 Rheinbach<br />
+                Telefon: +49 (0) 1785825548<br />
+                E-Mail: steffi.grommes@web.de
+              </p>
+
+
+              <h3>Berufsbezeichnung und berufsrechtliche Regelungen</h3>
+              <p>
+                Berufsbezeichnung:<br />
+                Software Developer
+              </p>
+            </div>
+<div class="right-column">
+            <h3>
+              Verbraucher&shy;streit&shy;beilegung/Universal&shy;schlichtungs&shy;stelle
+            </h3>
+            <p>
+              Wir sind nicht bereit oder verpflichtet, an
+              Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle
+              teilzunehmen.
+            </p>
+
+            <p>
+              Quelle:
+              <a href="https://www.e-recht24.de/impressum-generator.html"
+                >https://www.e-recht24.de/impressum-generator.html</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </dialog>
 </body>
 </html>

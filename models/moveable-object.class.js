@@ -1,7 +1,7 @@
 class MoveableObject extends DrawableObject{
-    speed = 0.3;
+    speedX = 0.3;
     otherDirection = false;
-    speedY = 0;
+    speedY = 0.3;
     energy = 100;
     lastHit =  0;
 
@@ -11,17 +11,6 @@ class MoveableObject extends DrawableObject{
                 this.x < mo.x &&
                 this.y < mo.y + mo.height;
     }
-
-    drawBorder(ctx) {
-        if(this instanceof Jellyfish || this instanceof Character || this instanceof Pufferfish || this instanceof Endboss) {
-            ctx.beginPath();
-            ctx.lineWidth = '5';
-            ctx.strokeStyle = 'blue';
-            ctx.rect(this.x, this.y, this.width, this.height);
-            ctx.stroke();
-        }
-    }
-
 
     playAnimation(images) {
         let index = this.currentImage % images.length; // % heisst modulo also Rest
@@ -50,16 +39,20 @@ class MoveableObject extends DrawableObject{
     }
 
     moveUp() {
-        this.y += this.speed;
+        this.y -= this.speedY;
+    }
+
+    moveDown() {
+         this.y += this.speedY;
     }
 
     moveRight() {
-        this.x += this.speed;
+        this.x += this.speedX;
     }
 
     moveLeft() {
     setInterval(() => {
-        this.x -= this.speed;
+        this.x -= this.speedX
     }, 1000 / 60);
     }
 

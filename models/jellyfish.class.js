@@ -1,6 +1,8 @@
 class Jellyfish extends MoveableObject {
     y = 200;
     width = 100;
+    speedY = 5;
+
     IMAGES_SUPER_DANGEROUS_GREEN = [
             'img/2.Enemy/2 Jelly fish/Super dangerous/Green 1.png',
             'img/2.Enemy/2 Jelly fish/Super dangerous/Green 2.png',
@@ -26,9 +28,15 @@ class Jellyfish extends MoveableObject {
     }
 
     animate() {
-        this.moveUp();
         setInterval( () => {
-            this.playAnimation(this.IMAGES_SUPER_DANGEROUS_GREEN);
+        this.y += this.speedY;
+
+        if (this.y >= 380 || this.y <= 0) {
+            this.speedY *= -1;
+        }
+        this.playAnimation(this.IMAGES_SUPER_DANGEROUS_GREEN);
         }, 180);
     }
+
+
 }

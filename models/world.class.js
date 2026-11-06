@@ -10,6 +10,7 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
+    thowableObjects = [];
 
 
     constructor(canvas, keyboard){
@@ -19,20 +20,31 @@ class World {
         // das canvas wird in die oberste variable let = canvas überschrieben, damit ich es in draw verwenden kann
         this.draw();
         this.setWorld();
-        this.checkCollisions();
+        this.run();
 
     }
 
-    checkCollisions(){
+    run(){
         setInterval(() => {
-            this.level.enemies.forEach((enemy) => {
+            this.checkCollisions();
+            this.checkThrowObjects();
+        }, 200);
+    }
+
+    checkCollisions(){
+        this.level.enemies.forEach((enemy) => {
                if (this.character.isColliding(enemy)) {
                 this.character.hit();
                 this.statusbarHeart.setPercentage(this.character.energy);
-                console.log('Collision with Character', this.character.energy)
                }
             })
-        }, 200);
+    }
+
+    checkThrowObjects() {
+        if(this.keyboard.D){
+            let bubble = new ThrowableObject(this.character.x + 160, this.character.y + 110);
+            this.thowableObjects.push(bubble);
+        }
     }
 
     draw() {
@@ -41,6 +53,7 @@ class World {
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgrounds);
         this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.thowableObjects);
         this.ctx.translate(-this.camera_x, 0);
         // ------- SPACE FOR FIXED OBJECTS --------------
         this.addToMap(this.statusbarPoison);
@@ -92,5 +105,4 @@ class World {
 
 
     }
-
 

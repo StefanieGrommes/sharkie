@@ -4,6 +4,7 @@ class Character extends MoveableObject {
     height = 220;
     width = 220;
     speed = 10;
+    speedY = 8;
     offset = {
         top: 120,
         bottom: 55,
@@ -84,6 +85,14 @@ class Character extends MoveableObject {
             }
             if (this.world.keyboard.LEFT && this.x > 0) {
                 this.x -= this.speed;
+                this.otherDirection = true;
+            }
+            if (this.world.keyboard.UP && this.y > 0) {
+                this.y -= this.speedY;
+                this.otherDirection = false;
+            }
+            if (this.world.keyboard.DOWN && this.y < 480 - this.height) {
+                this.y += this.speedY;
                 this.otherDirection = true;
             }
             this.world.camera_x = -this.x + 100;
