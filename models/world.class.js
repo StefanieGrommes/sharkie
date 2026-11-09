@@ -4,8 +4,7 @@ class World {
                 new Coin(),
                 new Coin()
         ];
-    poison = [ new Poison(),
-    ]
+    poison = [ new Poison()];
     enemies = level1.enemies;
     backgrounds = level1.backgrounds;
     statusbarPoison = new StatusbarPoison();
@@ -110,8 +109,10 @@ class World {
 
     setWorld() {
         this.character.world = this;
+        this.level.enemies.forEach((enemy) => {
+            enemy.world = this;
+        });
     }
 
 
     }
-

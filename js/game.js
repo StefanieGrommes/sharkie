@@ -6,7 +6,7 @@ const GAME_HEIGHT = 480;
 
 function init() {
     const gameContainer = document.getElementById("game-zone");
-    const startScreen = document.querySelector(".start-screen");
+    const startScreen = document.querySelector(".start-screen-container");
     startScreen.classList.add("d-none");
     startScreen.classList.remove("d-flex");
     gameContainer.classList.remove("d-none");
@@ -59,6 +59,76 @@ window.addEventListener("keyup", (event) => {
     break;
     }
 });
+
+document.getElementById("btn-left").addEventListener("touchstart", (event => {
+  event.preventDefault();
+    this.LEFT = true;
+}));
+
+document.getElementById("btn-left").addEventListener("touchend", (event => {
+  event.preventDefault();
+    this.LEFT = false;
+}));
+
+document.getElementById("btn-right").addEventListener("touchstart", (event => {
+  event.preventDefault();
+    this.RIGHT = true;
+}));
+
+document.getElementById("btn-right").addEventListener("touchend", (event => {
+  event.preventDefault();
+    this.RIGHT = false;
+}));
+
+document.getElementById("btn-up").addEventListener("touchstart", (event => {
+  event.preventDefault();
+    this.UP = true;
+}));
+
+document.getElementById("btn-up").addEventListener("touchend", (event => {
+  event.preventDefault();
+    this.UP = false;
+}));
+
+document.getElementById("btn-down").addEventListener("touchstart", (event => {
+  event.preventDefault();
+    this.DOWN = true;
+}));
+
+document.getElementById("btn-down").addEventListener("touchend", (event => {
+  event.preventDefault();
+    this.DOWN = false;
+}));
+
+document.getElementById("btn-d").addEventListener("touchstart", (event => {
+  event.preventDefault();
+    this.D = true;
+}));
+
+document.getElementById("btn-d").addEventListener("touchend", (event => {
+  event.preventDefault();
+    this.D = false;
+}));
+
+document.getElementById("btn-f").addEventListener("touchstart", (event => {
+  event.preventDefault();
+    this.F = true;
+}));
+
+document.getElementById("btn-f").addEventListener("touchend", (event => {
+  event.preventDefault();
+    this.F = false;
+}));
+
+document.getElementById("btn-space").addEventListener("touchstart", (event => {
+  event.preventDefault();
+    this.SPACE = true;
+}));
+
+document.getElementById("btn-space").addEventListener("touchend", (event => {
+  event.preventDefault();
+    this.SPACE = false;
+}));
 
 /**
  * Handles canvas resizing and responsive layout adjustments
@@ -165,4 +235,21 @@ function showRotateHint() {
     window.addEventListener("resize", handleOrientationChange);
     window.addEventListener("orientationchange", handleOrientationChange);
   }
+}
+
+function openOptions() {
+  document.getElementById("options-overlay").showModal();
+
+}
+
+function closeOptions() {
+  document.getElementById("options-overlay").close();
+}
+
+function openImprint() {
+  document.getElementById("imprint-overlay").showModal();
+}
+
+function closeImprint() {
+document.getElementById("imprint-overlay").close();
 }

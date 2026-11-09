@@ -10,7 +10,9 @@ class Character extends MoveableObject {
         bottom: 55,
         left: 45,
         right: 50
-    }
+         }
+    isMoving = false;
+
 
     IMAGES_IDLE = [
         'img/1.Sharkie/1.IDLE/1.png',
@@ -31,6 +33,23 @@ class Character extends MoveableObject {
         'img/1.Sharkie/1.IDLE/16.png',
         'img/1.Sharkie/1.IDLE/17.png',
         'img/1.Sharkie/1.IDLE/18.png'
+    ];
+
+    IMAGES_LONG_IDLE = [
+        './img/1.Sharkie/2.Long_IDLE/i1.png',
+        './img/1.Sharkie/2.Long_IDLE/i2.png',
+        './img/1.Sharkie/2.Long_IDLE/i3.png',
+        './img/1.Sharkie/2.Long_IDLE/i4.png',
+        './img/1.Sharkie/2.Long_IDLE/i5.png',
+        './img/1.Sharkie/2.Long_IDLE/i6.png',
+        './img/1.Sharkie/2.Long_IDLE/i7.png',
+        './img/1.Sharkie/2.Long_IDLE/i8.png',
+        './img/1.Sharkie/2.Long_IDLE/i9.png',
+        './img/1.Sharkie/2.Long_IDLE/i10.png',
+        './img/1.Sharkie/2.Long_IDLE/i11.png',
+        './img/1.Sharkie/2.Long_IDLE/i12.png',
+        './img/1.Sharkie/2.Long_IDLE/i13.png',
+        './img/1.Sharkie/2.Long_IDLE/i14.png'
     ];
 
     IMAGES_SWIMMING = [
@@ -96,6 +115,8 @@ class Character extends MoveableObject {
                 this.otherDirection = true;
             }
             this.world.camera_x = -this.x + 100;
+            isMoving = true;
+
          }, 1000 / 60);
 
         setInterval(() => {
