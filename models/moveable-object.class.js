@@ -6,10 +6,21 @@ class MoveableObject extends DrawableObject{
     lastHit =  0;
 
     isColliding(mo) {
-        return  this.x + this.width > mo.x &&
-                this.y + this.height > mo.y &&
-                this.x < mo.x &&
-                this.y < mo.y + mo.height;
+        const thisOffset = this.offset || {};
+        const otherOffset = mo.offset || {};
+        const thisLeft = this.x + (thisOffset.left || 0);
+        const thisRight = this.x + this.width - (thisOffset.right || 0);
+        const thisTop = this.y + (thisOffset.top || 0);
+        const thisBottom = this.y + this.height - (thisOffset.bottom || 0);
+        const otherLeft = mo.x + (otherOffset.left || 0);
+        const otherRight = mo.x + mo.width - (otherOffset.right || 0);
+        const otherTop = mo.y + (otherOffset.top || 0);
+        const otherBottom = mo.y + mo.height - (otherOffset.bottom || 0);
+
+        return thisRight > otherLeft &&
+            thisLeft < otherRight &&
+            thisBottom > otherTop &&
+            thisTop < otherBottom;
     }
 
     playAnimation(images) {
@@ -20,7 +31,7 @@ class MoveableObject extends DrawableObject{
     }
 
     hit() {
-    this.energy -= 5;
+    this.energy -= 2;
     if (this.energy < 0) {
         this.energy = 0;
     } else {

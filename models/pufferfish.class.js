@@ -1,6 +1,12 @@
 class Pufferfish extends MoveableObject {
     y = 120;
     width = 100;
+    offset = {
+        top: 8,
+        bottom: 8,
+        left: 4,
+        right: 4
+    };
 
     IMAGES_SWIM_GREEN = [
             'img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/1.swim1.png',

@@ -19,9 +19,11 @@
     <script src="./models/endboss.class.js"></script>
     <script src="./models/collidable-object.class.js"></script>
     <script src="./models/throwable-object.class.js"></script>
-    <script src="./levels/level1.js"></script>
+    <script src="./models/coin.class.js"></script>
+    <script src="./models/poison.class.js"></script>
     <script src="./models/keyboard.class.js"></script>
     <script src="./js/game.js"></script>
+    <script src="./levels/level1.js"></script>
 </head>
 <body>
     <h1 id="game-name" class="game-name">Sharkie</h1>
@@ -30,27 +32,43 @@
         Rotate your device for the best experience
         </div>
     </div>
+    <div class="settings">
+        <p class="p-controls">Settings</p>
+        <img class="fullscreen d-none" id="fullscreen" src="./images/5.Buttons/Key/fullscreen.png" alt="fullscreen image" onclick="fullscreen()">
+        <img class="img-volume  volume_true" id="volume" src="./img/7.Buttons/volume.png" alt="sound image">
+        <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.5" class="volume-slider">
+        <img class="img-setting" id="setting" src="./img/7.Buttons/settings.png" alt="menu image" onclick="openMenu(event); startIntructions(event)">
+    </div>
     <div class="start-screen d-flex">
-         <button type="button" id="start-game-btn" class="start-game-btn" onclick="init();"><img src="./img/6.Botones/Start/2.png" alt="start game"></button>
+         <button type="button" id="start-game-btn" class="options-btn" onclick="init();">Start</button>
+         <button
+        id="option-btn"
+        class="options-btn"
+        onclick="openOptions()"
+      >
+        Options
+      </button>
     </div>
     </div>
-     <div id="game-container" class="game-container d-none">
+     <div id="game-zone" class="game-zone d-none">
         <canvas id="canvas" width="720" height="480">
 
         </canvas>
      </div>
       <div id="game-over-screen" class="game-over-screen d-none">
-        <img src="../img/6.Botones/Tittles/Game Over/Recurso 9.png" alt="" />
-        <div class="winscreen-btn">
-          <button class="ocean-btn" onclick="endGame()">Menu</button>
-        <button class="ocean-btn" onclick="restartGame()">Retry</button>
+          <img src="../img/6.Botones/Tittles/Game Over/Recurso 9.png" alt="" />
+
+      <div class="winscreen-btn">
+          <button class="options-btn" onclick="endGame()">Menu</button>
+        <button class="options-btn" onclick="restartGame()">Retry</button>
+      </div>
       </div>
 
       <div id="win-screen" class="win-screen d-none">
         <img src="../img/6.Botones/Try again/Mesa de trabajo 1.png" alt="" />
         <div class="winscreen-btn">
-          <button class="ocean-btn" onclick="endGame()">Menu</button>
-        <button class="ocean-btn" onclick="restartGame()">Retry</button>
+          <button class="options-btn" onclick="endGame()">Menu</button>
+        <button class="options-btn" onclick="restartGame()">Retry</button>
       </div>
 
       </div>
@@ -60,7 +78,7 @@
       <div id="options-content" class="options-content">
         <button
           id="options-overlay-close-button"
-          class="options-overlay-close-button ocean-btn"
+          class="options-overlay-close-button options-btn"
           onclick="closeOptions()"
         >
           ✖
@@ -111,7 +129,7 @@
       <div id="imprint" class="imprint-content d-none">
         <div class="imprint">
           <button
-            class="ocean-btn options-overlay-close-button"
+            class="options-btn options-overlay-close-button"
             onclick="closeImprint()"
           >
             ✕

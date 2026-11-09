@@ -2,6 +2,12 @@ class Jellyfish extends MoveableObject {
     y = 200;
     width = 100;
     speedY = 5;
+    offset = {
+        top: 4,
+        bottom: 4,
+        left: 3,
+        right: 3
+    };
 
     IMAGES_SUPER_DANGEROUS_GREEN = [
             'img/2.Enemy/2 Jelly fish/Super dangerous/Green 1.png',

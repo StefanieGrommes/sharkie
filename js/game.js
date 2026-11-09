@@ -5,14 +5,16 @@ const GAME_WIDTH = 720;
 const GAME_HEIGHT = 480;
 
 function init() {
-    gameContainer = document.getElementById("game-container");
-    startScreen = document.querySelector(".start-screen");
+    const gameContainer = document.getElementById("game-zone");
+    const startScreen = document.querySelector(".start-screen");
     startScreen.classList.add("d-none");
     startScreen.classList.remove("d-flex");
     gameContainer.classList.remove("d-none");
     gameContainer.classList.add("d-flex");
-
+    document.body.style.backgroundImage =
+      "url('img/3.Background/BackgroundImage/water.png')";
     canvas = document.getElementById("canvas");
+    initLevel1();
     world = new World(canvas, keyboard);
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
@@ -64,11 +66,10 @@ window.addEventListener("keyup", (event) => {
  */
 function resizeCanvas() {
   const viewport = getViewportSize();
-  const isMobile = isTouchDevice();
 
   setCanvasResolution();
 
-  const displaySize = calculateDisplaySize(viewport, isMobile);
+  const displaySize = calculateDisplaySize(viewport);
 
   applyCanvasStyles(displaySize);
 }
@@ -98,19 +99,12 @@ function setCanvasResolution() {
 }
 
 /**
- * Calculates the display size for the canvas based on viewport and device type
+ * Fits the canvas to the viewport without enlarging it beyond its base size
  * @param {{width: number, height: number}} viewport - The viewport dimensions
- * @param {boolean} isMobile - Whether the device is a mobile/touch device
  * @returns {{width: number, height: number}} The calculated display size
  */
-function calculateDisplaySize(viewport, isMobile) {
-  if (isMobile) {
-    return {
-      width: Math.floor(viewport.width),
-      height: Math.floor(viewport.height),
-    };
-  }
-  const scale = calculateScale(viewport);
+function calculateDisplaySize(viewport) {
+  const scale = Math.min(1, calculateScale(viewport));
   return {
     width: Math.floor(GAME_WIDTH * scale),
     height: Math.floor(GAME_HEIGHT * scale),
@@ -123,10 +117,9 @@ function calculateDisplaySize(viewport, isMobile) {
  * @returns {number} The scale factor
  */
 function calculateScale(viewport) {
-  const scaleX = (viewport.width - 2) / GAME_WIDTH;
-  const scaleY = (viewport.height - 2) / GAME_HEIGHT;
-  const scale = Math.min(scaleX, scaleY);
-  return scale;
+  const scaleX = viewport.width / GAME_WIDTH;
+  const scaleY = viewport.height / GAME_HEIGHT;
+  return Math.min(scaleX, scaleY);
 }
 
 /**
@@ -134,13 +127,13 @@ function calculateScale(viewport) {
  * @param {{width: number, height: number}} size - The display size to apply
  */
 function applyCanvasStyles(size) {
-  const gameContainer = document.getElementById("game-container");
+  const gameZone = document.getElementById("game-zone");
 
   canvas.style.width = `${size.width}px`;
   canvas.style.height = `${size.height}px`;
 
-  gameContainer.style.width = `${size.width}px`;
-  gameContainer.style.height = `${size.height}px`;
+  gameZone.style.width = `${size.width}px`;
+  gameZone.style.height = `${size.height}px`;
 }
 
 /**
