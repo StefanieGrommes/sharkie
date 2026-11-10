@@ -3,6 +3,9 @@ let world;
 let keyboard = new Keyboard();
 const GAME_WIDTH = 720;
 const GAME_HEIGHT = 480;
+let intervalIds = [];
+let i=1;
+
 
 function init() {
     const gameContainer = document.getElementById("game-zone");
@@ -60,75 +63,75 @@ window.addEventListener("keyup", (event) => {
     }
 });
 
-document.getElementById("btn-left").addEventListener("touchstart", (event => {
+document.getElementById("btn-left").addEventListener("touchstart", (event) => {
   event.preventDefault();
-    this.LEFT = true;
-}));
+    keyboard.LEFT = true;
+});
 
-document.getElementById("btn-left").addEventListener("touchend", (event => {
+document.getElementById("btn-left").addEventListener("touchend", (event) => {
   event.preventDefault();
-    this.LEFT = false;
-}));
+    keyboard.LEFT = false;
+});
 
-document.getElementById("btn-right").addEventListener("touchstart", (event => {
+document.getElementById("btn-right").addEventListener("touchstart", (event) => {
   event.preventDefault();
-    this.RIGHT = true;
-}));
+    keyboard.RIGHT = true;
+});
 
-document.getElementById("btn-right").addEventListener("touchend", (event => {
+document.getElementById("btn-right").addEventListener("touchend", (event) => {
   event.preventDefault();
-    this.RIGHT = false;
-}));
+    keyboard.RIGHT = false;
+});
 
-document.getElementById("btn-up").addEventListener("touchstart", (event => {
+document.getElementById("btn-up").addEventListener("touchstart", (event) => {
   event.preventDefault();
-    this.UP = true;
-}));
+    keyboard.UP = true;
+});
 
-document.getElementById("btn-up").addEventListener("touchend", (event => {
+document.getElementById("btn-up").addEventListener("touchend", (event) => {
   event.preventDefault();
-    this.UP = false;
-}));
+    keyboard.UP = false;
+});
 
-document.getElementById("btn-down").addEventListener("touchstart", (event => {
+document.getElementById("btn-down").addEventListener("touchstart", (event) => {
   event.preventDefault();
-    this.DOWN = true;
-}));
+    keyboard.DOWN = true;
+});
 
-document.getElementById("btn-down").addEventListener("touchend", (event => {
+document.getElementById("btn-down").addEventListener("touchend", (event) => {
   event.preventDefault();
-    this.DOWN = false;
-}));
+    keyboard.DOWN = false;
+});
 
-document.getElementById("btn-d").addEventListener("touchstart", (event => {
+document.getElementById("btn-d").addEventListener("touchstart", (event) => {
   event.preventDefault();
-    this.D = true;
-}));
+   keyboard.D = true;
+});
 
-document.getElementById("btn-d").addEventListener("touchend", (event => {
+document.getElementById("btn-d").addEventListener("touchend", (event) => {
   event.preventDefault();
-    this.D = false;
-}));
+    keyboard.D = false;
+});
 
-document.getElementById("btn-f").addEventListener("touchstart", (event => {
+document.getElementById("btn-f").addEventListener("touchstart", (event) => {
   event.preventDefault();
-    this.F = true;
-}));
+    keyboard.F = true;
+});
 
-document.getElementById("btn-f").addEventListener("touchend", (event => {
+document.getElementById("btn-f").addEventListener("touchend", (event) => {
   event.preventDefault();
-    this.F = false;
-}));
+    keyboard.F = false;
+});
 
-document.getElementById("btn-space").addEventListener("touchstart", (event => {
+document.getElementById("btn-space").addEventListener("touchstart", (event) => {
   event.preventDefault();
-    this.SPACE = true;
-}));
+    keyboard.SPACE = true;
+});
 
-document.getElementById("btn-space").addEventListener("touchend", (event => {
+document.getElementById("btn-space").addEventListener("touchend", (event) => {
   event.preventDefault();
-    this.SPACE = false;
-}));
+    keyboard.SPACE = false;
+});
 
 /**
  * Handles canvas resizing and responsive layout adjustments
@@ -231,7 +234,7 @@ function showRotateHint() {
 
   if (isPortrait) {
     warning.classList.remove("d-none");
-    document.getElementById("start-btn").disabled = true;
+    document.getElementById("start-game-btn").disabled = true;
     window.addEventListener("resize", handleOrientationChange);
     window.addEventListener("orientationchange", handleOrientationChange);
   }
@@ -252,4 +255,34 @@ function openImprint() {
 
 function closeImprint() {
 document.getElementById("imprint-overlay").close();
+}
+
+/**
+ * sets an interval with a callback function and a time and pushes their id to the intervalIds Array.
+ * @returns {number} The id of that interval.
+ */
+function setStoppableFunction(fn, time) {
+  let id = setInterval(fn, time);
+  intervalIds.push(id);
+}
+
+/* so muss man die Intervlle alle umbenennen setStoppableFunction(sayHello, 200);
+setStoppableFunction(sayGoodbye, 100);
+
+function sayHello() {
+  console.log("Hallo");
+  i++;
+}
+*/
+
+/**
+ * stops all interval functions that belong to the intervalId Array
+ * @returns {void}
+ */
+function stopGame() {
+  intervalIds.forEach((id) => {
+  clearInterval(id);
+  intervalIds = [];
+  });
+
 }

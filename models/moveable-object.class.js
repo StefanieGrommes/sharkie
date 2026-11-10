@@ -1,5 +1,5 @@
 class MoveableObject extends DrawableObject{
-    speedX = 0.3;
+    speedX = 0.7;
     otherDirection = false;
     speedY = 0.3;
     energy = 100;
@@ -62,9 +62,7 @@ class MoveableObject extends DrawableObject{
     }
 
     moveLeft() {
-    setInterval(() => {
-        this.x -= this.speedX
-    }, 1000 / 60);
+        this.x -= this.speedX;
     }
 
 

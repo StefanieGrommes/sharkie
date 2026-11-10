@@ -2,11 +2,15 @@ let level1;
 function initLevel1() {
      level1 = new Level(
     [
-        new Pufferfish(),
-        new Jellyfish(),
-        new Pufferfish(),
-        new Pufferfish(),
+        new Pufferfish('ORANGE'),
+        new Jellyfish('PINK'),
+        new Jellyfish('PINK'),
+        new Jellyfish('LILA'),
+        new Jellyfish('YELLOW'),
+        new Pufferfish('PINK'),
+        new Pufferfish('GREEN'),
         new Coin(),
+        new Jellyfish(),
         new Poison(),
         new Endboss()
     ],

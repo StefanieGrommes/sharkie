@@ -27,10 +27,11 @@ body {
 
 }
 
- .mobile-btns-panel {
+.mobile-btns-panel {
       display: none;
-    }
+}
 
+.mobile-btn
 .start-screen-container {
   display:flex;
   flex-direction: column;
@@ -201,6 +202,7 @@ h1 {
 .mobile-btn {
   font-size: 20px;
   width: 60px;
+  height: 24px;
 }
 
 .options-btn:hover {
@@ -291,6 +293,7 @@ h1 {
 
     .mobile-btns-panel {
       display: flex;
+      flex-wrap: wrap;
 
     }
 }
