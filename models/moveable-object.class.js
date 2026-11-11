@@ -30,12 +30,13 @@ class MoveableObject extends DrawableObject{
             this.currentImage++;
     }
 
-    hit() {
+    hit(enemy) {
     this.energy -= 2;
     if (this.energy < 0) {
         this.energy = 0;
     } else {
         this.lastHit = new Date().getTime();
+        this.lastEnemy = enemy;
     }
     }
 

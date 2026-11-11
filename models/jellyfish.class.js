@@ -1,4 +1,13 @@
 class Jellyfish extends MoveableObject {
+    width = 80;
+    height= 120;
+    offset = {
+        top: 10,
+        bottom: 15,
+        left: 2,
+        right: 2
+    };
+
     static IMAGES = {
         GREEN: [
             'img/2.Enemy/2 Jelly fish/Super dangerous/Green 1.png',

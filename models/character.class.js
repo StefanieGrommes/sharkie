@@ -1,5 +1,5 @@
 class Character extends MoveableObject {
-    y = 200;
+    y = 50;
     x = 120;
     height = 220;
     width = 220;
@@ -11,8 +11,6 @@ class Character extends MoveableObject {
         left: 45,
         right: 50
          }
-
-
 
     IMAGES_IDLE = [
         './img/1.Sharkie/1.IDLE/1.png',
@@ -68,6 +66,12 @@ class Character extends MoveableObject {
         './img/1.Sharkie/5.Hurt/1.Poisoned/5.png'
     ];
 
+    IMAGES_ELECTRIC_SHOCK = [
+        './img/1.Sharkie/5.Hurt/2.Electric shock/1.png',
+        './img/1.Sharkie/5.Hurt/2.Electric shock/2.png',
+        './img/1.Sharkie/5.Hurt/2.Electric shock/3.png'
+    ];
+
     IMAGES_POISONED_DEAD = [
         './img/1.Sharkie/6.dead/1.Poisoned/1.png',
         './img/1.Sharkie/6.dead/1.Poisoned/2.png',
@@ -91,6 +95,7 @@ class Character extends MoveableObject {
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_SWIMMING);
         this.loadImages(this.IMAGES_POISONED);
+        this.loadImages(this.IMAGES_ELECTRIC_SHOCK);
         this.loadImages(this.IMAGES_POISONED_DEAD);
         this.animate();
 
@@ -101,18 +106,22 @@ class Character extends MoveableObject {
         setStoppableFunction(() => this.showImages(), 180);
     }
 
-        showImages() {
-            if (this.isHurt()) {
-                this.playAnimation(this.IMAGES_POISONED);
-            }
-            else if (this.isDead()) {
-                this.playAnimation(this.IMAGES_POISONED_DEAD);
-            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                this.playAnimation(this.IMAGES_SWIMMING);
-            } else {
-            this.playAnimation(this.IMAGES_IDLE);
-            }
+    showImages() {
+        if (this.isDead()) {
+            this.playAnimation(this.IMAGES_POISONED_DEAD);
         }
+        else if (this.isHurt()) {
+            if (this.lastEnemy instanceof Jellyfish) {
+            this.playAnimation(this.IMAGES_ELECTRIC_SHOCK);
+            } else {this.playAnimation(this.IMAGES_POISONED)};
+        }
+        else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+            this.playAnimation(this.IMAGES_SWIMMING);
+        }
+        else {
+        this.playAnimation(this.IMAGES_IDLE);
+        }
+    }
 
 
     sharkieSwim(){

@@ -9,11 +9,11 @@ function initLevel1() {
         new Jellyfish('YELLOW'),
         new Pufferfish('PINK'),
         new Pufferfish('GREEN'),
-        new Coin(),
         new Jellyfish(),
-        new Poison(),
+        new Pufferfish('ORANGE'),
         new Endboss()
     ],
+
     [
         new Background ('img/3.Background/Layers/5.Water/D2.png', -720),
         new Background('img/3.Background/Layers/4.Fondo2/D2.png', -720),

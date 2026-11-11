@@ -3,7 +3,7 @@ class Pufferfish extends MoveableObject {
     width = 100;
     offset = {
         top: 8,
-        bottom: 8,
+        bottom: 20,
         left: 4,
         right: 4
     };
@@ -39,7 +39,7 @@ class Pufferfish extends MoveableObject {
         this.loadImage(this.images[0]);
         this.loadImages(this.images);
         this. x = 200 + Math.random() * 2500;
-        this. y = 50 + Math.random() * 480;
+        this. y = 70 + Math.random() * 480;
         this.speed = 0.15 + Math.random() * 0.25;
         this.animate();
 
