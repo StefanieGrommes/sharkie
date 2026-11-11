@@ -14,7 +14,7 @@ constructor() {
     this.loadImage(this.IMAGES_COINS[0]);
     this.loadImages(this.IMAGES_COINS);
 
-    this.x = 720 + Math.random() * 480;
+    this.x = 30 + Math.random() * (2300 - 30);
     this.y = Math.random() * (GAME_HEIGHT -  this.height);
     this.animate()
 }

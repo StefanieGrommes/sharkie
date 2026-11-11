@@ -1,11 +1,5 @@
 class World {
     character = new Character();
-    coins = [   new Coin(),
-                new Coin(),
-                new Coin()
-        ];
-    poison = [ new Poison()];
-    enemies = level1.enemies;
     backgrounds = level1.backgrounds;
     statusbarPoison = new StatusbarPoison();
     statusbarHeart = new StatusbarHeart();
@@ -60,8 +54,7 @@ class World {
         this.addObjectsToMap(this.level.backgrounds);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.thowableObjects);
-        this.addObjectsToMap(this.coins);
-        this.addObjectsToMap(this.poison);
+        this.addObjectsToMap(this.level.elements);
         this.ctx.translate(-this.camera_x, 0);
         // ------- SPACE FOR FIXED OBJECTS --------------
         this.addToMap(this.statusbarPoison);
