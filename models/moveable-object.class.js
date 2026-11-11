@@ -62,10 +62,41 @@ class MoveableObject extends DrawableObject{
         this.x += this.speedX;
     }
 
+      /**
+     * Moves the object to the left within its allowed horizontal bounds.
+     * - Decreases `x` by `speed`.
+     * - Reverses direction and flips `otherDirection` if hitting left or right boundary.
+     * - Keeps object within [0, max_x_fishes].
+     */
     moveLeft() {
-        this.x -= this.speedX;
+        this.x -= this.speed;
+        if (this.x <= 0) {
+            this.x = 0;
+            this.speed *= -1;
+            this.otherDirection = !this.otherDirection;
+        }
+        if(this.x + this.width>= this.max_x_fishes){
+            this.x = this.max_x_fishes - this.width;
+            this.speed *= -1;
+            this.otherDirection = !this.otherDirection;
+            this.changeDriectionOfFish();
+        }
     }
 
+
+    /**
+    *Changes the horizontal movement direction of the fish
+    * when it reaches the screen boundaries.
+    */
+    changeDriectionOfFish() {
+        this.otherDirection = true;
+        if (this.x + this.width >= this.max_x_fishes) {
+            this.otherDirection = !this.otherDirection;
+        }
+        if(this.x <= 0){
+            this.otherDirection = !this.otherDirection;
+        }
+    }
 
 
 

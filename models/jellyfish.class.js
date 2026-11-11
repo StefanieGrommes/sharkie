@@ -40,8 +40,8 @@ class Jellyfish extends MoveableObject {
     this.images = Jellyfish.IMAGES[variant];
     this.loadImage(this.images[0]);
     this.loadImages(this.images);
-    this.x = 200 + Math.random() * 500;
-    this.y = Math.random() * 380;
+    this.x = 120 + Math.random() * (2300 - 30);
+    this.y = Math.random() * (GAME_HEIGHT -  this.height);
     this.speedY = 0.2 + Math.random() * 0.4;
     this.animate();
 }

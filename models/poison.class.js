@@ -17,8 +17,7 @@ constructor() {
     super();
     this.loadImage(this.IMAGES_POISON[0]);
     this.loadImages(this.IMAGES_POISON);
-
-    this.x = 30 + Math.random() * (2100 - 30);
+    this.x = 100 + Math.random() * (2400 - 30);
     this.y = Math.random() * (GAME_HEIGHT -  this.height);
     this.animate()
 }

@@ -6,6 +6,7 @@ height = 100;
 width = 150;
 imageCache = {};
 currentImage = 0;
+max_x_fishes = 3300;
 
 
 loadImage(path) {

@@ -1,6 +1,5 @@
 class World {
     character = new Character();
-    backgrounds = level1.backgrounds;
     statusbarPoison = new StatusbarPoison();
     statusbarHeart = new StatusbarHeart();
     statusbarCoins = new StatusbarCoins();
@@ -11,6 +10,8 @@ class World {
     bubbles = [];
     camera_x = 0;
     thowableObjects = [];
+    poisonCollected = 0;
+    coinsCollected = 0;
 
 
     constructor(canvas, keyboard){
@@ -25,10 +26,9 @@ class World {
     }
 
     run(){
-        setInterval(() => {
-            this.checkCollisions();
-            this.checkThrowObjects();
-        }, 200);
+        setStoppableFunction(() => this.checkCollisions(), 200);
+        setStoppableFunction(() => this.checkCollectibles(), 200);
+        setStoppableFunction(() => this.checkThrowObjects(), 200);
     }
 
     checkCollisions(){
@@ -39,6 +39,23 @@ class World {
                }
             })
     }
+
+  checkCollectibles() {
+    [...this.level.elements].forEach((element) => {
+        if (this.character.isColliding(element)) {
+            const index = this.level.elements.indexOf(element);
+            this.level.elements.splice(index, 1);
+            if (element instanceof Poison) {
+                this.poisonCollected = Math.min(100, this.poisonCollected + 5);
+                this.statusbarPoison.setPercentage(this.poisonCollected);
+            }
+            if (element instanceof Coin) {
+                this.coinsCollected = Math.min(100, this.coinsCollected + 5);
+                this.statusbarCoins.setPercentage(this.coinsCollected);
+            }
+        }
+    });
+}
 
     checkThrowObjects() {
         if(this.keyboard.D){
