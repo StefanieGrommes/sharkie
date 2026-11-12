@@ -59,9 +59,6 @@ body {
 }
 
 .p-controls {
-    position: absolute;
-    top: 30px;
-    right: 100px;
     font-family: "Luckiest Guy", Verdana, Geneva, Tahoma, sans-serif;
     color: var(--main-color);
     font-weight: bold;
@@ -74,18 +71,13 @@ body {
     scale: 1.2;
 }
 
-.settings{
+.settings {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-
+  top: 30px;
+  right: 100px;
 }
 
 .settings .fullscreen {
-  position: absolute;
-  top: 30px;
-  left: 20px;
   width: 70px;
   height: 50px;
   z-index: 2;
@@ -93,9 +85,6 @@ body {
 }
 
 .settings .img-volume {
-  position: absolute;
-  top: 90px;
-  right: 30px;
   width: 50px;
   height: 50px;
   z-index: 2;
@@ -103,9 +92,6 @@ body {
 }
 
 .settings .img-setting {
-    position: absolute;
-    top: 30px;
-    right: 30px;
     width: 50px;
     height: 50px;
     cursor: pointer;

@@ -284,5 +284,34 @@ function stopGame() {
   clearInterval(id);
   intervalIds = [];
   });
-
 }
+
+function fullscreen(){
+const gameZone = document.getElementById("game-zone");
+enterFullscreen(gameZone);
+}
+
+/**
+ * changes the element into fullscreen modus
+ */
+function enterFullscreen(elem) {
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.webkitRequestFullscreen) { /* Safari */
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE11 */
+    elem.msRequestFullscreen();
+  }
+}
+
+/**
+ * changes the element from fullscreen into normal modus
+ */
+function exitFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.webkitExitFullscreen) {
+    document.webkitExitFullscreen();
+  }
+}
+

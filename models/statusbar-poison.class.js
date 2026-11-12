@@ -15,10 +15,10 @@ class StatusbarPoison extends DrawableObject {
         super();
         this.loadImages(this.IMAGES_STATUSBAR_POISON);
         this.setPercentage(0);
-        this.x = Math.random()*20 + 20;
-        this.y = Math.random() + 50;
+        this.x = 220;
+        this.y = 0;
         this.width = 200;
-        this.height = 70;
+        this.height = 50;
     }
 
     setPercentage(percentage) {

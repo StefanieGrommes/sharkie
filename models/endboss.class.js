@@ -135,4 +135,9 @@ class Endboss extends MoveableObject {
   endbossSwimAttack() {
     this.moveLeft();
   }
+
+  takeDamage(amount) {
+    this.energy = Math.max(0, this.energy - amount);
+    this.lastHit = new Date().getTime();
+  }
 }

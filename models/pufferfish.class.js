@@ -8,6 +8,7 @@ class Pufferfish extends MoveableObject {
         right: 4
     };
     currentImage = 0;
+    speedX = 5;
 
     static IMAGES = {
             GREEN: [
@@ -33,6 +34,24 @@ class Pufferfish extends MoveableObject {
             ]
     };
 
+    IMAGES_DEAD = {
+        GREEN: [
+            './img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/1.Dead 1 (can animate by going up).png',
+            './img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/1.Dead 2 (can animate by going down to the floor after the Fin Slap attack).png',
+            './img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/1.Dead 3 (can animate by going down to the floor after the Fin Slap attack).png'
+        ],
+        ORANGE: [
+            './img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/2.png',
+            './img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/2.2.png',
+            './img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/2.3.png'
+        ],
+        PINK: [
+            './img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/3.png',
+            './img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/3.2.png',
+            './img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/3.3.png'
+        ]
+    }
+
     constructor(variant='GREEN'){
         super();
         this.images = Pufferfish.IMAGES[variant];
@@ -41,6 +60,8 @@ class Pufferfish extends MoveableObject {
         this.x = 80 + Math.random() * (2300 - 30);
         this.y = Math.random() * (GAME_HEIGHT -  this.height);
         this.speed = 0.15 + Math.random() * 0.25;
+        this.variant = variant;
+        this.loadImages(this.IMAGES_DEAD[variant]);
         this.animate();
 
     }
@@ -48,10 +69,24 @@ class Pufferfish extends MoveableObject {
     animate() {
         setStoppableFunction(() => this.showImages(), 180);
         setStoppableFunction(() => this.moveLeft(), 180);
+        setStoppableFunction(() => this.flyAway(), 1000 / 60);
+    }
+
+    die() {
+        this.dead = true;
+        this.currentImage = 0;
     }
 
     showImages() {
-        this.playAnimation(this.images);
+        if (this.dead) {
+            const imgs = this.IMAGES_DEAD[this.variant];
+            if (this.currentImage < imgs.length) {
+                this.playAnimation(imgs);
+            } else {
+                this.removable = true;
+            }
+        } else {
+            this.playAnimation(this.images);
+        }
     }
-
 }

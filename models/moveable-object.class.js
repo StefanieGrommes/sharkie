@@ -4,6 +4,10 @@ class MoveableObject extends DrawableObject{
     speedY = 0.3;
     energy = 100;
     lastHit =  0;
+    flySpeed = 8;
+    dead = false;
+    removable = false;
+    flyDirection = 1;
 
     isColliding(mo) {
         const thisOffset = this.offset || {};
@@ -69,17 +73,17 @@ class MoveableObject extends DrawableObject{
      * - Keeps object within [0, max_x_fishes].
      */
     moveLeft() {
-        this.x -= this.speed;
+        this.x -= this.speedX;
         if (this.x <= 0) {
             this.x = 0;
-            this.speed *= -1;
+            this.speedX *= -1;
             this.otherDirection = !this.otherDirection;
         }
         if(this.x + this.width>= this.max_x_fishes){
             this.x = this.max_x_fishes - this.width;
-            this.speed *= -1;
+            this.speedX *= -1;
             this.otherDirection = !this.otherDirection;
-            this.changeDriectionOfFish();
+            this.changeDirectionOfFish();
         }
     }
 
@@ -88,7 +92,7 @@ class MoveableObject extends DrawableObject{
     *Changes the horizontal movement direction of the fish
     * when it reaches the screen boundaries.
     */
-    changeDriectionOfFish() {
+    changeDirectionOfFish() {
         this.otherDirection = true;
         if (this.x + this.width >= this.max_x_fishes) {
             this.otherDirection = !this.otherDirection;
@@ -98,7 +102,11 @@ class MoveableObject extends DrawableObject{
         }
     }
 
-
+    flyAway() {
+        if (!this.dead) return;
+        this.x += this.flySpeed * this.flyDirection;
+        this.y -= this.flySpeed;
+}
 
 
 
