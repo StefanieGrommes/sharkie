@@ -13,6 +13,7 @@ class Endboss extends MoveableObject {
   currentImage = 0;
   phaseFrames = 0;
   phaseSpeed = 0;
+  introStarted = false;
 
   IMAGES_INTRODUCE = [
     "./img/2.Enemy/3 Final Enemy/1.Introduce/1.png",
@@ -88,15 +89,14 @@ class Endboss extends MoveableObject {
     setStoppableFunction(() => this.showImages(), 180);
   }
 
-  move() {
-    if (!this.hasIntroduced || this.isDead()) return;
-
-    if (this.phaseFrames <= 0) {
-      this.startNewPhase();
-    }
-    this.phaseFrames--;
-    this.x -= this.phaseSpeed;
-  }
+move() {
+  if (!this.hasIntroduced || this.isDead()) return;
+  if (this.phaseFrames <= 0) this.startNewPhase();
+  this.phaseFrames--;
+  const dir = this.world.character.x < this.x ? -1 : 1;
+  this.otherDirection = dir === 1;
+  this.x += dir * this.phaseSpeed;
+}
 
   startNewPhase() {
     if (this.phaseSpeed > 0) {
@@ -117,10 +117,11 @@ class Endboss extends MoveableObject {
       this.playAnimation(this.IMAGES_HURT);
     } else if (
       !this.world ||
-      this.x + this.world.camera_x > this.world.canvas.width
+      this.x + this.world.camera_x > this.world.canvas.width - 250
     ) {
       return;
     } else if (!this.hasIntroduced) {
+       if (!this.introStarted) this.startIntro();
       this.playAnimation(this.IMAGES_INTRODUCE);
       if (this.currentImage >= this.IMAGES_INTRODUCE.length) {
         this.hasIntroduced = true;
@@ -137,7 +138,20 @@ class Endboss extends MoveableObject {
   }
 
   takeDamage(amount) {
-    this.energy = Math.max(0, this.energy - amount);
-    this.lastHit = new Date().getTime();
-  }
+  this.energy = Math.max(0, this.energy - amount);
+  this.lastHit = new Date().getTime();
+  this.currentImage = 0;
+  if (this.energy > 0) this.world.playSFX(this.world.sfx.endbossHurt);
+}
+
+  startIntro() {
+  this.introStarted = true;
+  this.currentImage = 0;
+  this.world.playSFX(this.world.sfx.intro);
+  backgroundmusic.pause();
+  setTimeout(() => {
+    if (!this.world.gameEnded && musicIsPlaying) backgroundmusic.play();
+  }, 5000);
+}
+
 }

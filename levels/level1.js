@@ -11,6 +11,9 @@ function createElements() {
     for (let index = 0; index < 3; index++) {
         elements.push(new Poison());
     }
+    for (let index = 0; index < 2; index++) {
+        elements.push(new Heart());
+    }
     shuffle(elements);
     return elements;
     }

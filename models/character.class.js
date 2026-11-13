@@ -175,18 +175,33 @@ class Character extends MoveableObject {
     if (this.attackType || this.isDead()) return;
     this.attackType = type;
     this.currentImage = 0;
+    return true;
   }
 
-playAttackAnimation() {
-    const imgs = this.IMAGES_ATTACK[this.attackType];
-    this.playAnimation(imgs);
-    if (this.attackType === 'FINSLAP' && this.currentImage === 4) { // Frame anpassen
-        this.world.checkFinSlapCollisions();
-    }
-    if (this.currentImage >= imgs.length) {
-        if (this.attackType === 'BUBBLE') this.world.throwBubble();
-        this.attackType = null;
-        this.currentImage = 0;
-    }
+ playAttackAnimation() {
+  const key = this.attackType === "POISON" ? "BUBBLE" : this.attackType;
+  const imgs = this.IMAGES_ATTACK[key];
+  this.playAnimation(imgs);
+  if (this.attackType === "FINSLAP") this.finSlapFrame();
+  else this.bubbleFrame();
+  if (this.currentImage >= imgs.length) {
+    if (this.attackType === "BUBBLE") this.world.throwBubble(false);
+    if (this.attackType === "POISON") this.world.throwBubble(true);
+    this.attackType = null;
+    this.currentImage = 0;
+  }
 }
+
+finSlapFrame() {
+  if (this.currentImage === 2) this.world.checkFinSlapCollisions();
+  if (this.currentImage === 3) this.world.playSFX(this.world.sfx.finslap);
+}
+
+bubbleFrame() {
+  if (this.currentImage !== 6) return;
+  const s = this.world.sfx;
+  this.world.playSFX(this.attackType === "POISON" ? s.poison : s.bubble);
+}
+
+
 }

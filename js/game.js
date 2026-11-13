@@ -5,6 +5,7 @@ const GAME_WIDTH = 720;
 const GAME_HEIGHT = 480;
 let intervalIds = [];
 let i=1;
+let musicIsPlaying = false;
 
 
 function init() {
@@ -17,6 +18,7 @@ function init() {
     document.body.style.backgroundImage =
       "url('img/3.Background/BackgroundImage/water.png')";
     canvas = document.getElementById("canvas");
+    startMusic();
     initLevel1();
     world = new World(canvas, keyboard);
     resizeCanvas();
@@ -36,7 +38,7 @@ window.addEventListener("keydown", (event) => {
     break;
     case "ArrowRight": keyboard.RIGHT = true;
     break;
-    case "d": keyboard.D = true;
+    case "b": keyboard.B = true;
     break;
     case "f": keyboard.F = true;
     break;
@@ -56,7 +58,7 @@ window.addEventListener("keyup", (event) => {
     break;
     case "ArrowRight": keyboard.RIGHT = false;
     break;
-    case "d": keyboard.D = false;
+    case "b": keyboard.B = false;
     break;
     case "f": keyboard.F = false;
     break;
@@ -105,12 +107,12 @@ document.getElementById("btn-down").addEventListener("touchend", (event) => {
 
 document.getElementById("btn-d").addEventListener("touchstart", (event) => {
   event.preventDefault();
-   keyboard.D = true;
+   keyboard.B = true;
 });
 
 document.getElementById("btn-d").addEventListener("touchend", (event) => {
   event.preventDefault();
-    keyboard.D = false;
+    keyboard.B = false;
 });
 
 document.getElementById("btn-f").addEventListener("touchstart", (event) => {
@@ -275,17 +277,6 @@ function sayHello() {
 }
 */
 
-/**
- * stops all interval functions that belong to the intervalId Array
- * @returns {void}
- */
-function stopGame() {
-  intervalIds.forEach((id) => {
-  clearInterval(id);
-  intervalIds = [];
-  });
-}
-
 function fullscreen(){
 const gameZone = document.getElementById("game-zone");
 enterFullscreen(gameZone);
@@ -315,3 +306,56 @@ function exitFullscreen() {
   }
 }
 
+/**
+ * stops all interval functions that belong to the intervalId Array
+ * @returns {void}
+ */
+function stopGame() {
+  intervalIds.forEach((id) => clearInterval(id));
+  intervalIds = [];
+  if (world) cancelAnimationFrame(world.animationId);
+}
+
+function hideEndScreens() {
+  ["game-over-screen", "win-screen"].forEach((id) => {
+    const el = document.getElementById(id);
+    el.classList.add("d-none");
+    el.classList.remove("d-flex");
+  });
+}
+
+function restartGame() {
+  stopGame();
+  startMusic();
+  hideEndScreens();
+  initLevel1();
+  world = new World(canvas, keyboard);
+}
+
+function endGame() {
+  stopGame();
+  stopMusic();
+  hideEndScreens();
+  document.getElementById("game-zone").classList.add("d-none");
+  document.querySelector(".start-screen-container").classList.remove("d-none");
+  document.body.style.backgroundImage = "url('img/3.Background/Mesa de trabajo 1.png')";
+}
+
+ const backgroundmusic = new Audio('./audio/AFRO014017_SUIKERBOSSIE_SONOTON.mp3');
+ backgroundmusic.loop = true;
+
+function startMusic() {
+  backgroundmusic.play();
+  musicIsPlaying = true;
+}
+
+function stopMusic() {
+  backgroundmusic.pause();
+  backgroundmusic.currentTime = 0;
+  musicIsPlaying = false;
+}
+
+function toggleMusic() {
+  musicIsPlaying ? backgroundmusic.pause() : backgroundmusic.play();
+  musicIsPlaying = !musicIsPlaying;
+}

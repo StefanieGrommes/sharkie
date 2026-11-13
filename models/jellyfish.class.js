@@ -67,7 +67,7 @@ class Jellyfish extends MoveableObject {
     this.images = Jellyfish.IMAGES[variant];
     this.loadImage(this.images[0]);
     this.loadImages(this.images);
-    this.x = 120 + Math.random() * (2300 - 30);
+    this.x = 200 + Math.random() * (2300 - 30);
     this.y = Math.random() * (GAME_HEIGHT -  this.height);
     this.speedY = 0.2 + Math.random() * 0.4;
     this.variant = variant;
@@ -87,10 +87,12 @@ class Jellyfish extends MoveableObject {
         if (this.y <= 0)   this.speedY = Math.abs(this.speedY);
     }
 
-    die() {
-    this.dead = true;
-    this.currentImage = 0;
-    }
+   die() {
+  if (this.dead) return;
+  this.dead = true;
+  this.currentImage = 0;
+  this.world.playSFX(this.world.sfx.fly);
+}
 
     showImages() {
         if (this.dead) {

@@ -8,10 +8,24 @@ class World {
   ctx;
   keyboard;
   bubbles = [];
+  poisoned_bubbles = [];
   camera_x = 0;
   throwableObjects = [];
   poisonCollected = 0;
   coinsCollected = 0;
+  gameEnded = false;
+  sfx =  { poison: './audio/poisonbubble.mp3',
+          finslap: './audio/finslap.wav',
+          bubble: './audio/bubble_normal.wav',
+          sleeping: './audio/Snore.mp3',
+          hurt: './audio/hurt.mp3',
+          endbossHurt: './audio/endboss-hurt.mp3',
+          collected: './audio/collectibles.wav',
+          win: './audio/youwin.wav',
+          lose: './audio/youlose.wav',
+          intro: './audio/endboss_intro.mp3',
+          fly: './audio/Funpipe 5.mp3'
+  }
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -28,13 +42,15 @@ class World {
     setStoppableFunction(() => this.checkCollectibles(), 200);
     setStoppableFunction(() => this.checkThrowObjects(), 200);
     setStoppableFunction(() => this.checkBubbleCollisions(), 50);
+    setStoppableFunction(() => this.checkGameEnd(), 200);
   }
 
   checkCollisions() {
     this.level.enemies.forEach((enemy) => {
       if (!enemy.dead && !enemy.isDead() && this.character.isColliding(enemy)) {
-        this.character.hit(enemy);
-        this.statusbarHeart.setPercentage(this.character.energy);
+          if (!this.character.isHurt()) this.playSFX(this.sfx.hurt);
+          this.character.hit(enemy);
+          this.statusbarHeart.setPercentage(this.character.energy);
       }
     });
   }
@@ -44,28 +60,36 @@ class World {
       const hit = this.level.enemies.find(
         (enemy) =>
           !enemy.dead &&
-          (enemy instanceof Pufferfish || enemy instanceof Jellyfish) &&
+          !(enemy instanceof Endboss && enemy.isDead()) &&
+          (enemy instanceof Pufferfish ||
+            enemy instanceof Jellyfish ||
+          enemy instanceof Endboss) &&
           bubble.isColliding(enemy),
       );
-      if (hit) {
-        hit.die();
-        hit.flyDirection = bubble.otherDirection ? -1 : 1;
-        return false; // Bubble entfernen
-      }
-      return true;
-    });
-    this.level.enemies = this.level.enemies.filter((enemy) => !enemy.removable);
-  }
+      if (!hit) return true;
+    if (hit instanceof Endboss) {
+      hit.takeDamage(bubble.poisoned ? 20 : 10);
+    } else {
+      hit.flyDirection = bubble.otherDirection ? -1 : 1;
+      hit.die();
+    }
+    return false;
+  });
+  this.level.enemies = this.level.enemies.filter((enemy) => !enemy.removable);
+}
 
-  checkThrowObjects() {
-    if (this.keyboard.D) this.character.startAttack("BUBBLE");
-    if (this.keyboard.SPACE) this.character.startAttack("FINSLAP");
-  }
+checkThrowObjects() {
+  if (this.keyboard.B) this.character.startAttack("BUBBLE");
+  if (this.keyboard.SPACE && this.poisonCollected >= 20)
+    this.character.startAttack("POISON");
+  if (this.keyboard.F) this.character.startAttack("FINSLAP");
+}
 
   checkCollectibles() {
     [...this.level.elements].forEach((element) => {
       if (this.character.isColliding(element)) {
         const index = this.level.elements.indexOf(element);
+        this.playSFX(this.sfx.collected);
         this.level.elements.splice(index, 1);
         if (element instanceof Poison) {
           this.poisonCollected = Math.min(100, this.poisonCollected + 20);
@@ -74,6 +98,10 @@ class World {
         if (element instanceof Coin) {
           this.coinsCollected = Math.min(100, this.coinsCollected + 5);
           this.statusbarCoins.setPercentage(this.coinsCollected);
+        }
+        if (element instanceof Heart) {
+          this.character.energy= Math.min(100, this.character.energy + 20);
+          this.statusbarHeart.setPercentage(this.character.energy);
         }
       }
     });
@@ -97,10 +125,8 @@ class World {
     this.addToMap(this.character);
     this.ctx.translate(-this.camera_x, 0);
     // Draw() wird immer wieder aufgerufen
-    let self = this;
-    requestAnimationFrame(function () {
-      self.draw();
-    });
+    this.animationId = requestAnimationFrame(() => this.draw());
+
   }
 
   addObjectsToMap(objects) {
@@ -139,10 +165,17 @@ class World {
     });
   }
 
-throwBubble() {
-    const left = this.character.otherDirection;
-    const x = left ? this.character.x - 40 : this.character.x + 160;
-    this.throwableObjects.push(new ThrowableObject(x, this.character.y + 110, left));
+throwBubble(poisoned = false) {
+  if (poisoned) {
+    if (this.poisonCollected < 20) return;
+    this.poisonCollected -= 20;
+    this.statusbarPoison.setPercentage(this.poisonCollected);
+  }
+  const left = this.character.otherDirection;
+  const x = left ? this.character.x - 40 : this.character.x + 160;
+  this.throwableObjects.push(
+    new ThrowableObject(x, this.character.y + 110, left, poisoned),
+  );
 }
 
 checkFinSlapCollisions() {
@@ -166,4 +199,35 @@ checkFinSlapCollisions() {
         }
     });
     }
+
+
+checkGameEnd() {
+  if (this.gameEnded) return;
+  const boss = this.level.enemies.find((e) => e instanceof Endboss);
+  if (this.character.isDead()) {
+    this.finishGame("game-over-screen");
+    this.playSFX(this.sfx.lose);
+    }
+  else if (boss && boss.isDead()) {
+    this.finishGame("win-screen");
+    this.playSFX(this.sfx.win);
+  }
+}
+
+finishGame(screenId) {
+  this.gameEnded = true;
+  setTimeout(() => {
+    stopGame();
+    stopMusic();
+    const screen = document.getElementById(screenId);
+    screen.classList.remove("d-none");
+    screen.classList.add("d-flex");
+  }, 1500); // Zeit für die Todesanimation
+}
+
+playSFX(path) {
+ const sound = new Audio(path);
+ sound.play();
+}
+
 }

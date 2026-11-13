@@ -57,7 +57,7 @@ class Pufferfish extends MoveableObject {
         this.images = Pufferfish.IMAGES[variant];
         this.loadImage(this.images[0]);
         this.loadImages(this.images);
-        this.x = 80 + Math.random() * (2300 - 30);
+        this.x = 250 + Math.random() * (2300 - 30);
         this.y = Math.random() * (GAME_HEIGHT -  this.height);
         this.speed = 0.15 + Math.random() * 0.25;
         this.variant = variant;
@@ -72,10 +72,12 @@ class Pufferfish extends MoveableObject {
         setStoppableFunction(() => this.flyAway(), 1000 / 60);
     }
 
-    die() {
-        this.dead = true;
-        this.currentImage = 0;
-    }
+   die() {
+  if (this.dead) return;
+  this.dead = true;
+  this.currentImage = 0;
+  this.world.playSFX(this.world.sfx.fly);
+}
 
     showImages() {
         if (this.dead) {
