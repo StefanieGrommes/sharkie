@@ -5,7 +5,8 @@ const GAME_WIDTH = 720;
 const GAME_HEIGHT = 480;
 let intervalIds = [];
 let i=1;
-let musicIsPlaying = false;
+let volumeOn = false;
+const allSounds =[];
 
 
 function init() {
@@ -18,12 +19,14 @@ function init() {
     document.body.style.backgroundImage =
       "url('img/3.Background/BackgroundImage/water.png')";
     canvas = document.getElementById("canvas");
-    checkMusicSettings();
+    checkVolumeSettings();
     initLevel1();
     world = new World(canvas, keyboard);
     resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
+
 }
+
+window.addEventListener("resize", resizeCanvas);
 
 window.addEventListener("keydown", (event) => {
     const key = event.key;
@@ -135,6 +138,13 @@ document.getElementById("btn-space").addEventListener("touchend", (event) => {
     keyboard.SPACE = false;
 });
 
+
+document.getElementById("volume-btn").addEventListener("click", toggleVolume);
+document.getElementById("menu-content").addEventListener("click", (event) => {
+  if (event.target.closest("#menu-volume-btn")) toggleVolume(event);
+  if (event.target.closest("#menu-fullscreen-btn")) fullscreen();
+});
+
 /**
  * Handles canvas resizing and responsive layout adjustments
  * Updates both internal resolution and display size
@@ -226,7 +236,9 @@ function isTouchDevice() {
 
 
 function changeVolume(amount) {
-  backgroundmusic.volume = amount;
+  allSounds.forEach((sound) => {
+    sound.volume = amount;
+  });
 }
 
 
@@ -248,20 +260,148 @@ function showRotateHint() {
   }
 }
 
-document.getElementById('imprint-btn').addEventListener("click", openMenu());
+document.getElementById('help-btn').addEventListener("click", openMenu);
+document.getElementById('imprint-btn').addEventListener("click", openMenu);
+
+const closeMenuBtn = document.getElementById('close-menu-btn');
+closeMenuBtn.addEventListener("click", closeMenu);
+document.addEventListener("click", closeMenu);
+const menuContainer = document.getElementById("menu-container");
 
 
 function closeInstructions() {
   document.getElementById("options-overlay").close();
 }
 
-function openMenu() {
-  document.getElementById("menu-container").showModal();
+function openMenu(event) {
+  menuContainer.showModal();
+  const clickedBtn = event.currentTarget;
+  if (clickedBtn.id === "help-btn") {
+    openInstructions();
+  } else if(clickedBtn.id ==="imprint-btn") {
+    openImprint();
+  }
 }
 
-function closeMenu() {
-document.getElementById("menu-container").close();
+function closeMenu(event) {
+if (!event.target.contains(menuContainer) && !event.target.contains(closeMenuBtn)) return; // wenn man auf den dialog klickt, passiert nichts
+menuContainer.close();
 }
+
+function openInstructions() {
+  document.getElementById("menu-content").innerHTML = `
+
+  <ol class="controls-list">
+  <h2>Controls</h2>
+      <ul>
+       <h3> MOVING </h3>
+        <li>
+          <span>Move left</span>
+          <button class="options-btn mobile-btn">←</button>
+        </li>
+
+        <li>
+          <span>Move right</span>
+          <button class="options-btn mobile-btn">→</button>
+        </li>
+
+        <li>
+          <span>Move up</span>
+          <button class="options-btn mobile-btn">↑</button>
+        </li>
+
+        <li>
+          <span>Move down</span>
+          <button class="options-btn mobile-btn">↓</button>
+        </li>
+        </ul>
+
+<ul>  <h3> ATTACKING</h3>
+        <li>
+          <span>Fin Slap</span>
+          <button class="options-btn mobile-btn">F</button>
+        </li>
+
+        <li>
+          <span>Bubble Attack</span>
+          <button class="options-btn mobile-btn">D</button>
+        </li>
+
+        <li>
+          <span>Poison Attack</span>
+          <button class="options-btn mobile-btn">Space</button>
+        </li>
+      </ul>
+      <h2>Settings</h2>
+      <ul class="menu-settings">
+      <li><button class="game-btn" id="menu-fullscreen-btn">
+    <img class="fullscreen-img" src="./img/7.Buttons/fullscreen.svg" alt="fullscreen image"
+      onclick="fullscreen()">
+    </button></li>
+    <li><button><input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.5" class="volume-slider" onchange="changeVolume(this.value)">
+       </button></li>
+    <li><button class="game-btn" id="menu-volume-btn">
+      <img class="img-volume" src="./img/7.Buttons/volume.png" alt="sound image">
+    </button></li>
+    </ul>
+      </ol>`
+
+}
+
+function openImprint() {
+  document.getElementById("menu-content").innerHTML = `<h2>Imprint</h2>
+            <p>
+              Stefanie Grommes<br />
+              Offenbachstr. 6<br />
+              53359 Rheinbach<br />
+              Telefon: +49 (0) 1785825548<br />
+              E-Mail: steffi.grommes@web.de
+            </p>
+
+
+            <h3>Berufsbezeichnung und berufsrechtliche Regelungen</h3>
+            <p>
+              Berufsbezeichnung:<br />
+              Software Developer
+            </p>
+
+
+            <h3>
+              Verbraucher&shy;streit&shy;beilegung/Universal&shy;schlichtungs&shy;stelle
+            </h3>
+            <p>
+              Wir sind nicht bereit oder verpflichtet, an
+              Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle
+              teilzunehmen.
+            </p>
+
+            <p>
+              Quelle:
+              <a
+                href="https://www.e-recht24.de/impressum-generator.html">https://www.e-recht24.de/impressum-generator.html</a>
+            </p>`
+}
+
+function openHistory() {
+  document.getElementById("menu-content").innerHTML = `  <h2 class="title">Deep under the waves, in the mysterious Coral Kingdom, lives a brave little shark named Sharkie.</h2>
+            <p>
+                Long ago, the Coral Kingdom was a place of peace and beauty...
+                Puffer fishes gang swims across, blocking the path.
+                Jelly fishes glow menacingly.
+                Only one hero can save the ocean...
+                Sharkie, the Ocean Guardian!
+            </p>
+            <h4 class="title">The Mission:</h4>
+            <ul>
+                <li>Collect coins to rebuild the Coral Kingdom </li>
+                <li>Collect hearts to regain energy. </li>
+                <li>Collect poison bottles in order to build posion bubbles. </li>
+                <li>Defeat the enemies by throwing bubbles or slapping them with your fin.</li>
+            </ul>
+            <h2 class="title">Are you ready to help Sharkie get back the peace?</h2>`
+}
+
+
 
 /**
  * sets an interval with a callback function and a time and pushes their id to the intervalIds Array.
@@ -330,7 +470,7 @@ function hideEndScreens() {
 
 function restartGame() {
   stopGame();
-  checkMusicSettings();
+  checkVolumeSettings();
   hideEndScreens();
   initLevel1();
   world = new World(canvas, keyboard);
@@ -338,55 +478,56 @@ function restartGame() {
 
 function endGame() {
   stopGame();
-  stopMusic();
+  muteAll();
   hideEndScreens();
-  document.getElementById("game-zone").classList.add("d-none");
-  document.querySelector(".start-screen-container").classList.remove("d-none");
+  const gameZone = document.getElementById("game-zone");
+  gameZone.classList.add("d-none");
+  gameZone.classList.remove("d-flex");
+  const startScreen = document.querySelector(".start-screen-container");
+  startScreen.classList.remove("d-none");
+  startScreen.classList.add("d-flex");
   document.body.style.backgroundImage = "url('img/3.Background/Mesa de trabajo 1.png')";
 }
 
- const backgroundmusic = new Audio('./audio/AFRO014017_SUIKERBOSSIE_SONOTON.mp3');
- backgroundmusic.loop = true;
+const backgroundmusic = new Audio('./audio/AFRO014017_SUIKERBOSSIE_SONOTON.mp3');
+backgroundmusic.loop = true;
+allSounds.push(backgroundmusic);
 
-function checkMusicSettings() {
-const musicSetting = localStorage.getItem("musicIsPlaying");
-musicSetting == true ? startMusic() : stopMusic();
+function checkVolumeSettings() {
+const soundSetting = localStorage.getItem("volumeOn");
+soundSetting === "true" ? soundOn() : muteAll();
 }
 
-function startMusic() {
-  backgroundmusic.play();
-  localStorage.setItem("musicIsPlaying", "true");
-  musicIsPlaying = true;
+function soundOn() {
+  allSounds.forEach((sound) => {
+    sound.play();
+  });
+  localStorage.setItem("volumeOn", "true");
+  volumeOn = true;
 }
 
-function stopMusic() {
-  backgroundmusic.pause();
-  backgroundmusic.currentTime = 0;
-  localStorage.setItem("musicIsPlaying", "false");
-  musicIsPlaying = false;
+function muteAll() {
+  allSounds.forEach((sound) => {
+    sound.pause();
+    sound.currentTime= 0;
+  });
+  localStorage.setItem("volumeOn", "false");
+  volumeOn = false;
 }
 
-function toggleMusic() {
-  localStorage.getItem("musicIsPlaying");
-  if (musicIsPlaying) {
-    backgroundmusic.pause();
-    localStorage.setItem("musicIsPlaying", "false");
-  } else {
-    backgroundmusic.play();
-    localStorage.setItem("musicIsPlaying", "true") ;
-  }
-   changeVolumneBtn();
-   musicIsPlaying = !musicIsPlaying;
+function toggleVolume() {
+  event.currentTarget.blur();
+  volumeOn ? muteAll() : soundOn();
+  changeVolumeBtn();
 }
 
-function changeVolumneBtn() {
-  if (!musicIsPlaying) {
-    document.getElementById("volume-sign").src="./img/7.Buttons/volume-mute.png";
-  } else {
-    document.getElementById("volume-sign").src="./img/7.Buttons/volume.png";
-  }
-
+function changeVolumeBtn() {
+document.querySelectorAll(".img-volume").src = volumeOn
+    ? "./img/7.Buttons/volume.png"
+    : "./img/7.Buttons/volume-mute.png";
 }
+
+
 
 
 

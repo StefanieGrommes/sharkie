@@ -150,7 +150,7 @@ move() {
   this.world.playSFX(this.world.sfx.intro);
   backgroundmusic.pause();
   setTimeout(() => {
-    if (!this.world.gameEnded && musicIsPlaying) backgroundmusic.play();
+    if (!this.world.gameEnded && volumeOn) backgroundmusic.play();
   }, 5000);
 }
 

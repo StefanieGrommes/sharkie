@@ -26,6 +26,7 @@ class World {
           intro: './audio/endboss_intro.mp3',
           fly: './audio/Funpipe 5.mp3'
   }
+  allSounds = [];
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -218,7 +219,7 @@ finishGame(screenId) {
   this.gameEnded = true;
   setTimeout(() => {
     stopGame();
-    stopMusic();
+    muteAll();
     const screen = document.getElementById(screenId);
     screen.classList.remove("d-none");
     screen.classList.add("d-flex");
@@ -226,8 +227,14 @@ finishGame(screenId) {
 }
 
 playSFX(path) {
- const sound = new Audio(path);
- sound.play();
+  if(!volumeOn) return;
+  const sound = new Audio(path);
+  allSounds.push(sound);
+  sound.play();
+  sound.onended = () => {                   // wird nach ende des SOunds ausgeführrt
+    const index = allSounds.indexOf(sound); // Position dieses Sounds im Array suchen
+    if (index > -1) this.allSounds.splice(index, 1); // wenn index -1 > gibts nicht, sonst entfernen
+  }
 }
 
 }

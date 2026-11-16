@@ -52,7 +52,7 @@ body {
 
 .start-screen-btn-down {
   position: fixed;
-  bottom: 20px;
+  bottom: 120px;
   left: 50%;
   transform: translateX(-50%);
 
@@ -71,10 +71,33 @@ body {
     scale: 1.2;
 }
 
+
+.controls-list {
+  list-style: none;
+  display: flex;
+  flex-direction:column;
+  align-items: center;
+  gap: 16px;
+  padding: 0;
+}
+
+.controls-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+      margin-bottom: 12px;
+}
+
+.game-zone {
+  position: relative;
+}
+
 .settings {
   position: absolute;
-  top: 30px;
-  right: 100px;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
 }
 
 .settings .fullscreen {
@@ -91,20 +114,24 @@ body {
   cursor: pointer;
 }
 
-.settings .img-setting {
+.settings .img-setting, .controls-list img {
     width: 50px;
     height: 50px;
     cursor: pointer;
     z-index: 2;
 }
 
+.settings button {
+  background-color: transparent;
+  border-style: inherit;
+}
+
+.menu-settings {
+  display: flex;
+  gap: 12px;
+}
+
 .volume-slider {
-  position: absolute;
-  top: 100px;
-  right: 90px;
-  width: 100px;
-  height: 20px;
-  z-index: 2;
   cursor: pointer;
   -webkit-appearance: none;
   appearance: none;
@@ -133,9 +160,8 @@ body {
 }
 
 .game-container {
-  position: relative;
-      align-items: center;
-    justify-content: center;
+  align-items: center;
+  justify-content: center;
 }
 
 
@@ -159,7 +185,7 @@ h1 {
 }
 
 .d-flex {
-  display: flex !important;
+  display: flex;
 }
 
 
@@ -285,18 +311,26 @@ h1 {
   font-size: 18px;
 }
 
-.menu-container {
-    display: grid;
-    grid-template-rows: 42px 1fr 42px;
-    grid-template-areas: "header" "content" "footer";
-    max-width: 700px;
-    background-color: rgba(0, 0, 0, 0.9);
-    height: auto;
-    color: aqua;
-    z-index: 2;
-    border-radius: 20px;
-    padding: 10px;
+.grid {
+  display: grid;
 }
+
+.menu-container {
+  grid-template-rows: 42px 1fr 68px;
+  grid-template-areas: "header" "content" "footer";
+  width: clamp(100%, 5vw, 800px);
+  background-color: rgba(0, 0, 0, 0.9);
+  height: 80dvh;
+  color: aqua;
+  z-index: 2;
+  border-radius: 20px;
+  padding: 10px;
+}
+
+.menu-container[open] {
+  display: grid;
+}
+
 
 .menu-header {
   grid-area: header;
@@ -310,6 +344,9 @@ h1 {
 
 .icon-menu {
   grid-area: footer;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
 }
 
 .menu-content {
@@ -320,6 +357,7 @@ h1 {
     width: 100%;
     overflow-y: auto;
     font-family: 'Arial';
+    margin: 12px 0;
 }
 
 .menu-content h2 {
@@ -332,7 +370,7 @@ h1 {
 }
 
 .icon-menu button {
-
+  height: 68px;
 }
 
 
@@ -346,7 +384,10 @@ h1 {
     .mobile-btns-panel {
       display: flex;
       flex-wrap: wrap;
+    }
 
+    .options-btn {
+      width: clamp(58px, 18vw, 90px)
     }
 }
 

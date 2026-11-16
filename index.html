@@ -35,26 +35,12 @@
       Rotate your device for the best experience
     </div>
   </div>
-  <div class="settings">
 
-    <button class="game-btn">
-    <img class="fullscreen" src="./img/7.Buttons/fullscreen.svg" alt="fullscreen image"
-      onclick="fullscreen()">
-    </button>
-    <button class="game-btn" onclick="toggleMusic()">
-      <img class="img-volume volume_true" id="volume-sign" src="./img/7.Buttons/volume.png" alt="sound image">
-    </button>
-    <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.5" class="volume-slider" onchange="changeVolume(this.value)">
-    <button class="game-btn" onclick="openInstructions()">
-      <img class="img-setting" id="setting" src="./img/7.Buttons/settings.png" alt="menu image"
-      >
-    </button>
-  </div>
   <div class="start-screen-container">
     <div class="start-screen-upper-btns d-flex">
       <button type="button" id="start-game-btn" class="options-btn" onclick="init();">Start</button>
-      <button id="option-btn" class="options-btn" onclick="openMenu()">
-        Options
+      <button id="help-btn" class="options-btn">
+        Help
       </button>
     </div>
     <div class="start-screen-btn-down">
@@ -83,6 +69,21 @@
 
 
     </div>
+     <div class="settings">
+
+    <button class="game-btn">
+    <img class="fullscreen" src="./img/7.Buttons/fullscreen.svg" alt="fullscreen image"
+      onclick="fullscreen()">
+    </button>
+    <button class="game-btn" id="volume-btn">
+      <img class="img-volume" src="./img/7.Buttons/volume.png" alt="sound image">
+    </button>
+
+    <button class="game-btn" onclick="openInstructions()">
+      <img class="img-setting" id="setting" src="./img/7.Buttons/settings.png" alt="menu image"
+      >
+    </button>
+  </div>
     <canvas id="canvas" width="720" height="480">
 
     </canvas>
@@ -91,7 +92,7 @@
     <img src="./img/6.Botones/Tittles/Game Over/Recurso 9.png" alt="" />
 
     <div class="winscreen-btn">
-      <button class="options-btn" onclick="endGame()">Menu</button>
+      <button class="options-btn" onclick="endGame()">Home</button>
       <button class="options-btn" onclick="restartGame()">Retry</button>
     </div>
   </div>
@@ -99,7 +100,7 @@
   <div id="win-screen" class="win-screen d-none">
     <img src="./img/6.Botones/Try again/Mesa de trabajo 1.png" alt="" />
     <div class="winscreen-btn">
-      <button class="options-btn" onclick="endGame()">Menu</button>
+      <button class="options-btn" onclick="endGame()">Home</button>
       <button class="options-btn" onclick="restartGame()">Retry</button>
     </div>
 
@@ -157,55 +158,19 @@
   <dialog id="menu-container" class="menu-container">
 
       <div class="menu-header">
-        <button class="options-btn options-overlay-close-button" onclick="closeMenu()">
+        <button class="options-btn options-overlay-close-button" id="close-menu-btn">
           ✕
         </button>
       </div>
         <div id="menu-content" class="menu-content">
-        <h2>Imprint</h2>
-
-
-
-            <p>
-              Stefanie Grommes<br />
-              Offenbachstr. 6<br />
-              53359 Rheinbach<br />
-              Telefon: +49 (0) 1785825548<br />
-              E-Mail: steffi.grommes@web.de
-            </p>
-
-
-            <h3>Berufsbezeichnung und berufsrechtliche Regelungen</h3>
-            <p>
-              Berufsbezeichnung:<br />
-              Software Developer
-            </p>
-
-
-            <h3>
-              Verbraucher&shy;streit&shy;beilegung/Universal&shy;schlichtungs&shy;stelle
-            </h3>
-            <p>
-              Wir sind nicht bereit oder verpflichtet, an
-              Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle
-              teilzunehmen.
-            </p>
-
-            <p>
-              Quelle:
-              <a
-                href="https://www.e-recht24.de/impressum-generator.html">https://www.e-recht24.de/impressum-generator.html</a>
-            </p>
-
-        </div>
+          </div>
         <div class="icon-menu">
-            <button class="options-btn" onclick="openInstructions()"><img class="img-setting" src="./img/7.Buttons/settings.png" alt="menu image"
-     ></button>
-            <button onclick="startHistory(event)"><img class="img-setting" id="historyContain" src="./images/5.Buttons/Key/histoty_castle.png" alt="setting image"> History</button>
-            <button onclick="impressum(event)"><img class="img-setting" id="impressum" src="./images/5.Buttons/Key/impress.png" alt="setting image" > Impressum</button>
+            <button class="options-btn" onclick="openInstructions()">Instructions</button>
+            <button class="options-btn" onclick="openHistory()"> History</button>
+            <button class="options-btn" onclick="openImprint()"> Impressum</button>
         </div>
-      </div>
-  </dialog>
+      </dialog>
+
 </body>
 
 </html>
