@@ -280,6 +280,62 @@ h1 {
   animation: fadeIn 1s ease;
 }
 
+.imprint button {
+  width: 18px;
+  font-size: 18px;
+}
+
+.menu-container {
+    display: grid;
+    grid-template-rows: 42px 1fr 42px;
+    grid-template-areas: "header" "content" "footer";
+    max-width: 700px;
+    background-color: rgba(0, 0, 0, 0.9);
+    height: auto;
+    color: aqua;
+    z-index: 2;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.menu-header {
+  grid-area: header;
+}
+
+.menu-header button {
+  justify-self: flex-end;
+  width: 22px;
+  height: 32px;
+}
+
+.icon-menu {
+  grid-area: footer;
+}
+
+.menu-content {
+    grid-area: content;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(0, 188, 212) rgba(0, 0, 0, 0.3);
+    background-color: rgba(27, 27, 26, 0.9);
+    width: 100%;
+    overflow-y: auto;
+    font-family: 'Arial';
+}
+
+.menu-content h2 {
+  font-family: 'LuckiestGuy-Regular';
+}
+
+.menu-content a {
+  text-decoration: none;
+  color:aqua;
+}
+
+.icon-menu button {
+
+}
+
+
 
 /* Smartphones ----------------*/
 @media only screen and (max-width: 720px) {

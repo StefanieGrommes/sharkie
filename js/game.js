@@ -18,7 +18,7 @@ function init() {
     document.body.style.backgroundImage =
       "url('img/3.Background/BackgroundImage/water.png')";
     canvas = document.getElementById("canvas");
-    startMusic();
+    checkMusicSettings();
     initLevel1();
     world = new World(canvas, keyboard);
     resizeCanvas();
@@ -224,6 +224,12 @@ function isTouchDevice() {
   );
 }
 
+
+function changeVolume(amount) {
+  backgroundmusic.volume = amount;
+}
+
+
 /**
  * Shows a rotate hint for mobile portrait orientation
  * Automatically hides after 3 seconds if in portrait mode
@@ -242,21 +248,19 @@ function showRotateHint() {
   }
 }
 
-function openOptions() {
-  document.getElementById("options-overlay").showModal();
+document.getElementById('imprint-btn').addEventListener("click", openMenu());
 
-}
 
-function closeOptions() {
+function closeInstructions() {
   document.getElementById("options-overlay").close();
 }
 
-function openImprint() {
-  document.getElementById("imprint-overlay").showModal();
+function openMenu() {
+  document.getElementById("menu-container").showModal();
 }
 
-function closeImprint() {
-document.getElementById("imprint-overlay").close();
+function closeMenu() {
+document.getElementById("menu-container").close();
 }
 
 /**
@@ -326,7 +330,7 @@ function hideEndScreens() {
 
 function restartGame() {
   stopGame();
-  startMusic();
+  checkMusicSettings();
   hideEndScreens();
   initLevel1();
   world = new World(canvas, keyboard);
@@ -344,18 +348,45 @@ function endGame() {
  const backgroundmusic = new Audio('./audio/AFRO014017_SUIKERBOSSIE_SONOTON.mp3');
  backgroundmusic.loop = true;
 
+function checkMusicSettings() {
+const musicSetting = localStorage.getItem("musicIsPlaying");
+musicSetting == true ? startMusic() : stopMusic();
+}
+
 function startMusic() {
   backgroundmusic.play();
+  localStorage.setItem("musicIsPlaying", "true");
   musicIsPlaying = true;
 }
 
 function stopMusic() {
   backgroundmusic.pause();
   backgroundmusic.currentTime = 0;
+  localStorage.setItem("musicIsPlaying", "false");
   musicIsPlaying = false;
 }
 
 function toggleMusic() {
-  musicIsPlaying ? backgroundmusic.pause() : backgroundmusic.play();
-  musicIsPlaying = !musicIsPlaying;
+  localStorage.getItem("musicIsPlaying");
+  if (musicIsPlaying) {
+    backgroundmusic.pause();
+    localStorage.setItem("musicIsPlaying", "false");
+  } else {
+    backgroundmusic.play();
+    localStorage.setItem("musicIsPlaying", "true") ;
+  }
+   changeVolumneBtn();
+   musicIsPlaying = !musicIsPlaying;
 }
+
+function changeVolumneBtn() {
+  if (!musicIsPlaying) {
+    document.getElementById("volume-sign").src="./img/7.Buttons/volume-mute.png";
+  } else {
+    document.getElementById("volume-sign").src="./img/7.Buttons/volume.png";
+  }
+
+}
+
+
+
