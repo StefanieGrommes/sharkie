@@ -4,6 +4,7 @@ class MoveableObject extends DrawableObject{
     speedY = 0.3;
     energy = 100;
     lastHit =  0;
+    lastMovement;
     flySpeed = 8;
     dead = false;
     removable = false;
@@ -56,14 +57,17 @@ class MoveableObject extends DrawableObject{
 
     moveUp() {
         this.y -= this.speedY;
+        this.isMoving();
     }
 
     moveDown() {
          this.y += this.speedY;
+         this.isMoving();
     }
 
     moveRight() {
         this.x += this.speedX;
+        this.isMoving();
     }
 
       /**
@@ -85,8 +89,19 @@ class MoveableObject extends DrawableObject{
             this.otherDirection = !this.otherDirection;
             this.changeDirectionOfFish();
         }
+        this.isMoving();
     }
 
+    isMoving() {
+        this.lastMovement = new Date().getTime();
+    }
+
+
+    lastTimeMoved() {
+        let timepassed = new Date().getTime() - this.lastMovement;
+        timepassed = timepassed / 1000;
+        return timepassed > 5;
+    }
 
     /**
     *Changes the horizontal movement direction of the fish

@@ -14,6 +14,11 @@ class Endboss extends MoveableObject {
   phaseFrames = 0;
   phaseSpeed = 0;
   introStarted = false;
+  phaseDir = -1;
+  phaseDirY = 0;
+  minY = -50;
+  maxY = 180;
+
 
   IMAGES_INTRODUCE = [
     "./img/2.Enemy/3 Final Enemy/1.Introduce/1.png",
@@ -89,14 +94,14 @@ class Endboss extends MoveableObject {
     setStoppableFunction(() => this.showImages(), 180);
   }
 
-move() {
-  if (!this.hasIntroduced || this.isDead()) return;
-  if (this.phaseFrames <= 0) this.startNewPhase();
-  this.phaseFrames--;
-  const dir = this.world.character.x < this.x ? -1 : 1;
-  this.otherDirection = dir === 1;
-  this.x += dir * this.phaseSpeed;
-}
+  move() {
+    if (!this.hasIntroduced || this.isDead()) return;
+    if (this.phaseFrames <= 0) this.startNewPhase();
+    this.phaseFrames--;
+    this.x += this.phaseDir * this.phaseSpeed;
+    this.y += this.phaseDirY * this.phaseSpeed;
+    this.y = Math.min(this.maxY, Math.max(this.minY, this.y));
+  }
 
   startNewPhase() {
     if (this.phaseSpeed > 0) {
@@ -105,8 +110,12 @@ move() {
       this.phaseFrames = 30 + Math.random() * 60; // 0,5 bis 1,5 s
     } else {
       // Ruck
-      this.phaseSpeed = 1 + Math.random() * 3; // Speed 1 bis 4
-      this.phaseFrames = 15 + Math.random() * 30; // 0,25 bis 0,75 s
+      const c = this.world.character;
+    this.phaseDir = c.x < this.x ? -1 : 1;
+    this.phaseDirY = c.y < this.y ? -1 : 1;
+    this.otherDirection = this.phaseDir === 1;
+    this.phaseSpeed = 1 + Math.random() * 3;
+    this.phaseFrames = 15 + Math.random() * 30;
     }
   }
 
@@ -121,7 +130,7 @@ move() {
     ) {
       return;
     } else if (!this.hasIntroduced) {
-       if (!this.introStarted) this.startIntro();
+      if (!this.introStarted) this.startIntro();
       this.playAnimation(this.IMAGES_INTRODUCE);
       if (this.currentImage >= this.IMAGES_INTRODUCE.length) {
         this.hasIntroduced = true;
@@ -138,20 +147,19 @@ move() {
   }
 
   takeDamage(amount) {
-  this.energy = Math.max(0, this.energy - amount);
-  this.lastHit = new Date().getTime();
-  this.currentImage = 0;
-  if (this.energy > 0) this.world.playSFX(this.world.sfx.endbossHurt);
-}
+    this.energy = Math.max(0, this.energy - amount);
+    this.lastHit = new Date().getTime();
+    this.currentImage = 0;
+    if (this.energy > 0) this.world.playSFX(this.world.sfx.endbossHurt);
+  }
 
   startIntro() {
-  this.introStarted = true;
-  this.currentImage = 0;
-  this.world.playSFX(this.world.sfx.intro);
-  backgroundmusic.pause();
-  setTimeout(() => {
-    if (!this.world.gameEnded && volumeOn) backgroundmusic.play();
-  }, 5000);
-}
-
+    this.introStarted = true;
+    this.currentImage = 0;
+    this.world.playSFX(this.world.sfx.intro);
+    backgroundmusic.pause();
+    setTimeout(() => {
+      if (!this.world.gameEnded && volumeOn) backgroundmusic.play();
+    }, 5000);
+  }
 }

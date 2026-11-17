@@ -12,7 +12,7 @@ class Character extends MoveableObject {
     right: 50,
   };
   attackType = null;
-
+  sleepingSound = null;
 
   IMAGES_IDLE = [
     "./img/1.Sharkie/1.IDLE/1.png",
@@ -118,6 +118,7 @@ class Character extends MoveableObject {
   constructor() {
     super().loadImage("img/1.Sharkie/1.IDLE/1.png");
     this.loadImages(this.IMAGES_IDLE);
+    this.loadImages(this.IMAGES_LONG_IDLE);
     this.loadImages(this.IMAGES_SWIMMING);
     this.loadImages(this.IMAGES_POISONED);
     this.loadImages(this.IMAGES_ELECTRIC_SHOCK);
@@ -125,6 +126,7 @@ class Character extends MoveableObject {
     this.loadImages(this.IMAGES_ATTACK.BUBBLE);
     this.loadImages(this.IMAGES_ATTACK.FINSLAP);
     this.animate();
+    this.isMoving();
   }
 
   animate() {
@@ -133,10 +135,11 @@ class Character extends MoveableObject {
   }
 
   showImages() {
+    if (!this.lastTimeMoved()) this.stopSleepingSound();
     if (this.isDead()) {
       this.playAnimation(this.IMAGES_POISONED_DEAD);
     } else if (this.attackType) {
-    this.playAttackAnimation();
+      this.playAttackAnimation();
     } else if (this.isHurt()) {
       if (this.lastEnemy instanceof Jellyfish) {
         this.playAnimation(this.IMAGES_ELECTRIC_SHOCK);
@@ -145,12 +148,19 @@ class Character extends MoveableObject {
       }
     } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
       this.playAnimation(this.IMAGES_SWIMMING);
+    } else if (this.lastTimeMoved()) {
+      this.playAnimation(this.IMAGES_LONG_IDLE);
+      this.startSleepingSound();
     } else {
       this.playAnimation(this.IMAGES_IDLE);
     }
   }
 
   sharkieSwim() {
+    const k = this.world.keyboard;
+    if (k.RIGHT || k.LEFT || k.UP || k.DOWN || k.B || k.F || k.SPACE) {
+      this.isMoving();
+    }
     if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
       this.x += this.speedX;
       this.otherDirection = false;
@@ -178,30 +188,40 @@ class Character extends MoveableObject {
     return true;
   }
 
- playAttackAnimation() {
-  const key = this.attackType === "POISON" ? "BUBBLE" : this.attackType;
-  const imgs = this.IMAGES_ATTACK[key];
-  this.playAnimation(imgs);
-  if (this.attackType === "FINSLAP") this.finSlapFrame();
-  else this.bubbleFrame();
-  if (this.currentImage >= imgs.length) {
-    if (this.attackType === "BUBBLE") this.world.throwBubble(false);
-    if (this.attackType === "POISON") this.world.throwBubble(true);
-    this.attackType = null;
-    this.currentImage = 0;
+  startSleepingSound() {
+    if (this.sleepingSound) return;
+    this.sleepingSound = this.world.playSFX(this.world.sfx.sleeping, true);
   }
-}
 
-finSlapFrame() {
-  if (this.currentImage === 2) this.world.checkFinSlapCollisions();
-  if (this.currentImage === 3) this.world.playSFX(this.world.sfx.finslap);
-}
+  stopSleepingSound() {
+    if (!this.sleepingSound) return;
+    this.sleepingSound.pause();
+    this.world.removeSound(this.sleepingSound);
+    this.sleepingSound = null;
+  }
 
-bubbleFrame() {
-  if (this.currentImage !== 6) return;
-  const s = this.world.sfx;
-  this.world.playSFX(this.attackType === "POISON" ? s.poison : s.bubble);
-}
+  playAttackAnimation() {
+    const key = this.attackType === "POISON" ? "BUBBLE" : this.attackType;
+    const imgs = this.IMAGES_ATTACK[key];
+    this.playAnimation(imgs);
+    if (this.attackType === "FINSLAP") this.finSlapFrame();
+    else this.bubbleFrame();
+    if (this.currentImage >= imgs.length) {
+      if (this.attackType === "BUBBLE") this.world.throwBubble(false);
+      if (this.attackType === "POISON") this.world.throwBubble(true);
+      this.attackType = null;
+      this.currentImage = 0;
+    }
+  }
 
+  finSlapFrame() {
+    if (this.currentImage === 2) this.world.checkFinSlapCollisions();
+    if (this.currentImage === 3) this.world.playSFX(this.world.sfx.finslap);
+  }
 
+  bubbleFrame() {
+    if (this.currentImage !== 6) return;
+    const s = this.world.sfx;
+    this.world.playSFX(this.attackType === "POISON" ? s.poison : s.bubble);
+  }
 }

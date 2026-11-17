@@ -23,7 +23,7 @@ function init() {
     initLevel1();
     world = new World(canvas, keyboard);
     resizeCanvas();
-
+    showSettings();
 }
 
 window.addEventListener("resize", resizeCanvas);
@@ -145,6 +145,9 @@ document.getElementById("menu-content").addEventListener("click", (event) => {
   if (event.target.closest("#menu-fullscreen-btn")) fullscreen();
 });
 
+function showSettings() {
+  document.querySelector(".settings").classList.remove("d-none");
+}
 /**
  * Handles canvas resizing and responsive layout adjustments
  * Updates both internal resolution and display size
@@ -262,6 +265,7 @@ function showRotateHint() {
 
 document.getElementById('help-btn').addEventListener("click", openMenu);
 document.getElementById('imprint-btn').addEventListener("click", openMenu);
+document.getElementById('settings-btn').addEventListener("click", openMenu);
 
 const closeMenuBtn = document.getElementById('close-menu-btn');
 closeMenuBtn.addEventListener("click", closeMenu);
@@ -276,7 +280,7 @@ function closeInstructions() {
 function openMenu(event) {
   menuContainer.showModal();
   const clickedBtn = event.currentTarget;
-  if (clickedBtn.id === "help-btn") {
+  if (clickedBtn.id === "help-btn" || clickedBtn.id === "settings-btn" ) {
     openInstructions();
   } else if(clickedBtn.id ==="imprint-btn") {
     openImprint();
@@ -478,7 +482,7 @@ function restartGame() {
 
 function endGame() {
   stopGame();
-  muteAll();
+  stopAllSounds();
   hideEndScreens();
   const gameZone = document.getElementById("game-zone");
   gameZone.classList.add("d-none");
@@ -496,6 +500,7 @@ allSounds.push(backgroundmusic);
 function checkVolumeSettings() {
 const soundSetting = localStorage.getItem("volumeOn");
 soundSetting === "true" ? soundOn() : muteAll();
+changeVolumeBtn();
 }
 
 function soundOn() {
@@ -506,11 +511,16 @@ function soundOn() {
   volumeOn = true;
 }
 
-function muteAll() {
+function stopAllSounds() {
   allSounds.forEach((sound) => {
     sound.pause();
-    sound.currentTime= 0;
-  });
+    sound.currentTime = 0;
+  })
+  allSounds.splice(0, allSounds.length, backgroundmusic);
+}
+
+function muteAll() {
+  stopAllSounds();
   localStorage.setItem("volumeOn", "false");
   volumeOn = false;
 }
@@ -522,12 +532,12 @@ function toggleVolume() {
 }
 
 function changeVolumeBtn() {
-document.querySelectorAll(".img-volume").src = volumeOn
+document.querySelectorAll(".img-volume").forEach((img) => {
+  img.src = volumeOn
     ? "./img/7.Buttons/volume.png"
     : "./img/7.Buttons/volume-mute.png";
+});
 }
-
-
 
 
 
