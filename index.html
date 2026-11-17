@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sharkie</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="shortcut icon" href="./img/1.Sharkie/3.Swim/1.png" type="image/x-icon">
   <script defer src="./models/drawable-object.class.js"></script>
   <script defer src="./models/moveable-object.class.js"></script>
   <script defer src="./models/character.class.js"></script>
@@ -29,7 +30,8 @@
 </head>
 
 <body>
-  <h1 id="game-name" class="game-name">Sharkie</h1>
+  <header><h1 id="game-name" class="game-name">Sharkie</h1></header>
+<main>
   <div class="rotate-warning-container">
     <div id="rotate-warning" class="rotate-warning d-none">
       Rotate your device for the best experience
@@ -72,7 +74,7 @@
      <div class="settings d-none">
 
     <button class="game-btn">
-    <img class="fullscreen" src="./img/7.Buttons/fullscreen.svg" alt="fullscreen image"
+    <img class="fullscreen" src="./img/7.Buttons/fullscreen.png" alt="fullscreen image"
       onclick="fullscreen()">
     </button>
     <button class="game-btn" id="volume-btn">
@@ -107,54 +109,6 @@
 
   </div>
 
-  <dialog id="options-overlay" class="options-overlay">
-    <div id="options-content" class="options-content">
-      <button id="options-overlay-close-button" class="options-overlay-close-button options-btn"
-        onclick="closeMenu()">
-        ✖
-      </button>
-
-      <h2>Controls</h2>
-
-      <ul class="controls-list">
-        <li data-action="moveLeft">
-          <span>Move left</span>
-          <button class="options-btn mobile-btn">←</button>
-        </li>
-
-        <li data-action="moveRight">
-          <span>Move right</span>
-          <button class="options-btn mobile-btn">→</button>
-        </li>
-
-        <li data-action="moveUp">
-          <span>Move up</span>
-          <button class="options-btn mobile-btn">↑</button>
-        </li>
-
-        <li data-action="moveDown">
-          <span>Move down</span>
-          <button class="options-btn mobile-btn">↓</button>
-        </li>
-
-        <li data-action="FIN_SLAP">
-          <span>Fin Slap</span>
-          <button class="options-btn mobile-btn">F</button>
-        </li>
-
-        <li data-action="bubbleAttack">
-          <span>Bubble Attack</span>
-          <button class="options-btn mobile-btn">D</button>
-        </li>
-
-        <li data-action="poisonAttack">
-          <span>Poison Attack</span>
-          <button class="options-btn mobile-btn">Space</button>
-        </li>
-      </ul>
-    </div>
-  </dialog>
-
   <dialog id="menu-container" class="menu-container">
 
       <div class="menu-header">
@@ -170,6 +124,10 @@
             <button class="options-btn" onclick="openImprint()"> Impressum</button>
         </div>
       </dialog>
+      </main>
+<footer>
+  <p>Icons provided by <a href="http://www.icons8.com/">Icons 8</a></p>
+</footer>
 
 </body>
 

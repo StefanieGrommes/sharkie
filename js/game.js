@@ -301,48 +301,48 @@ function openInstructions() {
        <h3> MOVING </h3>
         <li>
           <span>Move left</span>
-          <button class="options-btn mobile-btn">←</button>
+          <div class="preview-btn">←</div>
         </li>
 
         <li>
           <span>Move right</span>
-          <button class="options-btn mobile-btn">→</button>
+          <div class="preview-btn">→</div>
         </li>
 
         <li>
           <span>Move up</span>
-          <button class="options-btn mobile-btn">↑</button>
+          <div class="preview-btn">↑</div>
         </li>
 
         <li>
           <span>Move down</span>
-          <button class="options-btn mobile-btn">↓</button>
+          <div class="preview-btn">↓</div>
         </li>
         </ul>
 
 <ul>  <h3> ATTACKING</h3>
         <li>
           <span>Fin Slap</span>
-          <button class="options-btn mobile-btn">F</button>
+          <div class="preview-btn">F</div>
         </li>
 
         <li>
           <span>Bubble Attack</span>
-          <button class="options-btn mobile-btn">D</button>
+          <div class="preview-btn">D</div>
         </li>
 
         <li>
           <span>Poison Attack</span>
-          <button class="options-btn mobile-btn">Space</button>
+          <div class="preview-btn">Space</div>
         </li>
       </ul>
       <h2>Settings</h2>
       <ul class="menu-settings">
       <li><button class="game-btn" id="menu-fullscreen-btn">
-    <img class="fullscreen-img" src="./img/7.Buttons/fullscreen.svg" alt="fullscreen image"
+    <img class="fullscreen-img" src="./img/7.Buttons/fullscreen.png" alt="fullscreen image"
       onclick="fullscreen()">
     </button></li>
-    <li><button><input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.5" class="volume-slider" onchange="changeVolume(this.value)">
+    <li><button class="game-btn" ><input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.5" class="volume-slider" onchange="changeVolume(this.value)">
        </button></li>
     <li><button class="game-btn" id="menu-volume-btn">
       <img class="img-volume" src="./img/7.Buttons/volume.png" alt="sound image">
@@ -383,7 +383,8 @@ function openImprint() {
               Quelle:
               <a
                 href="https://www.e-recht24.de/impressum-generator.html">https://www.e-recht24.de/impressum-generator.html</a>
-            </p>`
+            </p>
+            `
 }
 
 function openHistory() {
@@ -525,8 +526,8 @@ function muteAll() {
   volumeOn = false;
 }
 
-function toggleVolume() {
-  event.currentTarget.blur();
+function toggleVolume(event) {
+  event.target.closest("button")?.blur()
   volumeOn ? muteAll() : soundOn();
   changeVolumeBtn();
 }

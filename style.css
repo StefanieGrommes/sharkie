@@ -5,11 +5,17 @@
 
 @font-face {
     font-family: 'LuckiestGuy-Regular';
-    src: url('img/5.Font/Luckiest_Guy/LuckiestGuy-Regular.ttf') format('truetype');
+    src: url('./img/5.Font/Luckiest_Guy/LuckiestGuy-Regular.ttf') format('truetype');
+}
+
+html {
+  scroll-behavior: smooth;
+  height: 100%;
 }
 
 body {
-    min-height: 100vh;
+    min-height: 100dvh;
+    height: 100%;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -18,13 +24,16 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    background-image: URL('img/3.Background/Mesa de trabajo 1.png');
+    background-image: URL('./img/3.Background/BackgroundImage/landing-page-background.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    overflow: hidden;
+}
 
+main {
+  width: 100%;
+  flex: 1;
 }
 
 .mobile-btns-panel {
@@ -59,7 +68,7 @@ body {
 }
 
 .p-controls {
-    font-family: "Luckiest Guy", Verdana, Geneva, Tahoma, sans-serif;
+    font-family: 'LuckiestGuy-Regular', Arial, Helvetica, sans-serif;
     color: var(--main-color);
     font-weight: bold;
     font-size: 16px;
@@ -91,6 +100,7 @@ body {
 
 .game-zone {
   position: relative;
+  margin: 0 auto;
 }
 
 .settings {
@@ -190,7 +200,6 @@ h1 {
   display: flex;
 }
 
-
 .mobile-btn,
 .options-btn {
   display: flex;
@@ -201,7 +210,7 @@ h1 {
   cursor: pointer;
   box-shadow: 0 0 8px rgba(0, 200, 255, 0.3);
   transition: all 0.2s ease;
-  font-family: 'LuckiestGuy-Regular';
+  font-family: 'LuckiestGuy-Regular', Arial, Helvetica, sans-serif;
   background-color: #7EFFE0;
   color: #531A82;
   border-color: white;
@@ -290,7 +299,6 @@ h1 {
   font-weight: bold;
   font-size: 25px;
   letter-spacing: 1px;
-
   z-index: 999;
 }
 
@@ -364,7 +372,7 @@ h1 {
 }
 
 .menu-content h2 {
-  font-family: 'LuckiestGuy-Regular';
+  font-family: 'LuckiestGuy-Regular', Arial, Helvetica, sans-serif;
 }
 
 .menu-content a {
@@ -372,11 +380,57 @@ h1 {
   color:aqua;
 }
 
+.preview-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  border-radius: clamp(8px, 1.5vw, 14px);
+  box-shadow: 0 0 8px rgba(0, 200, 255, 0.3);
+  transition: all 0.2s ease;
+  font-family: 'LuckiestGuy-Regular', Arial, Helvetica, sans-serif;
+  background-color: #7EFFE0;
+  color: #531A82;
+  border-color: white;
+  font-size: 20px;
+  width: 60px;
+  height: 24px;
+  padding: clamp(10px, 2vw, 18px) clamp(24px, 5vw, 50px);
+}
+
 .icon-menu button {
   height: 68px;
 }
 
+.game-btn {
+  border-radius: 10px;
+  border-style: inherit;
+  background-color:aquamarine;
+}
 
+.game-btn:hover {
+    color: white;
+    transform: translateY(5px) scale(1.05)
+}
+
+footer {
+  font-family: 'Arial';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+footer a {
+  font-size: 16px;
+  text-decoration: none;
+  color: black;
+}
+
+footer a:hover {
+  color: #531A82;
+  transform: translateY(5px) scale(1.05);
+}
 
 /* Smartphones ----------------*/
 @media only screen and (max-width: 720px) {

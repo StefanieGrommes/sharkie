@@ -123,7 +123,6 @@ class World {
     this.addToMap(this.statusbarHeart);
     this.addToMap(this.statusbarCoins);
     this.ctx.translate(this.camera_x, 0); //FORWARDS
-
     this.addToMap(this.character);
     this.ctx.translate(-this.camera_x, 0);
     // Draw() wird immer wieder aufgerufen
@@ -141,7 +140,7 @@ class World {
       this.flipImage(mo);
     }
     mo.draw(this.ctx);
-    mo.drawBorder(this.ctx);
+    /* mo.drawBorder(this.ctx);*/
     if (mo.otherDirection) {
       this.flipImageBack(mo);
     }
