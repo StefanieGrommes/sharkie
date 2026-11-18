@@ -227,6 +227,7 @@ class World {
     if (!volumeOn) return null;
     const sound = new Audio(path);
     sound.loop = loop;
+    sound.volume = masterVolume;
     allSounds.push(sound);
     sound.play();
     sound.onended = () => this.removeSound(sound); // wird nach ende des SOunds ausgeführrt

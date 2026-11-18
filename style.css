@@ -36,6 +36,13 @@ main {
   flex: 1;
 }
 
+.main:fullscreen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: black;
+}
+
 .mobile-btns-panel {
       display: none;
 }
@@ -102,6 +109,7 @@ main {
   position: relative;
   margin: 0 auto;
 }
+
 
 .settings {
   display: flex;
