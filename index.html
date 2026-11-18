@@ -32,11 +32,7 @@
 <body>
   <header><h1 id="game-name" class="game-name">Sharkie</h1></header>
 <main>
-  <div class="rotate-warning-container">
-    <div id="rotate-warning" class="rotate-warning d-none">
-      Rotate your device for the best experience
-    </div>
-  </div>
+  <div class="rotate-overlay">Turn your device to play</div>
 
   <div class="start-screen-container">
     <div class="start-screen-upper-btns d-flex">
@@ -50,45 +46,36 @@
     </div>
   </div>
 
+  <div id="game-zone" class="game-zone d-none">
+  <canvas id="canvas" width="720" height="480"></canvas>
 
-  <div id="game-zone" class="game-zone">
-    <div class="mobile-btns-panel">
-
-      <button class="options-btn mobile-btn" id="btn-left">←</button>
-
-      <button class="options-btn mobile-btn" id="btn-right">→</button>
-
-      <button class="options-btn mobile-btn" id="btn-up">↑</button>
-
-      <button class="options-btn mobile-btn" id="btn-down">↓</button>
-
-      <button class="options-btn mobile-btn" id="btn-f">F</button>
-
-
-      <button class="options-btn mobile-btn" id="btn-d">D</button>
-
-      <button class="options-btn mobile-btn" id="btn-space">Space</button>
-
-
-    </div>
-     <div class="settings d-none">
-
+  <div class="settings d-none">
     <button class="game-btn fullscreen-btn" id="fullscreen-btn">
-    <img class="fullscreen" src="./img/7.Buttons/fullscreen.png" alt="fullscreen image">
+      <img class="fullscreen" src="./img/7.Buttons/fullscreen.png" alt="fullscreen image">
     </button>
     <button class="game-btn" id="volume-btn">
       <img class="img-volume" src="./img/7.Buttons/volume.png" alt="sound image">
     </button>
-
     <button class="game-btn" id="settings-btn">
-      <img class="img-setting" id="setting" src="./img/7.Buttons/settings.png" alt="menu image"
-      >
+      <img class="img-setting" id="setting" src="./img/7.Buttons/settings.png" alt="menu image">
     </button>
   </div>
-    <canvas id="canvas" width="720" height="480">
 
-    </canvas>
+  <div class="mobile-btns-panel">
+    <div class="pad">
+      <button class="options-btn mobile-btn" id="btn-up">↑</button>
+      <button class="options-btn mobile-btn" id="btn-left">←</button>
+      <button class="options-btn mobile-btn" id="btn-down">↓</button>
+      <button class="options-btn mobile-btn" id="btn-right">→</button>
+    </div>
+    <div class="actions">
+      <button class="options-btn mobile-btn" id="btn-f">F</button>
+      <button class="options-btn mobile-btn" id="btn-d">D</button>
+      <button class="options-btn mobile-btn" id="btn-space">Space</button>
+    </div>
   </div>
+</div>
+
   <div id="game-over-screen" class="game-over-screen d-none">
     <img src="./img/6.Botones/Tittles/Game Over/Recurso 9.png" alt="" />
 

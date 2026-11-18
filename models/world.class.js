@@ -220,6 +220,7 @@ class World {
       const screen = document.getElementById(screenId);
       screen.classList.remove("d-none");
       screen.classList.add("d-flex");
+      document.body.classList.add("game-ended");
     }, 1500); // Zeit für die Todesanimation
   }
 

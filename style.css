@@ -31,23 +31,41 @@ body {
     background-attachment: fixed;
 }
 
+body.playing main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body.game-ended .settings,
+body.game-ended .mobile-btns-panel {
+  display: none !important;
+}
+
 main {
   width: 100%;
   flex: 1;
 }
 
-.main:fullscreen {
+main:fullscreen {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: black;
+  background-image: URL('./img/3.Background/BackgroundImage/water.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+main:fullscreen .game-zone {
+  margin: 0;
 }
 
 .mobile-btns-panel {
-      display: none;
+  display: none;
 }
 
-.mobile-btn,
 .start-screen-container {
   display:flex;
   flex-direction: column;
@@ -110,13 +128,26 @@ main {
   margin: 0 auto;
 }
 
+.rotate-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  text-align: center;
+  font-size: 25px;
+  color: #ffcc00;
+  background: rgba(0, 0, 0, 0.95);
+}
 
 .settings {
   display: flex;
   flex-direction: column;
   position: absolute;
   top: 10px;
-  right: 0;
+  right: 10px;
   z-index: 2;
 }
 
@@ -251,11 +282,6 @@ h1 {
 }
 
 
-#start-game-btn:disabled:hover {
-  pointer-events: none !important;
-}
-
-
 .winscreen-btn {
   position: absolute;
   top: 70%;
@@ -286,33 +312,6 @@ h1 {
   height: 100vh;
 }
 
-.rotate-warning {
-  display: flex;
-  align-items: center;
-  position: absolute;
-  top: 10%;
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-
-  padding: 15px 25px;
-
-  border-radius: 10px;
-  border: 1px solid #ffcc00;
-
-  background: rgba(0, 0, 0, 0.85);
-  color: #ffcc00;
-
-  font-weight: bold;
-  font-size: 25px;
-  letter-spacing: 1px;
-  z-index: 999;
-}
-
-.rotate-warning:not(.d-none) {
-  opacity: 1;
-}
 
 @keyframes fadeIn {
   from { opacity: 0; }
@@ -440,47 +439,75 @@ footer a:hover {
   transform: translateY(5px) scale(1.05);
 }
 
-/* Smartphones ----------------*/
-@media only screen and (max-width: 720px) {
-    canvas {
-        width: 100%;
-    }
-
-    .mobile-btns-panel {
-      display: flex;
-      flex-wrap: wrap;
-    }
-
-    .options-btn {
-      width: clamp(58px, 18vw, 90px)
-    }
-}
-
-@media (max-width: 600px) {
-  .rotate-warning {
-    font-size: 20px;
-    width: 80vw;
-    height: 80vh;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+/* MEDIA QUERIES ----------------*/
+@media  (orientation: portrait) and (max-width: 870px),
+        (orientation: portrait) and (pointer: coarse) {
+  .rotate-overlay {
+    display: flex;
   }
 }
 
-.rotate-warning-container {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-  pointer-events: none;
+@media only screen and (max-width: 870px), (pointer: coarse) {
+  body.playing header,
+  body.playing footer {
+    display: none;
+  }
+
+  .mobile-btns-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 8px;
+    padding: 0 8px;
+    box-sizing: border-box;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .mobile-btns-panel > * {
+    pointer-events: auto;
+  }
+
+  .pad {
+  display: grid;
+  grid-template-columns: repeat(3, 48px);
+  grid-template-rows: repeat(2, 48px);
+  gap: 6px;
 }
 
+  #btn-up    { grid-column: 2; grid-row: 1; }
+  #btn-left  { grid-column: 1; grid-row: 2; }
+  #btn-down  { grid-column: 2; grid-row: 2; }
+  #btn-right { grid-column: 3; grid-row: 2; }
+
+  .actions {
+    display: flex;
+    gap: 6px;
+  }
+
+  .mobile-btns-panel .mobile-btn {
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    font-size: 18px;
+    opacity: 0.7;
+  }
+
+  .mobile-btns-panel #btn-space {
+    width: 72px;
+    font-size: 14px;
+  }
+
+  .options-btn {
+    width: clamp(58px, 18vw, 90px)
+  }
+}
+
+
 @media only screen and (max-height: 480px) {
-    canvas {
-        height: 100dvh;
-    }
 
     h1 {
         display: none;

@@ -7,6 +7,8 @@ let intervalIds = [];
 let i = 1;
 let volumeOn = false;
 const allSounds = [];
+const MIN_FULLSCREEN_RATIO = 1.5;
+const MAX_FULLSCREEN_RATIO = 1.8;
 
 
 function init() {
@@ -22,6 +24,7 @@ function init() {
   setCanvasResolution();
   checkVolumeSettings();
   initLevel1();
+  document.body.classList.add("playing");
   world = new World(canvas, keyboard);
   resizeCanvas();
   showSettings();
@@ -159,7 +162,10 @@ document.getElementById("menu-content").addEventListener("click", (event) => {
   if (event.target.closest("#menu-fullscreen-btn")) toggleFullscreen();
 });
 
-document.addEventListener("fullscreenchange", resizeCanvas);
+document.addEventListener("fullscreenchange", () => {
+  resizeCanvas();
+  changeFullscreenBtn();
+});
 
 function showSettings() {
   document.querySelector(".settings").classList.remove("d-none");
@@ -180,11 +186,15 @@ function resizeCanvas() {
  * @returns {{width: number, height: number}} The viewport dimensions
  */
 function getViewportSize() {
-   const vv = window.visualViewport;
-  return {
-    width: vv ? vv.width : window.innerWidth,
-    height: vv ? vv.height : window.innerHeight,
-  };
+  const vv = window.visualViewport;
+  let width = vv ? vv.width : window.innerWidth;
+  let height = vv ? vv.height : window.innerHeight;
+  if (!document.fullscreenElement) {
+    const header = document.querySelector("header");
+    const footer = document.querySelector("footer");
+    height -= (header?.offsetHeight || 0) + (footer?.offsetHeight || 0);
+  }
+  return { width, height };
 }
 
 /**
@@ -197,13 +207,12 @@ function setCanvasResolution() {
 }
 
 /**
- * Fits the canvas to the viewport without enlarging it beyond its base size
- * @param {{width: number, height: number}} viewport - The viewport dimensions
- * @returns {{width: number, height: number}} The calculated display size
+ * Fits the canvas to the viewport. In fullscreen it fills the whole screen,
+ * otherwise it is never larger than its base size.
  */
 function calculateDisplaySize(viewport) {
-  let scale = calculateScale(viewport);
-  if (!document.fullscreenElement) scale = Math.min(1, scale);
+  if (document.fullscreenElement) return calculateFullscreenSize(viewport);
+  const scale = Math.min(1, calculateScale(viewport));
   return {
     width: Math.floor(GAME_WIDTH * scale),
     height: Math.floor(GAME_HEIGHT * scale),
@@ -212,11 +221,21 @@ function calculateDisplaySize(viewport) {
 
 /**
  * Calculates the scale factor to maintain aspect ratio
- * @param {{width: number, height: number}} viewport - The viewport dimensions
- * @returns {number} The scale factor
  */
 function calculateScale(viewport) {
- return Math.min(viewport.width / GAME_WIDTH, viewport.height / GAME_HEIGHT);
+  return Math.min(viewport.width / GAME_WIDTH, viewport.height / GAME_HEIGHT);
+}
+
+function calculateFullscreenSize(viewport) {
+  const ratio = viewport.width / viewport.height;
+  const target = Math.min(
+    MAX_FULLSCREEN_RATIO,
+    Math.max(MIN_FULLSCREEN_RATIO, ratio),
+  );
+  let { width, height } = viewport;
+  if (ratio > target) width = height * target; // zu breit: Balken links/rechts
+  else height = width / target; // zu hoch: Balken oben/unten
+  return { width: Math.floor(width), height: Math.floor(height) };
 }
 
 /**
@@ -252,24 +271,6 @@ function changeVolume(amount) {
   allSounds.forEach((sound) => {
     sound.volume = masterVolume;
   });
-}
-
-/**
- * Shows a rotate hint for mobile portrait orientation
- * Automatically hides after 3 seconds if in portrait mode
- */
-function showRotateHint() {
-  if (!isTouchDevice()) return;
-
-  const warning = document.getElementById("rotate-warning");
-  const isPortrait = window.innerHeight > window.innerWidth;
-
-  if (isPortrait) {
-    warning.classList.remove("d-none");
-    document.getElementById("start-game-btn").disabled = true;
-    window.addEventListener("resize", handleOrientationChange);
-    window.addEventListener("orientationchange", handleOrientationChange);
-  }
 }
 
 document.getElementById("help-btn").addEventListener("click", openMenu);
@@ -432,10 +433,7 @@ function sayHello() {
   i++;
 }
 */
-document.addEventListener("fullscreenchange", () => {
-  resizeCanvas();
-  changeFullscreenBtn();
-});
+
 
 document.getElementById("fullscreen-btn").addEventListener("click", toggleFullscreen);
 
@@ -495,6 +493,7 @@ function hideEndScreens() {
     el.classList.add("d-none");
     el.classList.remove("d-flex");
   });
+  document.body.classList.remove("game-ended");
 }
 
 function restartGame() {
@@ -509,6 +508,8 @@ function endGame() {
   stopGame();
   stopAllSounds();
   hideEndScreens();
+  exitFullscreen();
+  document.body.classList.remove("playing");
   const gameZone = document.getElementById("game-zone");
   gameZone.classList.add("d-none");
   gameZone.classList.remove("d-flex");
@@ -517,6 +518,7 @@ function endGame() {
   startScreen.classList.add("d-flex");
   document.body.style.backgroundImage =
     "url('img/3.Background/Mesa de trabajo 1.png')";
+  document.querySelector(".settings").classList.add("d-none");
 }
 
 const backgroundmusic = new Audio(
@@ -567,3 +569,4 @@ function changeVolumeBtn() {
       : "./img/7.Buttons/volume-mute.png";
   });
 }
+
