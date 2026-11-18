@@ -26,11 +26,8 @@ function init() {
   initLevel1();
   document.body.classList.add("playing");
   world = new World(canvas, keyboard);
-  resizeCanvas();
   showSettings();
 }
-
-window.addEventListener("resize", resizeCanvas);
 
 window.addEventListener("keydown", (event) => {
   const key = event.key;
@@ -163,38 +160,11 @@ document.getElementById("menu-content").addEventListener("click", (event) => {
 });
 
 document.addEventListener("fullscreenchange", () => {
-  resizeCanvas();
   changeFullscreenBtn();
 });
 
 function showSettings() {
   document.querySelector(".settings").classList.remove("d-none");
-}
-/**
- * Handles canvas resizing and responsive layout adjustments
- * Updates both internal resolution and display size
- */
-function resizeCanvas() {
-  if (!canvas) return;
-  const viewport = getViewportSize();
-  const displaySize = calculateDisplaySize(viewport);
-  applyCanvasStyles(displaySize);
-}
-
-/**
- * Gets the current viewport size considering different browser APIs
- * @returns {{width: number, height: number}} The viewport dimensions
- */
-function getViewportSize() {
-  const vv = window.visualViewport;
-  let width = vv ? vv.width : window.innerWidth;
-  let height = vv ? vv.height : window.innerHeight;
-  if (!document.fullscreenElement) {
-    const header = document.querySelector("header");
-    const footer = document.querySelector("footer");
-    height -= (header?.offsetHeight || 0) + (footer?.offsetHeight || 0);
-  }
-  return { width, height };
 }
 
 /**
@@ -204,50 +174,6 @@ function getViewportSize() {
 function setCanvasResolution() {
   canvas.width = GAME_WIDTH;
   canvas.height = GAME_HEIGHT;
-}
-
-/**
- * Fits the canvas to the viewport. In fullscreen it fills the whole screen,
- * otherwise it is never larger than its base size.
- */
-function calculateDisplaySize(viewport) {
-  if (document.fullscreenElement) return calculateFullscreenSize(viewport);
-  const scale = Math.min(1, calculateScale(viewport));
-  return {
-    width: Math.floor(GAME_WIDTH * scale),
-    height: Math.floor(GAME_HEIGHT * scale),
-  };
-}
-
-/**
- * Calculates the scale factor to maintain aspect ratio
- */
-function calculateScale(viewport) {
-  return Math.min(viewport.width / GAME_WIDTH, viewport.height / GAME_HEIGHT);
-}
-
-function calculateFullscreenSize(viewport) {
-  const ratio = viewport.width / viewport.height;
-  const target = Math.min(
-    MAX_FULLSCREEN_RATIO,
-    Math.max(MIN_FULLSCREEN_RATIO, ratio),
-  );
-  let { width, height } = viewport;
-  if (ratio > target) width = height * target; // zu breit: Balken links/rechts
-  else height = width / target; // zu hoch: Balken oben/unten
-  return { width: Math.floor(width), height: Math.floor(height) };
-}
-
-/**
- * Applies the calculated display size to canvas and game container elements
- * @param {{width: number, height: number}} size - The display size to apply
- */
-function applyCanvasStyles(size) {
-  const gameZone = document.getElementById("game-zone");
-  canvas.style.width = `${size.width}px`;
-  canvas.style.height = `${size.height}px`;
-  gameZone.style.width = `${size.width}px`;
-
 }
 
 /**
@@ -274,7 +200,6 @@ function changeVolume(amount) {
 }
 
 document.getElementById("help-btn").addEventListener("click", openMenu);
-document.getElementById("imprint-btn").addEventListener("click", openMenu);
 document.getElementById("settings-btn").addEventListener("click", openMenu);
 
 const closeMenuBtn = document.getElementById("close-menu-btn");
@@ -291,8 +216,6 @@ function openMenu(event) {
   const clickedBtn = event.currentTarget;
   if (clickedBtn.id === "help-btn" || clickedBtn.id === "settings-btn") {
     openInstructions();
-  } else if (clickedBtn.id === "imprint-btn") {
-    openImprint();
   }
 }
 
@@ -351,9 +274,9 @@ function openInstructions() {
     <img class="fullscreen-img" src="./img/7.Buttons/fullscreen.png" alt="fullscreen image"
       >
     </button></li>
-    <li><button class="game-btn" ><input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="${masterVolume}" class="volume-slider" oninput="changeVolume(this.value)">
+    <li><button class="game-btn volume-btn-slider" ><input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="${masterVolume}" class="volume-slider" oninput="changeVolume(this.value)">
        </button></li>
-    <li><button class="game-btn" id="menu-volume-btn">
+    <li><button class="game-btn volume-btn" id="menu-volume-btn">
       <img class="img-volume" src="./img/7.Buttons/volume.png" alt="sound image">
     </button></li>
     </ul>
