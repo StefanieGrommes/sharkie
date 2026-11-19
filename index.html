@@ -26,93 +26,97 @@
   <script defer src="./models/heart.class.js"></script>
   <script defer src="./models/keyboard.class.js"></script>
   <script defer src="./js/game.js"></script>
+  <script defer src="./js/template.js"></script>
+  <script defer src="./js/keyboard.js"></script>
   <script defer src="./levels/level1.js"></script>
 </head>
 
 <body>
-  <div class="test"></div>
-  <header><h1 id="game-name" class="game-name">Sharkie</h1></header>
-<main>
-  <div class="rotate-overlay">Turn your device to play</div>
+  <div class="waves"></div>
+  <header>
+    <h1 id="game-name" class="game-name">Sharkie</h1>
+  </header>
+  <main>
+    <div class="rotate-overlay">Turn your device to play</div>
 
-  <div class="start-screen-container">
-    <div class="start-screen-upper-btns d-flex">
-      <button type="button" id="start-game-btn" class="options-btn" onclick="init();">Start</button>
-      <button id="help-btn" class="options-btn">
-        Help
-      </button>
+    <div class="start-screen-container">
+      <div class="start-screen-upper-btns d-flex">
+        <button type="button" id="start-game-btn" class="options-btn" onclick="init();">Start</button>
+        <button id="help-btn" class="options-btn">
+          Help
+        </button>
+      </div>
+
     </div>
 
-  </div>
+    <div id="game-zone" class="game-zone d-none">
+      <canvas id="canvas" width="720" height="480"></canvas>
 
-  <div id="game-zone" class="game-zone d-none">
-  <canvas id="canvas" width="720" height="480"></canvas>
+      <div class="settings d-none">
+        <button class="game-btn fullscreen-btn" id="fullscreen-btn">
+          <img class="fullscreen" src="./img/7.Buttons/fullscreen.png" alt="fullscreen image">
+        </button>
+        <button class="game-btn volume-btn" id="volume-btn">
+          <img class="img-volume" src="./img/7.Buttons/volume.png" alt="sound image">
+        </button>
+        <button class="game-btn" id="settings-btn">
+          <img class="img-setting" id="setting" src="./img/7.Buttons/settings.png" alt="menu image">
+        </button>
+      </div>
 
-  <div class="settings d-none">
-    <button class="game-btn fullscreen-btn" id="fullscreen-btn">
-      <img class="fullscreen" src="./img/7.Buttons/fullscreen.png" alt="fullscreen image">
-    </button>
-    <button class="game-btn volume-btn" id="volume-btn">
-      <img class="img-volume" src="./img/7.Buttons/volume.png" alt="sound image">
-    </button>
-    <button class="game-btn" id="settings-btn">
-      <img class="img-setting" id="setting" src="./img/7.Buttons/settings.png" alt="menu image">
-    </button>
-  </div>
-
-  <div class="mobile-btns-panel">
-    <div class="pad">
-      <button class="options-btn mobile-btn" id="btn-up">↑</button>
-      <button class="options-btn mobile-btn" id="btn-left">←</button>
-      <button class="options-btn mobile-btn" id="btn-down">↓</button>
-      <button class="options-btn mobile-btn" id="btn-right">→</button>
-    </div>
-    <div class="actions">
-      <button class="options-btn mobile-btn" id="btn-f">F</button>
-      <button class="options-btn mobile-btn" id="btn-d">D</button>
-      <button class="options-btn mobile-btn" id="btn-space">Space</button>
-    </div>
-  </div>
-</div>
-
-  <div id="game-over-screen" class="game-over-screen d-none">
-    <img src="./img/6.Botones/Tittles/Game Over/Recurso 9.png" alt="" />
-
-    <div class="winscreen-btn">
-      <button class="options-btn" onclick="endGame()">Home</button>
-      <button class="options-btn" onclick="restartGame()">Retry</button>
-    </div>
-  </div>
-
-  <div id="win-screen" class="win-screen d-none">
-    <img src="./img/6.Botones/Try again/Mesa de trabajo 1.png" alt="" />
-    <div class="winscreen-btn">
-      <button class="options-btn" onclick="endGame()">Home</button>
-      <button class="options-btn" onclick="restartGame()">Retry</button>
+      <div class="mobile-btns-panel">
+        <div class="pad">
+          <button class="options-btn mobile-btn" id="btn-up">↑</button>
+          <button class="options-btn mobile-btn" id="btn-left">←</button>
+          <button class="options-btn mobile-btn" id="btn-down">↓</button>
+          <button class="options-btn mobile-btn" id="btn-right">→</button>
+        </div>
+        <div class="actions">
+          <button class="options-btn mobile-btn" id="btn-f">F</button>
+          <button class="options-btn mobile-btn" id="btn-d">D</button>
+          <button class="options-btn mobile-btn" id="btn-space">Space</button>
+        </div>
+      </div>
     </div>
 
+    <div id="game-over-screen" class="game-over-screen d-none">
+      <img src="./img/6.Botones/Tittles/Game Over/Recurso 9.png" alt="" />
 
-  </div>
+      <div class="winscreen-btn">
+        <button class="options-btn" onclick="endGame()">Home</button>
+        <button class="options-btn" onclick="restartGame()">Retry</button>
+      </div>
+    </div>
 
-  <dialog id="menu-container" class="menu-container">
+    <div id="win-screen" class="win-screen d-none">
+      <img src="./img/6.Botones/Try again/Mesa de trabajo 1.png" alt="" />
+      <div class="winscreen-btn">
+        <button class="options-btn" onclick="endGame()">Home</button>
+        <button class="options-btn" onclick="restartGame()">Retry</button>
+      </div>
+
+
+    </div>
+
+    <dialog id="menu-container" class="menu-container">
 
       <div class="menu-header">
         <button class="options-btn options-overlay-close-button" id="close-menu-btn">
           ✕
         </button>
       </div>
-        <div id="menu-content" class="menu-content">
-          </div>
-        <div class="icon-menu">
-            <button class="options-btn" onclick="openInstructions()">Help</button>
-            <button class="options-btn" onclick="openHistory()"> History</button>
-            <button class="options-btn" onclick="openImprint()"> Impressum</button>
-        </div>
-      </dialog>
-      </main>
-<footer>
-  <p>Icons provided by <a href="http://www.icons8.com/">Icons 8</a></p>
-</footer>
+      <div id="menu-content" class="menu-content">
+      </div>
+      <div class="icon-menu">
+        <button class="options-btn" onclick="renderInstructions()">Help</button>
+        <button class="options-btn" onclick="renderHistory()"> History</button>
+        <button class="options-btn" onclick="renderImprint()"> Impressum</button>
+      </div>
+    </dialog>
+  </main>
+  <footer>
+    <p>Icons provided by <a href="http://www.icons8.com/">Icons 8</a></p>
+  </footer>
 
 </body>
 

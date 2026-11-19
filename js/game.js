@@ -9,11 +9,10 @@ let volumeOn = false;
 const allSounds = [];
 const MIN_FULLSCREEN_RATIO = 1.5;
 const MAX_FULLSCREEN_RATIO = 1.8;
-
+const gameContainer = document.getElementById("game-zone");
+const startScreen = document.querySelector(".start-screen-container");
 
 function init() {
-  const gameContainer = document.getElementById("game-zone");
-  const startScreen = document.querySelector(".start-screen-container");
   startScreen.classList.add("d-none");
   startScreen.classList.remove("d-flex");
   gameContainer.classList.remove("d-none");
@@ -27,130 +26,6 @@ function init() {
   world = new World(canvas, keyboard);
   showSettings();
 }
-
-window.addEventListener("keydown", (event) => {
-  const key = event.key;
-  switch (key) {
-    case " ":
-      keyboard.SPACE = true;
-      break;
-    case "ArrowLeft":
-      keyboard.LEFT = true;
-      break;
-    case "ArrowUp":
-      keyboard.UP = true;
-      break;
-    case "ArrowDown":
-      keyboard.DOWN = true;
-      break;
-    case "ArrowRight":
-      keyboard.RIGHT = true;
-      break;
-    case "b":
-      keyboard.B = true;
-      break;
-    case "f":
-      keyboard.F = true;
-      break;
-  }
-});
-
-window.addEventListener("keyup", (event) => {
-  const key = event.key;
-  switch (key) {
-    case " ":
-      keyboard.SPACE = false;
-      break;
-    case "ArrowLeft":
-      keyboard.LEFT = false;
-      break;
-    case "ArrowUp":
-      keyboard.UP = false;
-      break;
-    case "ArrowDown":
-      keyboard.DOWN = false;
-      break;
-    case "ArrowRight":
-      keyboard.RIGHT = false;
-      break;
-    case "b":
-      keyboard.B = false;
-      break;
-    case "f":
-      keyboard.F = false;
-      break;
-  }
-});
-
-document.getElementById("btn-left").addEventListener("touchstart", (event) => {
-  event.preventDefault();
-  keyboard.LEFT = true;
-});
-
-document.getElementById("btn-left").addEventListener("touchend", (event) => {
-  event.preventDefault();
-  keyboard.LEFT = false;
-});
-
-document.getElementById("btn-right").addEventListener("touchstart", (event) => {
-  event.preventDefault();
-  keyboard.RIGHT = true;
-});
-
-document.getElementById("btn-right").addEventListener("touchend", (event) => {
-  event.preventDefault();
-  keyboard.RIGHT = false;
-});
-
-document.getElementById("btn-up").addEventListener("touchstart", (event) => {
-  event.preventDefault();
-  keyboard.UP = true;
-});
-
-document.getElementById("btn-up").addEventListener("touchend", (event) => {
-  event.preventDefault();
-  keyboard.UP = false;
-});
-
-document.getElementById("btn-down").addEventListener("touchstart", (event) => {
-  event.preventDefault();
-  keyboard.DOWN = true;
-});
-
-document.getElementById("btn-down").addEventListener("touchend", (event) => {
-  event.preventDefault();
-  keyboard.DOWN = false;
-});
-
-document.getElementById("btn-d").addEventListener("touchstart", (event) => {
-  event.preventDefault();
-  keyboard.B = true;
-});
-
-document.getElementById("btn-d").addEventListener("touchend", (event) => {
-  event.preventDefault();
-  keyboard.B = false;
-});
-
-document.getElementById("btn-f").addEventListener("touchstart", (event) => {
-  event.preventDefault();
-  keyboard.F = true;
-});
-
-document.getElementById("btn-f").addEventListener("touchend", (event) => {
-  event.preventDefault();
-  keyboard.F = false;
-});
-
-document.getElementById("btn-space").addEventListener("touchstart", (event) => {
-  event.preventDefault();
-  keyboard.SPACE = true;
-});
-
-document.getElementById("btn-space").addEventListener("touchend", (event) => {
-  event.preventDefault();
-  keyboard.SPACE = false;
-});
 
 document.getElementById("volume-btn").addEventListener("click", toggleVolume);
 document.getElementById("menu-content").addEventListener("click", (event) => {
@@ -214,7 +89,7 @@ function openMenu(event) {
   menuContainer.showModal();
   const clickedBtn = event.currentTarget;
   if (clickedBtn.id === "help-btn" || clickedBtn.id === "settings-btn") {
-    openInstructions();
+    renderInstructions();
   }
 }
 
@@ -223,119 +98,17 @@ function closeMenu(event) {
   menuContainer.close();
 }
 
-function openInstructions() {
-  document.getElementById("menu-content").innerHTML = `
-
-  <ol class="controls-list">
-  <h2>Controls</h2>
-      <ul>
-       <h3> MOVING </h3>
-        <li>
-          <span>Move left</span>
-          <div class="preview-btn">←</div>
-        </li>
-
-        <li>
-          <span>Move right</span>
-          <div class="preview-btn">→</div>
-        </li>
-
-        <li>
-          <span>Move up</span>
-          <div class="preview-btn">↑</div>
-        </li>
-
-        <li>
-          <span>Move down</span>
-          <div class="preview-btn">↓</div>
-        </li>
-        </ul>
-
-<ul>  <h3> ATTACKING</h3>
-        <li>
-          <span>Fin Slap</span>
-          <div class="preview-btn">F</div>
-        </li>
-
-        <li>
-          <span>Bubble Attack</span>
-          <div class="preview-btn">D</div>
-        </li>
-
-        <li>
-          <span>Poison Attack</span>
-          <div class="preview-btn">Space</div>
-        </li>
-      </ul>
-      <h2>Settings</h2>
-      <ul class="menu-settings">
-      <li><button class="game-btn fullscreen-btn" id="menu-fullscreen-btn">
-    <img class="fullscreen-img" src="./img/7.Buttons/fullscreen.png" alt="fullscreen image"
-      >
-    </button></li>
-    <li><button class="game-btn volume-btn-slider" ><input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="${masterVolume}" class="volume-slider" oninput="changeVolume(this.value)">
-       </button></li>
-    <li><button class="game-btn volume-btn" id="menu-volume-btn">
-      <img class="img-volume" src="./img/7.Buttons/volume.png" alt="sound image">
-    </button></li>
-    </ul>
-      </ol>`;
-      changeFullscreenBtn();
+function renderInstructions() {
+  document.getElementById("menu-content").innerHTML = showInstructions();
+  changeFullscreenBtn();
 }
 
-function openImprint() {
-  document.getElementById("menu-content").innerHTML = `<h2>Imprint</h2>
-            <p>
-              Stefanie Grommes<br />
-              Offenbachstr. 6<br />
-              53359 Rheinbach<br />
-              Telefon: +49 (0) 1785825548<br />
-              E-Mail: steffi.grommes@web.de
-            </p>
-
-
-            <h3>Berufsbezeichnung und berufsrechtliche Regelungen</h3>
-            <p>
-              Berufsbezeichnung:<br />
-              Software Developer
-            </p>
-
-
-            <h3>
-              Verbraucher&shy;streit&shy;beilegung/Universal&shy;schlichtungs&shy;stelle
-            </h3>
-            <p>
-              Wir sind nicht bereit oder verpflichtet, an
-              Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle
-              teilzunehmen.
-            </p>
-
-            <p>
-              Quelle:
-              <a
-                href="https://www.e-recht24.de/impressum-generator.html">https://www.e-recht24.de/impressum-generator.html</a>
-            </p>
-            `;
+function renderImprint() {
+  document.getElementById("menu-content").innerHTML = showImprint();
 }
 
-function openHistory() {
-  document.getElementById("menu-content").innerHTML =
-    `  <h2 class="title">Deep under the waves, in the mysterious Coral Kingdom, lives a brave little shark named Sharkie.</h2>
-            <p>
-                Long ago, the Coral Kingdom was a place of peace and beauty...
-                Puffer fishes gang swims across, blocking the path.
-                Jelly fishes glow menacingly.
-                Only one hero can save the ocean...
-                Sharkie, the Ocean Guardian!
-            </p>
-            <h4 class="title">The Mission:</h4>
-            <ul>
-                <li>Collect coins to rebuild the Coral Kingdom </li>
-                <li>Collect hearts to regain energy. </li>
-                <li>Collect poison bottles in order to build posion bubbles. </li>
-                <li>Defeat the enemies by throwing bubbles or slapping them with your fin.</li>
-            </ul>
-            <h2 class="title">Are you ready to help Sharkie get back the peace?</h2>`;
+function renderHistory() {
+  document.getElementById("menu-content").innerHTML = showHistory();
 }
 
 /**
@@ -346,15 +119,6 @@ function setStoppableFunction(fn, time) {
   let id = setInterval(fn, time);
   intervalIds.push(id);
 }
-
-/* so muss man die Intervlle alle umbenennen setStoppableFunction(sayHello, 200);
-setStoppableFunction(sayGoodbye, 100);
-
-function sayHello() {
-  console.log("Hallo");
-  i++;
-}
-*/
 
 
 document.getElementById("fullscreen-btn").addEventListener("click", toggleFullscreen);

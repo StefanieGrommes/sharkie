@@ -1,5 +1,7 @@
 :root {
   --main-color: #2304f0;
+  --btn-color: #7EFFE0;
+  --hover-color:  #531A82;
 }
 
 html {
@@ -8,20 +10,20 @@ html {
 }
 
 body {
-    min-height: 100dvh;
-    height: 100dvh;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'LuckiestGuy-Regular', Arial, Helvetica, sans-serif;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    background-image: URL('../img/3.Background/BackgroundImage/landing-page-background.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+  min-height: 100dvh;
+  height: 100dvh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'LuckiestGuy-Regular', Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-image: URL('../img/3.Background/BackgroundImage/landing-page-background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 body.playing main {
@@ -62,6 +64,7 @@ main:fullscreen {
   justify-content: center;
   align-items: center;
   background: hsl(from var(--color) h s calc(l - 10));
+	animation: color-change 20s ease-in-out infinite;
 }
 
 main:fullscreen .game-zone {
@@ -159,14 +162,14 @@ main:fullscreen .game-zone {
 }
 
 h1 {
-    font-size: min(3.25rem, 4rem);
-    letter-spacing: 3px;
-    background: linear-gradient(to bottom, rgb(4, 60, 228), rgb(252, 154, 247));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    text-shadow: 6px 2px 8px rgba(0,0,0,0.5);
-    -webkit-text-stroke: 1px rgb(191, 224, 237);
+  font-size: min(3.25rem, 4rem);
+  letter-spacing: 3px;
+  background: linear-gradient(to bottom, rgb(4, 60, 228), rgb(252, 154, 247));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 6px 2px 8px rgba(0,0,0,0.5);
+  -webkit-text-stroke: 1px rgb(191, 224, 237);
 }
 
 h2 {
@@ -178,7 +181,7 @@ h3 {
 }
 
 .d-none {
-    display: none;
+  display: none;
 }
 
 .d-flex {
@@ -196,15 +199,15 @@ h3 {
   box-shadow: 0 0 8px rgba(0, 200, 255, 0.3);
   transition: all 0.2s ease;
   font-family: 'LuckiestGuy-Regular', Arial, Helvetica, sans-serif;
-  background-color: #7EFFE0;
-  color: #531A82;
+  background-color: var(--btn-color);
+  color: var(--hover-color);
   border-color: white;
 }
 
 .options-btn {
-   width: clamp(150px, 22vw, 190px);
-   padding: clamp(10px, 2vw, 18px) clamp(24px, 5vw, 50px);
-   font-size: clamp(16px, 3vw, 24px);
+  width: clamp(150px, 22vw, 190px);
+  padding: clamp(10px, 2vw, 18px) clamp(24px, 5vw, 50px);
+  font-size: clamp(16px, 3vw, 24px);
 }
 
 .mobile-btn {
@@ -214,7 +217,7 @@ h3 {
 }
 
 .options-btn:hover {
-  background: #531A82;
+  background: var(--hover-color);
   color: white;
   box-shadow:
     0 0 12px #00cfff,
@@ -316,14 +319,14 @@ h3 {
 }
 
 .menu-content {
-    grid-area: content;
-    scrollbar-width: thin;
-    scrollbar-color: rgb(0, 188, 212) rgba(0, 0, 0, 0.3);
-    background-color: rgba(27, 27, 26, 0.9);
-    width: 100%;
-    overflow-y: auto;
-    font-family: 'Arial';
-    margin: 12px 0;
+  grid-area: content;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(0, 188, 212) rgba(0, 0, 0, 0.3);
+  background-color: rgba(27, 27, 26, 0.9);
+  width: 100%;
+  overflow-y: auto;
+  font-family: 'Arial';
+  margin: 12px 0;
 }
 
 .menu-content h2 {
@@ -344,8 +347,8 @@ h3 {
   box-shadow: 0 0 8px rgba(0, 200, 255, 0.3);
   transition: all 0.2s ease;
   font-family: 'LuckiestGuy-Regular', Arial, Helvetica, sans-serif;
-  background-color: #7EFFE0;
-  color: #531A82;
+  background-color: var(--btn-color);
+  color: var(--hover-color);
   border-color: white;
   font-size: 20px;
   width: 60px;
@@ -361,8 +364,8 @@ h3 {
 }
 
 .game-btn:hover {
-    color: white;
-    transform: translateY(5px) scale(1.05);
+  color: white;
+  transform: translateY(5px) scale(1.05);
 }
 
 .volume-btn-slider {
@@ -387,7 +390,6 @@ footer a {
 }
 
 footer a:hover {
-  color: #531A82;
+  color: var(--hover-color);
   transform: translateY(5px) scale(1.05);
 }
-

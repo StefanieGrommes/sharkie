@@ -37,11 +37,11 @@
   }
 
   .pad {
-  display: grid;
-  grid-template-columns: repeat(3, 48px);
-  grid-template-rows: repeat(2, 48px);
-  gap: 6px;
-}
+    display: grid;
+    grid-template-columns: repeat(3, 48px);
+    grid-template-rows: repeat(2, 48px);
+    gap: 6px;
+  }
 
   #btn-up    { grid-column: 2; grid-row: 1; }
   #btn-left  { grid-column: 1; grid-row: 2; }

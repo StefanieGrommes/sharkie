@@ -10,11 +10,11 @@ body.playing {
 	animation: color-change 20s ease-in-out infinite;
 }
 
-body.playing .test {
+body.playing .waves {
 	display: block;
 }
 
-.test {
+.waves {
 	display: none;
 	position: fixed;
 	inset: 0;
