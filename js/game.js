@@ -18,8 +18,7 @@ function init() {
   startScreen.classList.remove("d-flex");
   gameContainer.classList.remove("d-none");
   gameContainer.classList.add("d-flex");
-  document.body.style.backgroundImage =
-    "url('img/3.Background/BackgroundImage/water.png')";
+  document.body.style.backgroundImage = "";
   canvas = document.getElementById("canvas");
   setCanvasResolution();
   checkVolumeSettings();
@@ -393,6 +392,7 @@ function changeFullscreenBtn() {
  * changes the element from fullscreen into normal modus
  */
 function exitFullscreen() {
+  if (!document.fullscreenElement && !document.webkitFullscreenElement) return;
   if (document.exitFullscreen) {
     document.exitFullscreen();
   } else if (document.webkitExitFullscreen) {
@@ -440,7 +440,7 @@ function endGame() {
   startScreen.classList.remove("d-none");
   startScreen.classList.add("d-flex");
   document.body.style.backgroundImage =
-    "url('img/3.Background/Mesa de trabajo 1.png')";
+    "url('../img/3.Background/Mesa de trabajo 1.png')";
   document.querySelector(".settings").classList.add("d-none");
 }
 

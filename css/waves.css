@@ -1,0 +1,118 @@
+@property --color{
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #328da8;
+}
+
+body.playing {
+	--color: #328da8;
+	background: hsl(from var(--color) h s calc(l - 10));
+	animation: color-change 20s ease-in-out infinite;
+}
+
+body.playing .test {
+	display: block;
+}
+
+.test {
+	display: none;
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	width: 100%;
+	height: 100dvh;
+	background: hsl(from var(--color) h s calc(l - 5));
+	clip-path: shape(
+		from 0% 100%,
+		line to 0% 40%,
+		arc by 50% 10% of 50% cw,
+		arc by 50% 10% of 50%,
+		line to 100% 100%,
+		close
+  	);
+	animation: wave 30s ease-in-out infinite;
+
+	&::before, &::after {
+		content: '';
+		position: absolute;
+		width: 100%;
+		height: 100%;
+	}
+
+	&::before {
+		z-index: -2;
+		background: var(--color);
+		clip-path: shape(
+			from 0% 100%,
+			line to 0% 50%,
+			arc by 50% 10% of 80% cw,
+			arc by 50% 10% of 80%,
+			line to 100% 100%,
+			close
+		);
+		animation: wave-2 30s ease-in-out infinite;
+	}
+
+	&::after {
+		z-index: -1;
+		background: hsl(from var(--color) h s calc(l + 5));
+		clip-path: shape(
+			from 0% 100%,
+			line to 0% 60%,
+			arc by 70% 15% of 100% cw,
+			arc by 30% 15% of 100%,
+			line to 100% 100%,
+			close
+		);
+		animation: wave-3 30s ease-in-out infinite;
+	}
+}
+
+@keyframes color-change {
+	33% {
+		--color: #59f9f9;
+	}
+
+	66% {
+		--color: #0b0539;
+	}
+}
+
+@keyframes wave {
+	50% {
+		clip-path: shape(
+			from 0% 100%,
+			line to 0% 42%,
+			arc by 50% 10% of 45% cw,
+			arc by 50% 10% of 45%,
+			line to 100% 100%,
+			close
+		);
+	}
+}
+
+@keyframes wave-2 {
+	50% {
+		clip-path: shape(
+			from 0% 100%,
+			line to 0% 48%,
+			arc by 50% 10% of 70% cw,
+			arc by 50% 10% of 70%,
+			line to 100% 100%,
+			close
+		);
+	}
+}
+
+@keyframes wave-3 {
+	50% {
+		clip-path: shape(
+			from 0% 100%,
+			line to 0% 61%,
+			arc by 50% 15% of 92% cw,
+			arc by 50% 15% of 92%,
+			line to 100% 100%,
+			close
+		);
+	}
+}

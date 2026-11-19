@@ -156,10 +156,10 @@ class Endboss extends MoveableObject {
   startIntro() {
     this.introStarted = true;
     this.currentImage = 0;
-    this.world.playSFX(this.world.sfx.intro);
+    this.world.playSFX(this.world.sfx.intro, false, false);
     backgroundmusic.pause();
     setTimeout(() => {
       if (!this.world.gameEnded && volumeOn) backgroundmusic.play();
-    }, 5000);
+    }, 3000);
   }
 }

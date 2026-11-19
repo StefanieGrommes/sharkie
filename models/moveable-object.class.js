@@ -100,7 +100,7 @@ class MoveableObject extends DrawableObject{
     lastTimeMoved() {
         let timepassed = new Date().getTime() - this.lastMovement;
         timepassed = timepassed / 1000;
-        return timepassed > 5;
+        return timepassed > 8;
     }
 
     /**

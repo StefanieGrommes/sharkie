@@ -14,12 +14,14 @@ class World {
   poisonCollected = 0;
   coinsCollected = 0;
   gameEnded = false;
+  currentSFX = null;
   sfx = {
     poison: "./audio/poisonbubble.mp3",
     finslap: "./audio/finslap.wav",
     bubble: "./audio/bubble_normal.wav",
     sleeping: "./audio/snoring.mp3",
     hurt: "./audio/hurt.mp3",
+    electric: "./audio/electric-trim.mp3",
     endbossHurt: "./audio/endboss-hurt.mp3",
     collected: "./audio/collectibles.wav",
     win: "./audio/youwin.wav",
@@ -49,7 +51,7 @@ class World {
   checkCollisions() {
     this.level.enemies.forEach((enemy) => {
       if (!enemy.dead && !enemy.isDead() && this.character.isColliding(enemy)) {
-        if (!this.character.isHurt()) this.playSFX(this.sfx.hurt);
+        if (!this.character.isHurt()) this.playHurtSFX(enemy);
         this.character.hit(enemy);
         this.character.isMoving();
         this.statusbarHeart.setPercentage(this.character.energy);
@@ -204,39 +206,56 @@ class World {
     if (this.gameEnded) return;
     const boss = this.level.enemies.find((e) => e instanceof Endboss);
     if (this.character.isDead()) {
-      this.finishGame("game-over-screen");
-      this.playSFX(this.sfx.lose);
+      this.finishGame("game-over-screen", this.sfx.lose);
     } else if (boss && boss.isDead()) {
-      this.finishGame("win-screen");
-      this.playSFX(this.sfx.win);
+      this.finishGame("win-screen", this.sfx.win);
     }
   }
 
-  finishGame(screenId) {
+  finishGame(screenId, sound) {
     this.gameEnded = true;
     setTimeout(() => {
       stopGame();
       stopAllSounds();
+      this.playSFX(sound, false, false);
       const screen = document.getElementById(screenId);
       screen.classList.remove("d-none");
       screen.classList.add("d-flex");
       document.body.classList.add("game-ended");
-    }, 1500); // Zeit für die Todesanimation
+    }, 1500);
   }
 
-  playSFX(path, loop = false) {
+  playSFX(path, loop = false, interruptible = true) {
     if (!volumeOn) return null;
+    if (interruptible && !loop) this.stopCurrentSFX();
     const sound = new Audio(path);
     sound.loop = loop;
     sound.volume = masterVolume;
     allSounds.push(sound);
     sound.play();
-    sound.onended = () => this.removeSound(sound); // wird nach ende des SOunds ausgeführrt
+    sound.onended = () => {
+      this.removeSound(sound);
+      if (this.currentSFX === sound) this.currentSFX = null;
+    };
+    if (interruptible && !loop) this.currentSFX = sound;
     return sound;
+  }
+
+  stopCurrentSFX() {
+    if (!this.currentSFX) return;
+    this.currentSFX.pause();
+    this.removeSound(this.currentSFX);
+    this.currentSFX = null;
   }
 
   removeSound(sound) {
     const index = allSounds.indexOf(sound); // Position dieses Sounds im Array suchen
     if (index > -1) allSounds.splice(index, 1); // wenn index -1 > gibts nicht, sonst entfernen
+  }
+
+  playHurtSFX(enemy) {
+    const sound =
+      enemy instanceof Jellyfish ? this.sfx.electric : this.sfx.hurt;
+    this.playSFX(sound);
   }
 }
