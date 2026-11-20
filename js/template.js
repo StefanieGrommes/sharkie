@@ -1,24 +1,24 @@
 function showHistory() {
-return `<h2 class="title">Deep under the waves, in the mysterious Coral Kingdom, lives a brave little shark named Sharkie.</h2>
-    <p>
-    Long ago, the Coral Kingdom was a place of peace and beauty...
-    Puffer fishes gang swims across, blocking the path.
-    Jelly fishes glow menacingly.
-    Only one hero can save the ocean...
-    Sharkie, the Ocean Guardian!
-    </p>
-    <h4 class="title">The Mission:</h4>
-    <ul>
-    <li>Collect coins to rebuild the Coral Kingdom </li>
-    <li>Collect hearts to regain energy. </li>
-    <li>Collect poison bottles in order to build posion bubbles. </li>
-    <li>Defeat the enemies by throwing bubbles or slapping them with your fin.</li>
-    </ul>
-    <h2 class="title">Are you ready to help Sharkie get back the peace?</h2>`;
+  return `<h2 class="title">Deep under the waves, in the mysterious Coral Kingdom, lives a brave little shark named Sharkie.</h2>
+        <p>
+        Long ago, the Coral Kingdom was a place of peace and beauty...
+        Puffer fishes gang swims across, blocking the path.
+        Jelly fishes glow menacingly.
+        Only one hero can save the ocean...
+        Sharkie, the Ocean Guardian!
+        </p>
+        <h4 class="title">The Mission:</h4>
+        <ul>
+        <li>Collect coins to rebuild the Coral Kingdom </li>
+        <li>Collect hearts to regain energy. </li>
+        <li>Collect poison bottles in order to build posion bubbles. </li>
+        <li>Defeat the enemies by throwing bubbles or slapping them with your fin.</li>
+        </ul>
+        <h2 class="title">Are you ready to help Sharkie get back the peace?</h2>`;
 }
 
 function showImprint() {
-    return `<h2>Imprint</h2>
+  return `<h2>Imprint</h2>
             <p>
                 Stefanie Grommes<br />
                 Offenbachstr. 6<br />
@@ -48,7 +48,7 @@ function showImprint() {
 }
 
 function showInstructions() {
-        return `<ol class="controls-list">
+  return `<ol class="controls-list">
                     <h2>Controls</h2>
                     <ul>
                         <h3> MOVING </h3>

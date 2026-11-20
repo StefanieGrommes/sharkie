@@ -19,7 +19,6 @@ class Endboss extends MoveableObject {
   minY = -50;
   maxY = 180;
 
-
   IMAGES_INTRODUCE = [
     "./img/2.Enemy/3 Final Enemy/1.Introduce/1.png",
     "./img/2.Enemy/3 Final Enemy/1.Introduce/2.png",
@@ -105,41 +104,40 @@ class Endboss extends MoveableObject {
 
   startNewPhase() {
     if (this.phaseSpeed > 0) {
-      // Pause
       this.phaseSpeed = 0;
-      this.phaseFrames = 30 + Math.random() * 60; // 0,5 bis 1,5 s
+      this.phaseFrames = 30 + Math.random() * 60;
     } else {
-      // Ruck
       const c = this.world.character;
-    this.phaseDir = c.x < this.x ? -1 : 1;
-    this.phaseDirY = c.y < this.y ? -1 : 1;
-    this.otherDirection = this.phaseDir === 1;
-    this.phaseSpeed = 1 + Math.random() * 3;
-    this.phaseFrames = 15 + Math.random() * 30;
+      this.phaseDir = c.x < this.x ? -1 : 1;
+      this.phaseDirY = c.y < this.y ? -1 : 1;
+      this.otherDirection = this.phaseDir === 1;
+      this.phaseSpeed = 1 + Math.random() * 3;
+      this.phaseFrames = 15 + Math.random() * 30;
     }
   }
 
-  showImages() {
-    if (this.isDead()) {
-      this.playAnimation(this.IMAGES_DEAD);
-    } else if (this.isHurt()) {
-      this.playAnimation(this.IMAGES_HURT);
-    } else if (
-      !this.world ||
-      this.x + this.world.camera_x > this.world.canvas.width - 250
-    ) {
-      return;
-    } else if (!this.hasIntroduced) {
-      if (!this.introStarted) this.startIntro();
-      this.playAnimation(this.IMAGES_INTRODUCE);
-      if (this.currentImage >= this.IMAGES_INTRODUCE.length) {
-        this.hasIntroduced = true;
-      }
-    } else if (Math.abs(this.world.character.x - this.x) < 220) {
-      this.playAnimation(this.IMAGES_ATTACKING);
-    } else {
-      this.playAnimation(this.IMAGES_SWIMMING);
+  getCurrentImages() {
+    if (this.isDead()) return this.IMAGES_DEAD;
+    if (this.isHurt()) return this.IMAGES_HURT;
+    if (!this.world || this.isOffscreen()) return null;
+    if (!this.hasIntroduced) return this.getIntroImages();
+    if (Math.abs(this.world.character.x - this.x) < 220)
+      return this.IMAGES_ATTACKING;
+    return this.IMAGES_SWIMMING;
+  }
+
+  isOffscreen() {
+    return this.x + this.world.camera_x > this.world.canvas.width - 250;
+  }
+
+  getIntroImages() {
+    if (!this.introStarted) this.startIntro();
+    if (this.currentImage >= this.IMAGES_INTRODUCE.length) {
+      this.hasIntroduced = true;
+      this.currentImage = 0;
+      return this.IMAGES_SWIMMING;
     }
+    return this.IMAGES_INTRODUCE;
   }
 
   endbossSwimAttack() {
@@ -159,7 +157,7 @@ class Endboss extends MoveableObject {
     this.world.playSFX(this.world.sfx.intro, false, false);
     backgroundmusic.pause();
     setTimeout(() => {
-      if (!this.world.gameEnded && volumeOn) backgroundmusic.play();
+      if (!this.world.gameEnded && volumeOn) playSafe(backgroundmusic);
     }, 3000);
   }
 }

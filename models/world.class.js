@@ -1,8 +1,8 @@
 class World {
   character = new Character();
-  statusbarPoison = new StatusbarPoison();
-  statusbarHeart = new StatusbarHeart();
-  statusbarCoins = new StatusbarCoins();
+  statusbarHeart = new Statusbar("HEART");
+  statusbarPoison = new Statusbar("POISON");
+  statusbarCoins = new Statusbar("COINS");
   level = level1;
   canvas;
   ctx;
@@ -29,12 +29,12 @@ class World {
     intro: "./audio/endboss_intro.mp3",
     fly: "./audio/Funpipe 5.mp3",
   };
+  range = 60;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
-    // das canvas wird in die oberste variable let = canvas überschrieben, damit ich es in draw verwenden kann
     this.draw();
     this.setWorld();
     this.run();
@@ -61,15 +61,7 @@ class World {
 
   checkBubbleCollisions() {
     this.throwableObjects = this.throwableObjects.filter((bubble) => {
-      const hit = this.level.enemies.find(
-        (enemy) =>
-          !enemy.dead &&
-          !(enemy instanceof Endboss && enemy.isDead()) &&
-          (enemy instanceof Pufferfish ||
-            enemy instanceof Jellyfish ||
-            enemy instanceof Endboss) &&
-          bubble.isColliding(enemy),
-      );
+      const hit = this.isHitting(bubble);
       if (!hit) return true;
       if (hit instanceof Endboss) {
         hit.takeDamage(bubble.poisoned ? 20 : 10);
@@ -80,6 +72,18 @@ class World {
       return false;
     });
     this.level.enemies = this.level.enemies.filter((enemy) => !enemy.removable);
+  }
+
+  isHitting(bubble) {
+    return this.level.enemies.find(
+      (enemy) =>
+        !enemy.dead &&
+        !(enemy instanceof Endboss && enemy.isDead()) &&
+        (enemy instanceof Pufferfish ||
+          enemy instanceof Jellyfish ||
+          enemy instanceof Endboss) &&
+        bubble.isColliding(enemy),
+    );
   }
 
   checkThrowObjects() {
@@ -95,39 +99,36 @@ class World {
         const index = this.level.elements.indexOf(element);
         this.playSFX(this.sfx.collected);
         this.level.elements.splice(index, 1);
-        if (element instanceof Poison) {
-          this.poisonCollected = Math.min(100, this.poisonCollected + 20);
-          this.statusbarPoison.setPercentage(this.poisonCollected);
-        }
-        if (element instanceof Coin) {
-          this.coinsCollected = Math.min(100, this.coinsCollected + 5);
-          this.statusbarCoins.setPercentage(this.coinsCollected);
-        }
-        if (element instanceof Heart) {
-          this.character.energy = Math.min(100, this.character.energy + 20);
-          this.statusbarHeart.setPercentage(this.character.energy);
-        }
+        this.checkEnemyType(element);
       }
     });
   }
 
+  checkEnemyType(element) {
+    if (element instanceof Poison) {
+      this.poisonCollected = Math.min(100, this.poisonCollected + 20);
+      this.statusbarPoison.setPercentage(this.poisonCollected);
+    }
+    if (element instanceof Coin) {
+      this.coinsCollected = Math.min(100, this.coinsCollected + 5);
+      this.statusbarCoins.setPercentage(this.coinsCollected);
+    }
+    if (element instanceof Heart) {
+      this.character.energy = Math.min(100, this.character.energy + 20);
+      this.statusbarHeart.setPercentage(this.character.energy);
+    }
+  }
+
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    //voher Canvas löschen
     this.ctx.translate(this.camera_x, 0);
     this.addObjectsToMap(this.level.backgrounds);
-    this.addObjectsToMap(this.level.enemies);
-    this.addObjectsToMap(this.throwableObjects);
-    this.addObjectsToMap(this.level.elements);
+    this.drawMoveableObjects();
     this.ctx.translate(-this.camera_x, 0);
-    // ------- SPACE FOR FIXED OBJECTS --------------
-    this.addToMap(this.statusbarPoison);
-    this.addToMap(this.statusbarHeart);
-    this.addToMap(this.statusbarCoins);
-    this.ctx.translate(this.camera_x, 0); //FORWARDS
+    this.drawStatusbars();
+    this.ctx.translate(this.camera_x, 0);
     this.addToMap(this.character);
     this.ctx.translate(-this.camera_x, 0);
-    // Draw() wird immer wieder aufgerufen
     this.animationId = requestAnimationFrame(() => this.draw());
   }
 
@@ -142,10 +143,21 @@ class World {
       this.flipImage(mo);
     }
     mo.draw(this.ctx);
-    /* mo.drawBorder(this.ctx);*/
     if (mo.otherDirection) {
       this.flipImageBack(mo);
     }
+  }
+
+  drawMoveableObjects() {
+    this.addObjectsToMap(this.level.enemies);
+    this.addObjectsToMap(this.throwableObjects);
+    this.addObjectsToMap(this.level.elements);
+  }
+
+  drawStatusbars() {
+    this.addToMap(this.statusbarPoison);
+    this.addToMap(this.statusbarHeart);
+    this.addToMap(this.statusbarCoins);
   }
 
   flipImage(mo) {
@@ -180,23 +192,26 @@ class World {
     );
   }
 
-  checkFinSlapCollisions() {
-    const c = this.character;
-    const range = 60; // Reichweite des Schlags, anpassen
-    const box = {
-      x: c.otherDirection ? c.x - range : c.x,
-      y: c.y,
-      width: c.width + range,
-      height: c.height,
-      offset: c.offset,
+  getFinSlapBox() {
+    const character = this.character;
+    return {
+      x: character.otherDirection ? character.x - this.range : character.x,
+      y: character.y,
+      width: character.width + this.range,
+      height: character.height,
+      offset: character.offset,
     };
+  }
+
+  checkFinSlapCollisions() {
+    const box = this.getFinSlapBox();
     this.level.enemies.forEach((enemy) => {
       if (enemy.dead) return;
       if (!MoveableObject.prototype.isColliding.call(box, enemy)) return;
       if (enemy instanceof Endboss) {
-        enemy.takeDamage(20); // Schaden anpassen
+        enemy.takeDamage(20);
       } else {
-        enemy.flyDirection = c.otherDirection ? -1 : 1;
+        enemy.flyDirection = this.character.otherDirection ? -1 : 1;
         enemy.die();
       }
     });
@@ -227,12 +242,12 @@ class World {
 
   playSFX(path, loop = false, interruptible = true) {
     if (!volumeOn) return null;
-    if (interruptible && !loop) this.stopCurrentSFX();
+    if (!loop) this.stopCurrentSFX();
     const sound = new Audio(path);
     sound.loop = loop;
     sound.volume = masterVolume;
     allSounds.push(sound);
-    sound.play();
+    playSafe(sound);
     sound.onended = () => {
       this.removeSound(sound);
       if (this.currentSFX === sound) this.currentSFX = null;
@@ -249,8 +264,8 @@ class World {
   }
 
   removeSound(sound) {
-    const index = allSounds.indexOf(sound); // Position dieses Sounds im Array suchen
-    if (index > -1) allSounds.splice(index, 1); // wenn index -1 > gibts nicht, sonst entfernen
+    const index = allSounds.indexOf(sound);
+    if (index > -1) allSounds.splice(index, 1);
   }
 
   playHurtSFX(enemy) {

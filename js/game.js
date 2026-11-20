@@ -50,23 +50,10 @@ function setCanvasResolution() {
   canvas.height = GAME_HEIGHT;
 }
 
-/**
- * Detects if the device is likely using touch input
- * @returns {boolean} True if the device appears to be touch-based
- */
-function isTouchDevice() {
-  return (
-    window.matchMedia("(pointer: coarse)").matches ||
-    window.matchMedia("(hover: none)").matches ||
-    "ontouchstart" in window ||
-    navigator.maxTouchPoints > 0
-  );
-}
-
 let masterVolume = parseFloat(localStorage.getItem("masterVolume") ?? "0.5");
 
 function changeVolume(amount) {
-   masterVolume = parseFloat(amount);
+  masterVolume = parseFloat(amount);
   localStorage.setItem("masterVolume", masterVolume);
   allSounds.forEach((sound) => {
     sound.volume = masterVolume;
@@ -94,7 +81,7 @@ function openMenu(event) {
 }
 
 function closeMenu(event) {
-  if (event.target !== menuContainer && event.target !== closeMenuBtn) return; // wenn man auf den dialog klickt, passiert nichts
+  if (event.target !== menuContainer && event.target !== closeMenuBtn) return;
   menuContainer.close();
 }
 
@@ -135,10 +122,8 @@ function enterFullscreen(elem) {
   if (elem.requestFullscreen) {
     elem.requestFullscreen();
   } else if (elem.webkitRequestFullscreen) {
-    /* Safari */
     elem.webkitRequestFullscreen();
   } else if (elem.msRequestFullscreen) {
-    /* IE11 */
     elem.msRequestFullscreen();
   }
 }
@@ -196,16 +181,24 @@ function endGame() {
   stopAllSounds();
   hideEndScreens();
   exitFullscreen();
+  hideGameZone();
+  showStartScreen();
+}
+
+function hideGameZone() {
   document.body.classList.remove("playing");
+  document.body.style.backgroundImage =
+    "url('../img/3.Background/Mesa de trabajo 1.png')";
   const gameZone = document.getElementById("game-zone");
   gameZone.classList.add("d-none");
   gameZone.classList.remove("d-flex");
+  document.querySelector(".settings").classList.add("d-none");
+}
+
+function showStartScreen() {
   const startScreen = document.querySelector(".start-screen-container");
   startScreen.classList.remove("d-none");
   startScreen.classList.add("d-flex");
-  document.body.style.backgroundImage =
-    "url('../img/3.Background/Mesa de trabajo 1.png')";
-  document.querySelector(".settings").classList.add("d-none");
 }
 
 const backgroundmusic = new Audio(
@@ -223,16 +216,22 @@ function checkVolumeSettings() {
 
 function soundOn() {
   allSounds.forEach((sound) => {
-    sound.play();
+    playSafe(sound);
   });
   localStorage.setItem("volumeOn", "true");
   volumeOn = true;
 }
 
+function playSafe(sound) {
+  sound.play().catch((error) => {
+    if (error.name !== "AbortError") console.error(error);
+  });
+}
+
 function stopAllSounds() {
   allSounds.forEach((sound) => {
     sound.pause();
-    sound.currentTime = 0;
+    if(sound !== backgroundmusic) sound.currentTime = 0;
   });
   allSounds.splice(0, allSounds.length, backgroundmusic);
 }

@@ -135,50 +135,63 @@ class Character extends MoveableObject {
   }
 
   showImages() {
-    if (!this.lastTimeMoved()) this.stopSleepingSound();
-    if (this.isDead()) {
-      this.playAnimation(this.IMAGES_POISONED_DEAD);
-    } else if (this.attackType) {
+    this.checkSleepingSound();
+    if (this.attackType && !this.isDead()) {
       this.playAttackAnimation();
-    } else if (this.isHurt()) {
-      if (this.lastEnemy instanceof Jellyfish) {
-        this.playAnimation(this.IMAGES_ELECTRIC_SHOCK);
-      } else {
-        this.playAnimation(this.IMAGES_POISONED);
-      }
-    } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-      this.playAnimation(this.IMAGES_SWIMMING);
-    } else if (this.lastTimeMoved()) {
-      this.playAnimation(this.IMAGES_LONG_IDLE);
-      this.startSleepingSound();
-    } else {
-      this.playAnimation(this.IMAGES_IDLE);
-    }
+    } else super.showImages();
+  }
+
+  getHurtImages() {
+  return this.lastEnemy instanceof Jellyfish
+    ? this.IMAGES_ELECTRIC_SHOCK
+    : this.IMAGES_POISONED;
+  }
+
+  getCurrentImages() {
+    if (this.isDead()) return this.IMAGES_POISONED_DEAD;
+    if (this.isHurt()) return this.getHurtImages();
+    if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) return this.IMAGES_SWIMMING;
+    if (this.lastTimeMoved()) return this.IMAGES_LONG_IDLE;
+    return this.IMAGES_IDLE
+  }
+
+  checkSleepingSound() {
+    if (this.lastTimeMoved()) this.startSleepingSound();
+    else this.stopSleepingSound();
   }
 
   sharkieSwim() {
-    const k = this.world.keyboard;
-    if (k.RIGHT || k.LEFT || k.UP || k.DOWN || k.B || k.F || k.SPACE) {
+    const key = this.world.keyboard;
+    if (key.RIGHT || key.LEFT || key.UP || key.DOWN || key.B || key.F || key.SPACE) {
       this.isMoving();
     }
-    if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+    this.swim();
+    this.world.camera_x = -this.x + 100;
+  }
+
+  swim() {
+    this.swimHorizontal();
+    this.swimVertical();
+  }
+
+  swimHorizontal() {
+    const key = this.world.keyboard;
+    if (key.RIGHT && this.x < this.world.level.level_end_x) {
       this.x += this.speedX;
       this.otherDirection = false;
     }
-    if (this.world.keyboard.LEFT && this.x > 0) {
+    if (key.LEFT && this.x > 0) {
       this.x -= this.speedX;
       this.otherDirection = true;
     }
-    if (this.world.keyboard.UP && this.y > -110) {
-      this.y -= this.speedY;
-    }
-    if (
-      this.world.keyboard.DOWN &&
-      this.y + this.height - 60 < this.world.canvas.height
-    ) {
+  }
+
+  swimVertical() {
+  const key = this.world.keyboard;
+    if (key.UP && this.y > -110) this.y -= this.speedY;
+    if (key.DOWN && this.y + this.height - 60 < this.world.canvas.height) {
       this.y += this.speedY;
     }
-    this.world.camera_x = -this.x + 100;
   }
 
   startAttack(type) {
