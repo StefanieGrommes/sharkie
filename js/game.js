@@ -145,8 +145,8 @@ function changeFullscreenBtn() {
   const fullscreenBtns = document.querySelectorAll(".fullscreen-btn img");
   fullscreenBtns.forEach((img) => {
     img.src = document.fullscreenElement
-      ? "./../img/7.Buttons/fullscreen-exit.png"
-      : "./../img/7.Buttons/fullscreen.png";
+      ? "../../img/7.Buttons/fullscreen-exit.png"
+      : "../../img/7.Buttons/fullscreen.png";
   });
 }
 
@@ -201,7 +201,7 @@ function endGame() {
 function hideGameZone() {
   document.body.classList.remove("playing");
   document.body.style.backgroundImage =
-    "url('./../img/3.Background/Mesa_de_trabajo_1.png')";
+    "url('../../img/3.Background/Mesa_de_trabajo_1.png')";
   const gameZone = document.getElementById("game-zone");
   gameZone.classList.add("d-none");
   gameZone.classList.remove("d-flex");
@@ -215,7 +215,7 @@ function showStartScreen() {
 }
 
 const backgroundmusic = new Audio(
-  "./../audio/AFRO014017_SUIKERBOSSIE_SONOTON.mp3",
+  "../../audio/AFRO014017_SUIKERBOSSIE_SONOTON.mp3",
 );
 backgroundmusic.loop = true;
 backgroundmusic.volume = masterVolume;
@@ -264,8 +264,8 @@ function toggleVolume(event) {
 function changeVolumeBtn() {
   document.querySelectorAll(".img-volume").forEach((img) => {
     img.src = volumeOn
-      ? "./../img/7.Buttons/volume.png"
-      : "./../img/7.Buttons/volume-mute.png";
+      ? "../../img/7.Buttons/volume.png"
+      : "../../img/7.Buttons/volume-mute.png";
   });
 }
 

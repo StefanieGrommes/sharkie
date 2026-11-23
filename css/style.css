@@ -19,7 +19,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  background-image: URL('./../img/3.Background/BackgroundImage/landing-page-background.png');
+  background-image: URL('../../img/3.Background/BackgroundImage/landing-page-background.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
