@@ -2,8 +2,8 @@ function showHistory() {
   return `<h2 class="title">Deep under the waves, in the mysterious Coral Kingdom, lives a brave little shark named Sharkie.</h2>
         <p>
         Long ago, the Coral Kingdom was a place of peace and beauty...
-        Puffer fishes gang swims across, blocking the path.
-        Jelly fishes glow menacingly.
+        Puffer_fishes gang swims across, blocking the path.
+        Jelly_fishes glow menacingly.
         Only one hero can save the ocean...
         Sharkie, the Ocean Guardian!
         </p>
@@ -72,7 +72,7 @@ function showInstructions() {
                     <ul>
                         <h3> ATTACKING</h3>
                         <li>
-                        <span>Fin Slap</span>
+                        <span>Fin_slap</span>
                         <div class="preview-btn">F</div>
                         </li>
                         <li>
@@ -87,13 +87,13 @@ function showInstructions() {
                     <h2>Settings</h2>
                     <ul class="menu-settings">
                         <li><button class="game-btn fullscreen-btn" id="menu-fullscreen-btn">
-                            <img class="fullscreen-img" src="../img/7.Buttons/fullscreen.png" alt="fullscreen image">
+                            <img class="fullscreen-img" src="./../img/7.Buttons/fullscreen.png" alt="fullscreen image">
                         </button></li>
                         <li><button class="game-btn volume-btn-slider"><input type="range" id="volumeSlider" min="0" max="1" step="0.1"
                             value="${masterVolume}" class="volume-slider" oninput="changeVolume(this.value)">
                         </button></li>
                         <li><button class="game-btn volume-btn" id="menu-volume-btn">
-                            <img class="img-volume" src="../img/7.Buttons/volume.png" alt="sound image">
+                            <img class="img-volume" src="./../img/7.Buttons/volume.png" alt="sound image">
                         </button></li>
                     </ul>
                     </ol>`;

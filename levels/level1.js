@@ -45,7 +45,7 @@ function shuffle(array) {
   }
 }
 
-const path = "../img/3.Background/Layers/"
+const path = "./../img/3.Background/Layers/"
 const backgroundArrayD2 = [
     "5.Water/D2.png",
     "4.Fondo2/D2.png",

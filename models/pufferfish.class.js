@@ -11,43 +11,43 @@ class Pufferfish extends MoveableObject {
 
   static IMAGES = {
     GREEN: [
-      "../img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/1.swim1.png",
-      "../img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/1.swim2.png",
-      "../img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/1.swim3.png",
-      "../img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/1.swim4.png",
-      "../img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/1.swim5.png",
+      "./../img/2.Enemy/1.Puffer_fish (3 color options)/1.Swim/1.swim1.png",
+      "./../img/2.Enemy/1.Puffer_fish (3 color options)/1.Swim/1.swim2.png",
+      "./../img/2.Enemy/1.Puffer_fish (3 color options)/1.Swim/1.swim3.png",
+      "./../img/2.Enemy/1.Puffer_fish (3 color options)/1.Swim/1.swim4.png",
+      "./../img/2.Enemy/1.Puffer_fish (3 color options)/1.Swim/1.swim5.png",
     ],
     ORANGE: [
-      "../img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/2.swim1.png",
-      "../img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/2.swim2.png",
-      "../img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/2.swim3.png",
-      "../img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/2.swim4.png",
-      "../img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/2.swim5.png",
+      "./../img/2.Enemy/1.Puffer_fish (3 color options)/1.Swim/2.swim1.png",
+      "./../img/2.Enemy/1.Puffer_fish (3 color options)/1.Swim/2.swim2.png",
+      "./../img/2.Enemy/1.Puffer_fish (3 color options)/1.Swim/2.swim3.png",
+      "./../img/2.Enemy/1.Puffer_fish (3 color options)/1.Swim/2.swim4.png",
+      "./../img/2.Enemy/1.Puffer_fish (3 color options)/1.Swim/2.swim5.png",
     ],
     PINK: [
-      "../img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/3.swim1.png",
-      "../img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/3.swim2.png",
-      "../img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/3.swim3.png",
-      "../img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/3.swim4.png",
-      "../img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/3.swim5.png",
+      "./../img/2.Enemy/1.Puffer_fish (3 color options)/1.Swim/3.swim1.png",
+      "./../img/2.Enemy/1.Puffer_fish (3 color options)/1.Swim/3.swim2.png",
+      "./../img/2.Enemy/1.Puffer_fish (3 color options)/1.Swim/3.swim3.png",
+      "./../img/2.Enemy/1.Puffer_fish (3 color options)/1.Swim/3.swim4.png",
+      "./../img/2.Enemy/1.Puffer_fish (3 color options)/1.Swim/3.swim5.png",
     ],
   };
 
   IMAGES_DEAD = {
     GREEN: [
-      "../img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/1.Dead 1 (can animate by going up).png",
-      "../img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/1.Dead 2 (can animate by going down to the floor after the Fin Slap attack).png",
-      "../img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/1.Dead 3 (can animate by going down to the floor after the Fin Slap attack).png",
+      "./../img/2.Enemy/1.Puffer_fish (3 color options)/4.DIE/1.Dead 1 (can animate by going up).png",
+      "./../img/2.Enemy/1.Puffer_fish (3 color options)/4.DIE/1.Dead 2 (can animate by going down to the floor after the Fin_slap attack).png",
+      "./../img/2.Enemy/1.Puffer_fish (3 color options)/4.DIE/1.Dead 3 (can animate by going down to the floor after the Fin_slap attack).png",
     ],
     ORANGE: [
-      "../img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/2.png",
-      "../img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/2.2.png",
-      "../img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/2.3.png",
+      "./../img/2.Enemy/1.Puffer_fish (3 color options)/4.DIE/2.png",
+      "./../img/2.Enemy/1.Puffer_fish (3 color options)/4.DIE/2.2.png",
+      "./../img/2.Enemy/1.Puffer_fish (3 color options)/4.DIE/2.3.png",
     ],
     PINK: [
-      "../img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/3.png",
-      "../img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/3.2.png",
-      "../img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/3.3.png",
+      "./../img/2.Enemy/1.Puffer_fish (3 color options)/4.DIE/3.png",
+      "./../img/2.Enemy/1.Puffer_fish (3 color options)/4.DIE/3.2.png",
+      "./../img/2.Enemy/1.Puffer_fish (3 color options)/4.DIE/3.3.png",
     ],
   };
 

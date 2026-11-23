@@ -1,13 +1,13 @@
 class Poison extends MoveableObject {
   IMAGES_POISON = [
-    "../img/4.Marcadores/Poison/Animada/1.png",
-    "../img/4.Marcadores/Poison/Animada/2.png",
-    "../img/4.Marcadores/Poison/Animada/3.png",
-    "../img/4.Marcadores/Poison/Animada/4.png",
-    "../img/4.Marcadores/Poison/Animada/5.png",
-    "../img/4.Marcadores/Poison/Animada/6.png",
-    "../img/4.Marcadores/Poison/Animada/7.png",
-    "../img/4.Marcadores/Poison/Animada/8.png",
+    "./../img/4.Marcadores/Poison/Animada/1.png",
+    "./../img/4.Marcadores/Poison/Animada/2.png",
+    "./../img/4.Marcadores/Poison/Animada/3.png",
+    "./../img/4.Marcadores/Poison/Animada/4.png",
+    "./../img/4.Marcadores/Poison/Animada/5.png",
+    "./../img/4.Marcadores/Poison/Animada/6.png",
+    "./../img/4.Marcadores/Poison/Animada/7.png",
+    "./../img/4.Marcadores/Poison/Animada/8.png",
   ];
 
   width = 40;

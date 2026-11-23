@@ -2,8 +2,8 @@ class ThrowableObject extends MoveableObject {
   constructor(x, y, otherDirection = false, poisoned = false) {
     super().loadImage(
       poisoned
-        ? "../img/1.Sharkie/4.Attack/Bubble trap/Poisoned Bubble (for whale).png"
-        : "../img/1.Sharkie/4.Attack/Bubble trap/Bubble.png",
+        ? "./../img/1.Sharkie/4.Attack/Bubble_trap/Poisoned Bubble (for whale).png"
+        : "./../img/1.Sharkie/4.Attack/Bubble_trap/Bubble.png",
     );
     this.x = x;
     this.y = y;
