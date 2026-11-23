@@ -1,9 +1,9 @@
 class Coin extends MoveableObject {
   IMAGES_COINS = [
-    "./img/4.Marcadores/1. Coins/1.png",
-    "./img/4.Marcadores/1. Coins/2.png",
-    "./img/4.Marcadores/1. Coins/3.png",
-    "./img/4.Marcadores/1. Coins/4.png",
+    "../img/4.Marcadores/1. Coins/1.png",
+    "../img/4.Marcadores/1. Coins/2.png",
+    "../img/4.Marcadores/1. Coins/3.png",
+    "../img/4.Marcadores/1. Coins/4.png",
   ];
 
   width = 40;
@@ -15,12 +15,10 @@ class Coin extends MoveableObject {
     this.loadImages(this.IMAGES_COINS);
     this.x = 30 + Math.random() * (2300 - 30);
     this.y = Math.random() * (GAME_HEIGHT - this.height);
-    this.animate();
+    setStoppableFunction(() => this.animate(), 180);
   }
 
   animate() {
-    setInterval(() => {
-      this.playAnimation(this.IMAGES_COINS);
-    }, 180);
+    this.playAnimation(this.IMAGES_COINS);
   }
 }

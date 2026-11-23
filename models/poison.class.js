@@ -1,13 +1,13 @@
 class Poison extends MoveableObject {
   IMAGES_POISON = [
-    "./img/4.Marcadores/Poison/Animada/1.png",
-    "./img/4.Marcadores/Poison/Animada/2.png",
-    "./img/4.Marcadores/Poison/Animada/3.png",
-    "./img/4.Marcadores/Poison/Animada/4.png",
-    "./img/4.Marcadores/Poison/Animada/5.png",
-    "./img/4.Marcadores/Poison/Animada/6.png",
-    "./img/4.Marcadores/Poison/Animada/7.png",
-    "./img/4.Marcadores/Poison/Animada/8.png",
+    "../img/4.Marcadores/Poison/Animada/1.png",
+    "../img/4.Marcadores/Poison/Animada/2.png",
+    "../img/4.Marcadores/Poison/Animada/3.png",
+    "../img/4.Marcadores/Poison/Animada/4.png",
+    "../img/4.Marcadores/Poison/Animada/5.png",
+    "../img/4.Marcadores/Poison/Animada/6.png",
+    "../img/4.Marcadores/Poison/Animada/7.png",
+    "../img/4.Marcadores/Poison/Animada/8.png",
   ];
 
   width = 40;
@@ -19,12 +19,10 @@ class Poison extends MoveableObject {
     this.loadImages(this.IMAGES_POISON);
     this.x = 100 + Math.random() * (2400 - 30);
     this.y = Math.random() * (GAME_HEIGHT - this.height);
-    this.animate();
+    setStoppableFunction(() => this.animate(), 250);
   }
 
   animate() {
-    setInterval(() => {
-      this.playAnimation(this.IMAGES_POISON);
-    }, 250);
+  this.playAnimation(this.IMAGES_POISON);
   }
 }

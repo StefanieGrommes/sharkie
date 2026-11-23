@@ -77,7 +77,7 @@ function showInstructions() {
                         </li>
                         <li>
                         <span>Bubble Attack</span>
-                        <div class="preview-btn">D</div>
+                        <div class="preview-btn">B</div>
                         </li>
                         <li>
                         <span>Poison Attack</span>
@@ -87,13 +87,13 @@ function showInstructions() {
                     <h2>Settings</h2>
                     <ul class="menu-settings">
                         <li><button class="game-btn fullscreen-btn" id="menu-fullscreen-btn">
-                            <img class="fullscreen-img" src="./img/7.Buttons/fullscreen.png" alt="fullscreen image">
+                            <img class="fullscreen-img" src="../img/7.Buttons/fullscreen.png" alt="fullscreen image">
                         </button></li>
                         <li><button class="game-btn volume-btn-slider"><input type="range" id="volumeSlider" min="0" max="1" step="0.1"
                             value="${masterVolume}" class="volume-slider" oninput="changeVolume(this.value)">
                         </button></li>
                         <li><button class="game-btn volume-btn" id="menu-volume-btn">
-                            <img class="img-volume" src="./img/7.Buttons/volume.png" alt="sound image">
+                            <img class="img-volume" src="../img/7.Buttons/volume.png" alt="sound image">
                         </button></li>
                     </ul>
                     </ol>`;

@@ -92,12 +92,12 @@ document.getElementById("btn-down").addEventListener("touchend", (event) => {
   keyboard.DOWN = false;
 });
 
-document.getElementById("btn-d").addEventListener("touchstart", (event) => {
+document.getElementById("btn-b").addEventListener("touchstart", (event) => {
   event.preventDefault();
   keyboard.B = true;
 });
 
-document.getElementById("btn-d").addEventListener("touchend", (event) => {
+document.getElementById("btn-b").addEventListener("touchend", (event) => {
   event.preventDefault();
   keyboard.B = false;
 });

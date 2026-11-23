@@ -210,12 +210,6 @@ h3 {
   font-size: clamp(16px, 3vw, 24px);
 }
 
-.mobile-btn {
-  font-size: 20px;
-  width: 60px;
-  height: 24px;
-}
-
 .options-btn:hover {
   background: var(--hover-color);
   color: white;

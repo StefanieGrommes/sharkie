@@ -11,6 +11,7 @@ const MIN_FULLSCREEN_RATIO = 1.5;
 const MAX_FULLSCREEN_RATIO = 1.8;
 const gameContainer = document.getElementById("game-zone");
 const startScreen = document.querySelector(".start-screen-container");
+let paused = false;
 
 function init() {
   startScreen.classList.add("d-none");
@@ -73,6 +74,7 @@ function closeInstructions() {
 }
 
 function openMenu(event) {
+  pauseGame();
   menuContainer.showModal();
   const clickedBtn = event.currentTarget;
   if (clickedBtn.id === "help-btn" || clickedBtn.id === "settings-btn") {
@@ -83,6 +85,16 @@ function openMenu(event) {
 function closeMenu(event) {
   if (event.target !== menuContainer && event.target !== closeMenuBtn) return;
   menuContainer.close();
+}
+
+function pauseGame() {
+  paused = true;
+  Object.keys(keyboard).forEach((key) => (keyboard[key] = false));
+}
+
+menuContainer.addEventListener("close", resumeGame);
+function resumeGame() {
+  paused = false;
 }
 
 function renderInstructions() {
@@ -103,10 +115,11 @@ function renderHistory() {
  * @returns {number} The id of that interval.
  */
 function setStoppableFunction(fn, time) {
-  let id = setInterval(fn, time);
+  let id = setInterval(() => {
+    if (!paused) fn();
+  }, time);
   intervalIds.push(id);
 }
-
 
 document.getElementById("fullscreen-btn").addEventListener("click", toggleFullscreen);
 
@@ -132,8 +145,8 @@ function changeFullscreenBtn() {
   const fullscreenBtns = document.querySelectorAll(".fullscreen-btn img");
   fullscreenBtns.forEach((img) => {
     img.src = document.fullscreenElement
-      ? "./img/7.Buttons/fullscreen-exit.png"
-      : "./img/7.Buttons/fullscreen.png";
+      ? "../img/7.Buttons/fullscreen-exit.png"
+      : "../img/7.Buttons/fullscreen.png";
   });
 }
 
@@ -202,7 +215,7 @@ function showStartScreen() {
 }
 
 const backgroundmusic = new Audio(
-  "./audio/AFRO014017_SUIKERBOSSIE_SONOTON.mp3",
+  "../audio/AFRO014017_SUIKERBOSSIE_SONOTON.mp3",
 );
 backgroundmusic.loop = true;
 backgroundmusic.volume = masterVolume;
@@ -251,8 +264,8 @@ function toggleVolume(event) {
 function changeVolumeBtn() {
   document.querySelectorAll(".img-volume").forEach((img) => {
     img.src = volumeOn
-      ? "./img/7.Buttons/volume.png"
-      : "./img/7.Buttons/volume-mute.png";
+      ? "../img/7.Buttons/volume.png"
+      : "../img/7.Buttons/volume-mute.png";
   });
 }
 
