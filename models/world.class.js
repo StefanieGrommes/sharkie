@@ -16,18 +16,18 @@ class World {
   gameEnded = false;
   currentSFX = null;
   sfx = {
-    poison: "../../audio/poisonbubble.mp3",
-    finslap: "../../audio/finslap.wav",
-    bubble: "../../audio/bubble_normal.wav",
-    sleeping: "../../audio/snoring.mp3",
-    hurt: "../../audio/hurt.mp3",
-    electric: "../../audio/electric-trim.mp3",
-    endbossHurt: "../../audio/endboss-hurt.mp3",
-    collected: "../../audio/collectibles.wav",
-    win: "../../audio/youwin.wav",
-    lose: "../../audio/youlose.wav",
-    intro: "../../audio/endboss_intro.mp3",
-    fly: "../../audio/Funpipe.mp3",
+    poison: "./audio/poisonbubble.mp3",
+    finslap: "./audio/finslap.wav",
+    bubble: "./audio/bubble_normal.wav",
+    sleeping: "./audio/snoring.mp3",
+    hurt: "./audio/hurt.mp3",
+    electric: "./audio/electric-trim.mp3",
+    endbossHurt: "./audio/endboss-hurt.mp3",
+    collected: "./audio/collectibles.wav",
+    win: "./audio/youwin.wav",
+    lose: "./audio/youlose.wav",
+    intro: "./audio/endboss_intro.mp3",
+    fly: "./audio/Funpipe.mp3",
   };
   range = 60;
 

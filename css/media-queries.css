@@ -38,9 +38,9 @@
 
   .pad {
     display: grid;
-    grid-template-columns: repeat(3, 48px);
-    grid-template-rows: repeat(2, 48px);
-    gap: 6px;
+    grid-template-columns: repeat(3, 6cqw);
+    grid-template-rows: repeat(2, 6cqw);
+    gap: 0.8cqw;
   }
 
   #btn-up    { grid-column: 2; grid-row: 1; }
@@ -54,16 +54,13 @@
   }
 
   .mobile-btns-panel .mobile-btn {
-    width: 48px;
-    height: 48px;
-    padding: 0;
-    font-size: 18px;
-    opacity: 0.7;
+  font-size: 2.5cqw;
+  padding: 0;
   }
 
   .mobile-btns-panel #btn-space {
-    width: 72px;
-    font-size: 14px;
+  width: 10cqw;
+  font-size: 2cqw;
   }
 
   .icon-menu {
