@@ -72,6 +72,7 @@ function changeVolume(amount) {
 
 document.getElementById("help-btn").addEventListener("click", openMenu);
 document.getElementById("settings-btn").addEventListener("click", openMenu);
+document.getElementById("legal-btn").addEventListener("click", openMenu);
 
 const closeMenuBtn = document.getElementById("close-menu-btn");
 closeMenuBtn.addEventListener("click", closeMenu);
@@ -96,8 +97,11 @@ function openMenu(event) {
   const clickedBtn = event.currentTarget;
   if (clickedBtn.id === "help-btn" || clickedBtn.id === "settings-btn") {
     renderInstructions();
+  } else if (clickedBtn.id === "legal-btn"){
+    renderImprint();
+    }
   }
-}
+
 
 /**
  * Closes the menu dialog, but only if the click hit the backdrop

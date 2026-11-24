@@ -18,7 +18,7 @@ class ThrowableObject extends MoveableObject {
     this.width = 50;
     this.otherDirection = otherDirection;
     this.poisoned = poisoned;
-    setStoppableFunction(() => this.throw(), 60);
+    setStoppableFunction(() => this.throw(), 40);
   }
 
   /**

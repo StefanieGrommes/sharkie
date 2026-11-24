@@ -4,10 +4,10 @@ class Endboss extends MoveableObject {
   width = 300;
   height = 300;
   offset = {
-    top: 100,
+    top: 150,
     left: 20,
     right: 25,
-    bottom: 50,
+    bottom: 80,
   };
   hasIntroduced = false;
   currentImage = 0;

@@ -2,10 +2,10 @@ class Jellyfish extends MoveableObject {
   width = 80;
   height = 120;
   offset = {
-    top: 10,
+    top: 15,
     bottom: 15,
-    left: 2,
-    right: 2,
+    left: 8,
+    right: 8,
   };
 
   static IMAGES = {

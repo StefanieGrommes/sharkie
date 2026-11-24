@@ -190,6 +190,7 @@ class World {
       this.flipImage(mo);
     }
     mo.draw(this.ctx);
+    mo.drawBorder(this.ctx);
     if (mo.otherDirection) {
       this.flipImageBack(mo);
     }
@@ -269,13 +270,15 @@ class World {
    */
   getFinSlapBox() {
     const character = this.character;
-    return {
+    const box = {
       x: character.otherDirection ? character.x - this.range : character.x,
       y: character.y,
       width: character.width + this.range,
       height: character.height,
       offset: character.offset,
     };
+    box.getHitBox = MoveableObject.prototype.getHitBox.bind(box);
+    return box;
   }
 
   /**
@@ -285,8 +288,7 @@ class World {
   checkFinSlapCollisions() {
     const box = this.getFinSlapBox();
     this.level.enemies.forEach((enemy) => {
-      if (enemy.dead) return;
-      if (!MoveableObject.prototype.isColliding.call(box, enemy)) return;
+      if (enemy.dead || !enemy.isColliding(box)) return;
       if (enemy instanceof Endboss) {
         enemy.takeDamage(20);
       } else {

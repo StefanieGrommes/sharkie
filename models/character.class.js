@@ -6,8 +6,8 @@ class Character extends MoveableObject {
   speedX = 10;
   speedY = 8;
   offset = {
-    top: 120,
-    bottom: 55,
+    top: 140,
+    bottom: 65,
     left: 45,
     right: 50,
   };
@@ -137,18 +137,34 @@ class Character extends MoveableObject {
    */
   animate() {
     setStoppableFunction(() => this.sharkieSwim(), 1000 / 60);
-    setStoppableFunction(() => this.showImages(), 180);
+    setStoppableFunction(() => this.showImages(), 150);
+    setStoppableFunction(() => this.attackTick(), 60);
   }
 
   /**
-   * Updates the sleeping sound and shows the next frame of the attack
-   * animation or of the current state animation.
+   * Updates the sleeping sound and shows the current state animation.
    */
   showImages() {
     this.checkSleepingSound();
-    if (this.attackType && !this.isDead()) {
-      this.playAttackAnimation();
-    } else super.showImages();
+    if (!this.attackType || this.isDead()) super.showImages();
+  }
+
+  /**
+   * Proves if the attack Anmiation can be played.
+   */
+  attackTick() {
+    if (this.attackType && !this.isDead()) this.playAttackAnimation();
+  }
+
+  /**
+   * Plays he attack animation if not dead.
+   */
+  startAttack(type) {
+  if (this.attackType || this.isDead()) return;
+  this.attackType = type;
+  this.currentImage = 0;
+  this.playAttackAnimation();
+  return true;
   }
 
   /**

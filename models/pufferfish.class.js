@@ -2,9 +2,9 @@ class Pufferfish extends MoveableObject {
   width = 100;
   offset = {
     top: 8,
-    bottom: 20,
-    left: 4,
-    right: 4,
+    bottom: 30,
+    left: 6,
+    right: 10,
   };
   currentImage = 0;
   speedX = 5;
