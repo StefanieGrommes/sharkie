@@ -115,6 +115,9 @@ class Character extends MoveableObject {
   currentImage = 0;
   world;
 
+  /**
+   * Creates the character, preloads all images and starts the animation loops.
+   */
   constructor() {
     super().loadImage("./img/1.Sharkie/1.IDLE/1.png");
     this.loadImages(this.IMAGES_IDLE);
@@ -129,11 +132,18 @@ class Character extends MoveableObject {
     this.isMoving();
   }
 
+  /**
+   * Starts the movement loop (60 times per second) and the image loop (every 180 ms).
+   */
   animate() {
     setStoppableFunction(() => this.sharkieSwim(), 1000 / 60);
     setStoppableFunction(() => this.showImages(), 180);
   }
 
+  /**
+   * Updates the sleeping sound and shows the next frame of the attack
+   * animation or of the current state animation.
+   */
   showImages() {
     this.checkSleepingSound();
     if (this.attackType && !this.isDead()) {
@@ -141,39 +151,70 @@ class Character extends MoveableObject {
     } else super.showImages();
   }
 
+  /**
+   * Chooses the hurt animation depending on the last enemy that hit the character.
+   * @returns {string[]} Electric shock images for jellyfish, poisoned images otherwise.
+   */
   getHurtImages() {
-  return this.lastEnemy instanceof Jellyfish
-    ? this.IMAGES_ELECTRIC_SHOCK
-    : this.IMAGES_POISONED;
+    return this.lastEnemy instanceof Jellyfish
+      ? this.IMAGES_ELECTRIC_SHOCK
+      : this.IMAGES_POISONED;
   }
 
+  /**
+   * Chooses the animation for the current state of the character
+   * (dead, hurt, swimming, long idle or idle).
+   * @returns {string[]} Image paths of the animation.
+   */
   getCurrentImages() {
     if (this.isDead()) return this.IMAGES_POISONED_DEAD;
     if (this.isHurt()) return this.getHurtImages();
-    if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) return this.IMAGES_SWIMMING;
+    if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT)
+      return this.IMAGES_SWIMMING;
     if (this.lastTimeMoved()) return this.IMAGES_LONG_IDLE;
-    return this.IMAGES_IDLE
+    return this.IMAGES_IDLE;
   }
 
+  /**
+   * Starts the sleeping sound if the character did not move for a long time, otherwise stops it.
+   */
   checkSleepingSound() {
     if (this.lastTimeMoved()) this.startSleepingSound();
     else this.stopSleepingSound();
   }
 
+  /**
+   * Movement tick: remembers the last movement if a key is pressed,
+   * moves the character and updates the camera position.
+   */
   sharkieSwim() {
     const key = this.world.keyboard;
-    if (key.RIGHT || key.LEFT || key.UP || key.DOWN || key.B || key.F || key.SPACE) {
+    if (
+      key.RIGHT ||
+      key.LEFT ||
+      key.UP ||
+      key.DOWN ||
+      key.B ||
+      key.F ||
+      key.SPACE
+    ) {
       this.isMoving();
     }
     this.swim();
     this.world.camera_x = -this.x + 100;
   }
 
+  /**
+   * Moves the character horizontally and vertically depending on the pressed keys.
+   */
   swim() {
     this.swimHorizontal();
     this.swimVertical();
   }
 
+  /**
+   * Moves the character left or right within the level bounds and sets its direction.
+   */
   swimHorizontal() {
     const key = this.world.keyboard;
     if (key.RIGHT && this.x < this.world.level.level_end_x) {
@@ -186,14 +227,22 @@ class Character extends MoveableObject {
     }
   }
 
+  /**
+   * Moves the character up or down within the canvas bounds.
+   */
   swimVertical() {
-  const key = this.world.keyboard;
+    const key = this.world.keyboard;
     if (key.UP && this.y > -110) this.y -= this.speedY;
     if (key.DOWN && this.y + this.height - 60 < this.world.canvas.height) {
       this.y += this.speedY;
     }
   }
 
+  /**
+   * Starts an attack if no other attack is running and the character is alive.
+   * @param {"BUBBLE"|"POISON"|"FINSLAP"} type - Type of the attack.
+   * @returns {boolean|undefined} true if the attack started, otherwise undefined.
+   */
   startAttack(type) {
     if (this.attackType || this.isDead()) return;
     this.attackType = type;
@@ -201,11 +250,17 @@ class Character extends MoveableObject {
     return true;
   }
 
+  /**
+   * Starts the looping sleeping sound if it is not already playing.
+   */
   startSleepingSound() {
     if (this.sleepingSound) return;
     this.sleepingSound = this.world.playSFX(this.world.sfx.sleeping, true);
   }
 
+  /**
+   * Stops the sleeping sound and removes it from the global sound list.
+   */
   stopSleepingSound() {
     if (!this.sleepingSound) return;
     this.sleepingSound.pause();
@@ -213,6 +268,10 @@ class Character extends MoveableObject {
     this.sleepingSound = null;
   }
 
+  /**
+   * Plays the next frame of the running attack animation, triggers frame based
+   * effects and throws the bubble when the animation is finished.
+   */
   playAttackAnimation() {
     const key = this.attackType === "POISON" ? "BUBBLE" : this.attackType;
     const imgs = this.IMAGES_ATTACK[key];
@@ -227,11 +286,17 @@ class Character extends MoveableObject {
     }
   }
 
+  /**
+   * Fin slap effects: damage check on frame 2, sound on frame 3.
+   */
   finSlapFrame() {
     if (this.currentImage === 2) this.world.checkFinSlapCollisions();
     if (this.currentImage === 3) this.world.playSFX(this.world.sfx.finslap);
   }
 
+  /**
+   * Bubble attack effect: plays the bubble or poison sound on frame 6.
+   */
   bubbleFrame() {
     if (this.currentImage !== 6) return;
     const s = this.world.sfx;

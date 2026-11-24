@@ -5,6 +5,9 @@ class Level {
   level_end_x = 2160;
   level_end_y = 480;
 
+  /**
+   * Sets the enemies, elements and backgrounds in Level.
+   */
   constructor(enemies, elements, backgrounds) {
     this.enemies = enemies;
     this.elements = elements;

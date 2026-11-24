@@ -51,6 +51,9 @@ class Pufferfish extends MoveableObject {
     ],
   };
 
+  /**
+   * Creates the Pufferfishes, loads the images, sets the variant, position and animates them.
+   */
   constructor(variant = "GREEN") {
     super();
     this.images = Pufferfish.IMAGES[variant];
@@ -63,6 +66,10 @@ class Pufferfish extends MoveableObject {
     this.animate();
   }
 
+  /**
+   * Starts the loops for showing the images (every 180 ms), moving Left (every 180 ms)
+   * and flying away after death (60 times per second).
+   */
   animate() {
     setStoppableFunction(() => this.showImages(), 180);
     setStoppableFunction(() => this.moveLeft(), 180);

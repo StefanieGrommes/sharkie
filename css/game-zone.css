@@ -27,6 +27,10 @@ canvas {
   background: var(--main-color);
 }
 
+.mobile-btn.pressed {
+  background: var(--main-color);
+}
+
 .settings {
   display: flex;
   flex-direction: column;

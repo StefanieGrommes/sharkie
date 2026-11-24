@@ -13,6 +13,9 @@ class Poison extends MoveableObject {
   width = 40;
   height = 40;
 
+  /**
+   * Creates the poison bottles, preloads all images and starts the animation loops.
+   */
   constructor() {
     super();
     this.loadImage(this.IMAGES_POISON[0]);
@@ -22,7 +25,10 @@ class Poison extends MoveableObject {
     setStoppableFunction(() => this.animate(), 250);
   }
 
+  /**
+   * Starts the movement loop (60 times per second) and the image loop (every 250 ms).
+   */
   animate() {
-  this.playAnimation(this.IMAGES_POISON);
+    this.playAnimation(this.IMAGES_POISON);
   }
 }

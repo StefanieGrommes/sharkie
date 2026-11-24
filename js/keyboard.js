@@ -1,123 +1,86 @@
-window.addEventListener("keydown", (event) => {
-  const key = event.key;
-  switch (key) {
-    case " ":
-      keyboard.SPACE = true;
-      break;
-    case "ArrowLeft":
-      keyboard.LEFT = true;
-      break;
-    case "ArrowUp":
-      keyboard.UP = true;
-      break;
-    case "ArrowDown":
-      keyboard.DOWN = true;
-      break;
-    case "ArrowRight":
-      keyboard.RIGHT = true;
-      break;
-    case "b":
-      keyboard.B = true;
-      break;
-    case "f":
-      keyboard.F = true;
-      break;
-  }
-});
+/**
+ * Maps lowercase event.key values to the property names of the keyboard object.
+ * @type {Object<string, string>}
+ */
+const KEY_MAP = {
+  " ": "SPACE",
+  arrowleft: "LEFT",
+  arrowup: "UP",
+  arrowdown: "DOWN",
+  arrowright: "RIGHT",
+  b: "B",
+  f: "F",
+};
 
-window.addEventListener("keyup", (event) => {
-  const key = event.key;
-  switch (key) {
-    case " ":
-      keyboard.SPACE = false;
-      break;
-    case "ArrowLeft":
-      keyboard.LEFT = false;
-      break;
-    case "ArrowUp":
-      keyboard.UP = false;
-      break;
-    case "ArrowDown":
-      keyboard.DOWN = false;
-      break;
-    case "ArrowRight":
-      keyboard.RIGHT = false;
-      break;
-    case "b":
-      keyboard.B = false;
-      break;
-    case "f":
-      keyboard.F = false;
-      break;
-  }
-});
+/**
+ * Maps the IDs of the mobile buttons to the property names of the keyboard object.
+ * @type {Object<string, string>}
+ */
+const TOUCH_BUTTONS = {
+  "btn-left": "LEFT",
+  "btn-right": "RIGHT",
+  "btn-up": "UP",
+  "btn-down": "DOWN",
+  "btn-b": "B",
+  "btn-f": "F",
+  "btn-space": "SPACE",
+};
 
-document.getElementById("btn-left").addEventListener("touchstart", (event) => {
+/**
+ * Sets the keyboard state for a pressed or released key.
+ * Keys that are not in KEY_MAP are ignored.
+ * @param {KeyboardEvent} event - The keydown or keyup event.
+ * @param {boolean} isPressed - true on keydown, false on keyup.
+ */
+function setKeyState(event, isPressed) {
+  const name = KEY_MAP[event.key.toLowerCase()];
+  if (name) keyboard[name] = isPressed;
+}
+
+/**
+ * Sets the keyboard state for a touched mobile button
+ * and prevents the default touch behavior (scrolling, zooming, emulated mouse events).
+ * @param {TouchEvent} event - The touch event.
+ * @param {string} name - Property name of the keyboard object (e.g. "LEFT").
+ * @param {boolean} isPressed - true on touchstart, false on touchend/touchcancel.
+ */
+function setTouchState(event, name, isPressed) {
   event.preventDefault();
-  keyboard.LEFT = true;
-});
+  keyboard[name] = isPressed;
+}
 
-document.getElementById("btn-left").addEventListener("touchend", (event) => {
-  event.preventDefault();
-  keyboard.LEFT = false;
-});
+/**
+ * Registers the touch listeners for one mobile button.
+ * @param {string} id - ID of the button element.
+ * @param {string} name - Property name of the keyboard object (e.g. "LEFT").
+ */
+function addTouchListeners(id, name) {
+  const btn = document.getElementById(id);
+  btn.addEventListener("touchstart", (event) =>
+    setTouchState(event, name, true),
+  );
+  ["touchend", "touchcancel"].forEach((type) => {
+    btn.addEventListener(type, (event) => setTouchState(event, name, false));
+  });
+}
 
-document.getElementById("btn-right").addEventListener("touchstart", (event) => {
+/**
+ * Sets the keyboard state for a touched mobile button, prevents the default
+ * touch behavior (scrolling, zooming, emulated mouse events) and toggles the
+ * "pressed" class on the button so it shows the pressed look.
+ * @param {TouchEvent} event - The touchstart, touchend or touchcancel event.
+ * @param {string} name - Property name of the keyboard object (e.g. "LEFT").
+ * @param {boolean} isPressed - true on touchstart, false on touchend/touchcancel.
+ */
+function setTouchState(event, name, isPressed) {
   event.preventDefault();
-  keyboard.RIGHT = true;
-});
+  keyboard[name] = isPressed;
+  event.currentTarget.classList.toggle("pressed", isPressed);
+}
 
-document.getElementById("btn-right").addEventListener("touchend", (event) => {
-  event.preventDefault();
-  keyboard.RIGHT = false;
-});
+window.addEventListener("keydown", (event) => setKeyState(event, true));
+window.addEventListener("keyup", (event) => setKeyState(event, false));
 
-document.getElementById("btn-up").addEventListener("touchstart", (event) => {
-  event.preventDefault();
-  keyboard.UP = true;
-});
-
-document.getElementById("btn-up").addEventListener("touchend", (event) => {
-  event.preventDefault();
-  keyboard.UP = false;
-});
-
-document.getElementById("btn-down").addEventListener("touchstart", (event) => {
-  event.preventDefault();
-  keyboard.DOWN = true;
-});
-
-document.getElementById("btn-down").addEventListener("touchend", (event) => {
-  event.preventDefault();
-  keyboard.DOWN = false;
-});
-
-document.getElementById("btn-b").addEventListener("touchstart", (event) => {
-  event.preventDefault();
-  keyboard.B = true;
-});
-
-document.getElementById("btn-b").addEventListener("touchend", (event) => {
-  event.preventDefault();
-  keyboard.B = false;
-});
-
-document.getElementById("btn-f").addEventListener("touchstart", (event) => {
-  event.preventDefault();
-  keyboard.F = true;
-});
-
-document.getElementById("btn-f").addEventListener("touchend", (event) => {
-  event.preventDefault();
-  keyboard.F = false;
-});
-
-document.getElementById("btn-space").addEventListener("touchstart", (event) => {
-  event.preventDefault();
-  keyboard.SPACE = true;
-});
-
-document.getElementById("btn-space").addEventListener("touchend", (event) => {
-  event.preventDefault();
-  keyboard.SPACE = false;
-});
+Object.entries(TOUCH_BUTTONS).forEach(([id, name]) =>
+  addTouchListeners(id, name),
+);

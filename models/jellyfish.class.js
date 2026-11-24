@@ -62,6 +62,10 @@ class Jellyfish extends MoveableObject {
     ],
   };
 
+  /**
+   * Creates a jellyfish at a random position with a random speed and preloads its images.
+   * @param {"GREEN"|"PINK"|"LILA"|"YELLOW"} [variant="GREEN"] - Color variant.
+   */
   constructor(variant = "GREEN") {
     super();
     this.images = Jellyfish.IMAGES[variant];
@@ -75,18 +79,30 @@ class Jellyfish extends MoveableObject {
     this.animate();
   }
 
+  /**
+   * Starts the loops for swimming (60 times per second), images (every 180 ms)
+   * and flying away after death (60 times per second).
+   */
   animate() {
     setStoppableFunction(() => this.swimUpAndDown(), 1000 / 60);
     setStoppableFunction(() => this.showImages(), 180);
     setStoppableFunction(() => this.flyAway(), 1000 / 60);
   }
 
+  /**
+   * Moves the jellyfish vertically and reverses the direction at the top (y <= 0)
+   * and bottom (y >= 380).
+   */
   swimUpAndDown() {
     this.y += this.speedY;
     if (this.y >= 380) this.speedY = -Math.abs(this.speedY);
     if (this.y <= 0) this.speedY = Math.abs(this.speedY);
   }
 
+  /**
+   * Shows the next frame of the swim animation. After death the dead animation
+   * plays once and the jellyfish is then marked as removable.
+   */
   showImages() {
     if (this.dead) {
       const imgs = this.IMAGES_DEAD[this.variant];

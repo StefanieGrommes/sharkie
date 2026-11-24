@@ -1,4 +1,11 @@
 class ThrowableObject extends MoveableObject {
+  /**
+   * Creates a bubble at the given position and starts its flight.
+   * @param {number} x - Start x position.
+   * @param {number} y - Start y position.
+   * @param {boolean} [otherDirection=false] - true if the bubble flies to the left.
+   * @param {boolean} [poisoned=false] - true for a poison bubble (different image, more damage).
+   */
   constructor(x, y, otherDirection = false, poisoned = false) {
     super().loadImage(
       poisoned
@@ -11,12 +18,13 @@ class ThrowableObject extends MoveableObject {
     this.width = 50;
     this.otherDirection = otherDirection;
     this.poisoned = poisoned;
-    this.throw();
+    setStoppableFunction(() => this.throw(), 60);
   }
 
+  /**
+   * Moves the bubble 8px every 60 ms to the left or right, depending on otherDirection.
+   */
   throw() {
-    setInterval(() => {
-      this.x += this.otherDirection ? -8 : 8;
-    }, 60);
+    this.x += this.otherDirection ? -8 : 8;
   }
 }

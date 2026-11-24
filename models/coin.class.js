@@ -9,6 +9,9 @@ class Coin extends MoveableObject {
   width = 40;
   height = 40;
 
+  /**
+   * Creates the coins, preloads all images and starts the animation loops.
+   */
   constructor() {
     super();
     this.loadImage(this.IMAGES_COINS[0]);
@@ -18,6 +21,9 @@ class Coin extends MoveableObject {
     setStoppableFunction(() => this.animate(), 180);
   }
 
+  /**
+   * Starts the movement loop (60 times per second) and the image loop (every 180 ms).
+   */
   animate() {
     this.playAnimation(this.IMAGES_COINS);
   }
