@@ -20,7 +20,7 @@ class Poison extends MoveableObject {
     super();
     this.loadImage(this.IMAGES_POISON[0]);
     this.loadImages(this.IMAGES_POISON);
-    this.x = 100 + Math.random() * (2400 - 30);
+    this.x = -710 + Math.random() * (2160 - this.width + 710);
     this.y = Math.random() * (GAME_HEIGHT - this.height);
     setStoppableFunction(() => this.animate(), 250);
   }

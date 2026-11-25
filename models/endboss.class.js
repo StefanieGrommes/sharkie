@@ -1,6 +1,6 @@
 class Endboss extends MoveableObject {
   y = 100;
-  x = 2500;
+  x = 1800;
   width = 300;
   height = 300;
   offset = {
@@ -18,6 +18,8 @@ class Endboss extends MoveableObject {
   phaseDirY = 0;
   minY = -50;
   maxY = 180;
+  introY = 0;
+  introSpeed = 3;
   world;
 
   IMAGES_INTRODUCE = [
@@ -85,7 +87,8 @@ class Endboss extends MoveableObject {
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_ATTACKING);
     this.loadImages(this.IMAGES_DEAD);
-    this.x = 2500;
+    this.x = 1800;
+    this.y = -this.height;
     this.speed = 0.0455 + Math.random() * 0.25;
     this.animate();
   }
@@ -103,10 +106,15 @@ class Endboss extends MoveableObject {
    * Does nothing before the intro is finished or when the boss is dead.
    */
   move() {
+    if (this.introStarted && !this.hasIntroduced && this.y < this.introY) {
+      this.y = Math.min(this.introY, this.y + this.introSpeed);
+    }
     if (!this.hasIntroduced || this.isDead()) return;
     if (this.phaseFrames <= 0) this.startNewPhase();
     this.phaseFrames--;
     this.x += this.phaseDir * this.phaseSpeed;
+    const maxX = this.world.level.level_end_x - this.width + this.offset.right;
+    this.x = Math.min(maxX, this.x);
     this.y += this.phaseDirY * this.phaseSpeed;
     this.y = Math.min(this.maxY, Math.max(this.minY, this.y));
   }
@@ -124,7 +132,7 @@ class Endboss extends MoveableObject {
       this.phaseDir = c.x < this.x ? -1 : 1;
       this.phaseDirY = c.y < this.y ? -1 : 1;
       this.otherDirection = this.phaseDir === 1;
-      this.phaseSpeed = 1 + Math.random() * 3;
+      this.phaseSpeed = 1 + Math.random() * 5;
       this.phaseFrames = 15 + Math.random() * 30;
     }
   }

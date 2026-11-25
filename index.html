@@ -48,7 +48,24 @@
 
     <div id="game-zone" class="game-zone d-none">
       <canvas id="canvas" width="720" height="480"></canvas>
+<div id="game-over-screen" class="game-over-screen d-none">
+      <img src="./img/6.Botones/Tittles/Game Over/Recurso 9.png" alt="" />
 
+      <div class="winscreen-btn">
+        <button class="options-btn" onclick="endGame()">Home</button>
+        <button class="options-btn" onclick="restartGame()">Retry</button>
+      </div>
+    </div>
+
+    <div id="win-screen" class="win-screen d-none">
+      <img src="./img/6.Botones/Try_again/Mesa_de_trabajo_1.png" alt="" />
+      <div class="winscreen-btn">
+        <button class="options-btn" onclick="endGame()">Home</button>
+        <button class="options-btn" onclick="restartGame()">Retry</button>
+      </div>
+
+
+    </div>
       <div class="settings d-none">
         <button class="game-btn fullscreen-btn" id="fullscreen-btn">
           <img class="fullscreen" src="./img/7.Buttons/fullscreen.png" alt="fullscreen image">
@@ -69,31 +86,14 @@
           <button class="options-btn mobile-btn" id="btn-right">→</button>
         </div>
         <div class="actions">
-          <button class="options-btn mobile-btn" id="btn-f">F</button>
-          <button class="options-btn mobile-btn" id="btn-b">B</button>
-          <button class="options-btn mobile-btn" id="btn-space">Space</button>
+          <button class="options-btn mobile-btn" id="btn-f">Finslap</button>
+          <button class="options-btn mobile-btn" id="btn-b">Bubble</button>
+          <button class="options-btn mobile-btn" id="btn-space">Poison</button>
         </div>
       </div>
     </div>
 
-    <div id="game-over-screen" class="game-over-screen d-none">
-      <img src="./img/6.Botones/Tittles/Game Over/Recurso 9.png" alt="" />
 
-      <div class="winscreen-btn">
-        <button class="options-btn" onclick="endGame()">Home</button>
-        <button class="options-btn" onclick="restartGame()">Retry</button>
-      </div>
-    </div>
-
-    <div id="win-screen" class="win-screen d-none">
-      <img src="./img/6.Botones/Try_again/Mesa_de_trabajo_1.png" alt="" />
-      <div class="winscreen-btn">
-        <button class="options-btn" onclick="endGame()">Home</button>
-        <button class="options-btn" onclick="restartGame()">Retry</button>
-      </div>
-
-
-    </div>
 
     <dialog id="menu-container" class="menu-container">
 
@@ -107,12 +107,12 @@
       <div class="icon-menu">
         <button class="options-btn" onclick="renderInstructions()">Help</button>
         <button class="options-btn" onclick="renderHistory()"> History</button>
-        <button class="options-btn" onclick="renderImprint()"> Impressum</button>
+        <button class="options-btn" onclick="renderImprint()">Imprint</button>
       </div>
     </dialog>
   </main>
   <footer>
-    <button class="legal-notice" id="legal-btn">Legal Notice </button>
+    <button class="legal-notice" id="legal-btn">Imprint </button>
     <p>Icons provided by <a href="http://www.icons8.com/">Icons 8</a></p>
   </footer>
 

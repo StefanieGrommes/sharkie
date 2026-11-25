@@ -205,19 +205,14 @@ class Character extends MoveableObject {
    */
   sharkieSwim() {
     const key = this.world.keyboard;
-    if (
-      key.RIGHT ||
-      key.LEFT ||
-      key.UP ||
-      key.DOWN ||
-      key.B ||
-      key.F ||
-      key.SPACE
-    ) {
+    if (key.RIGHT || key.LEFT || key.UP || key.DOWN || key.B || key.F || key.SPACE) {
       this.isMoving();
     }
     this.swim();
-    this.world.camera_x = -this.x + 100;
+    const level = this.world.level;
+    const minCam = this.world.canvas.width - level.level_end_x;
+    const maxCam = -level.level_start_x;
+    this.world.camera_x = Math.min(maxCam, Math.max(minCam, -this.x + 100));
   }
 
   /**
@@ -233,12 +228,15 @@ class Character extends MoveableObject {
    */
   swimHorizontal() {
     const key = this.world.keyboard;
-    if (key.RIGHT && this.x < this.world.level.level_end_x) {
-      this.x += this.speedX;
+    const level = this.world.level;
+    const minX = level.level_start_x - this.offset.left;
+    const maxX = level.level_end_x - this.width + this.offset.right;
+    if (key.RIGHT) {
+      this.x = Math.min(maxX, this.x + this.speedX);
       this.otherDirection = false;
     }
-    if (key.LEFT && this.x > 0) {
-      this.x -= this.speedX;
+    if (key.LEFT) {
+      this.x = Math.max(minX, this.x - this.speedX);
       this.otherDirection = true;
     }
   }

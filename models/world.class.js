@@ -29,7 +29,7 @@ class World {
     intro: "./audio/endboss_intro.mp3",
     fly: "./audio/Funpipe.mp3",
   };
-  range = 60;
+  range = 20;
 
   /**
    * Creates the world, starts the draw loop, links objects to the world
@@ -163,11 +163,9 @@ class World {
     this.ctx.translate(this.camera_x, 0);
     this.addObjectsToMap(this.level.backgrounds);
     this.drawMoveableObjects();
-    this.ctx.translate(-this.camera_x, 0);
-    this.drawStatusbars();
-    this.ctx.translate(this.camera_x, 0);
     this.addToMap(this.character);
     this.ctx.translate(-this.camera_x, 0);
+    this.drawStatusbars();
     this.animationId = requestAnimationFrame(() => this.draw());
   }
 
@@ -190,7 +188,6 @@ class World {
       this.flipImage(mo);
     }
     mo.draw(this.ctx);
-    mo.drawBorder(this.ctx);
     if (mo.otherDirection) {
       this.flipImageBack(mo);
     }

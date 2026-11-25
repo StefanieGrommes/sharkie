@@ -8,7 +8,7 @@ class Heart extends MoveableObject {
   constructor() {
     super();
     this.loadImage("./img/4.Marcadores/green/100_  copia 3.png");
-    this.x = 720 + Math.random() * 480;
+    this.x = -710 + Math.random() * (2160 - this.width + 710);
     this.y = Math.random() * (GAME_HEIGHT - this.height);
   }
 }

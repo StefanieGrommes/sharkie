@@ -31,6 +31,10 @@ canvas {
   background: var(--main-color);
 }
 
+.actions button {
+  width: 10cqw;
+}
+
 .settings {
   display: flex;
   flex-direction: column;

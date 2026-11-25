@@ -169,12 +169,12 @@ isColliding(mo) {
   }
 
   /**
-   * At the right border (x + width >= max_x_fishes): moves the object back inside,
+   * At the right border (x + width >= maxX_fishes): moves the object back inside,
    * reverses the horizontal speed and flips the looking direction.
    */
   isOutOfRange() {
-    if (this.x + this.width >= this.max_x_fishes) {
-      this.x = this.max_x_fishes - this.width;
+    if (this.x + this.width >= this.maxX_fishes) {
+      this.x = this.maxX_fishes - this.width;
       this.speedX *= -1;
       this.otherDirection = !this.otherDirection;
       this.changeDirectionOfFish();
@@ -187,7 +187,7 @@ isColliding(mo) {
    */
   changeDirectionOfFish() {
     this.otherDirection = true;
-    if (this.x + this.width >= this.max_x_fishes) {
+    if (this.x + this.width >= this.maxX_fishes) {
       this.otherDirection = !this.otherDirection;
     }
     if (this.x <= 0) {

@@ -4,6 +4,7 @@ class Level {
   elements;
   level_end_x = 2160;
   level_end_y = 480;
+  level_start_x = -720;
 
   /**
    * Sets the enemies, elements and backgrounds in Level.

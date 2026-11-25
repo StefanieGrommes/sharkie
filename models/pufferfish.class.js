@@ -59,8 +59,8 @@ class Pufferfish extends MoveableObject {
     this.images = Pufferfish.IMAGES[variant];
     this.loadImage(this.images[0]);
     this.loadImages(this.images);
-    this.x = 250 + Math.random() * (2300 - 30);
-    this.y = Math.random() * (GAME_HEIGHT - this.height);
+    this.x = 250 + Math.random() * (2160 - this.width - 250);
+    this.y = (Math.random() * (GAME_HEIGHT - this.height)) + 35;
     this.variant = variant;
     this.loadImages(this.IMAGES_DEAD[variant]);
     this.animate();

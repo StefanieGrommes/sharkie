@@ -1,4 +1,11 @@
 class ThrowableObject extends MoveableObject {
+   offset = {
+    top: 20,
+    bottom: 20,
+    left: 5,
+    right: 5
+  };
+
   /**
    * Creates a bubble at the given position and starts its flight.
    * @param {number} x - Start x position.
@@ -18,6 +25,7 @@ class ThrowableObject extends MoveableObject {
     this.width = 50;
     this.otherDirection = otherDirection;
     this.poisoned = poisoned;
+
     setStoppableFunction(() => this.throw(), 40);
   }
 
