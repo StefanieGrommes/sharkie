@@ -10,32 +10,35 @@ class MoveableObject extends DrawableObject {
   removable = false;
   flyDirection = 1;
 
-/**
- * Returns the hit box of this object with offsets applied.
- * @returns {{left: number, right: number, top: number, bottom: number}}
- */
-getHitBox() {
-  const offset = this.offset || {};
-  return {
-    left: this.x + (offset.left || 0),
-    right: this.x + this.width - (offset.right || 0),
-    top: this.y + (offset.top || 0),
-    bottom: this.y + this.height - (offset.bottom || 0),
-  };
-}
+  /**
+   * Returns the hit box of this object with offsets applied.
+   * @returns {{left: number, right: number, top: number, bottom: number}}
+   */
+  getHitBox() {
+    const offset = this.offset || {};
+    return {
+      left: this.x + (offset.left || 0),
+      right: this.x + this.width - (offset.right || 0),
+      top: this.y + (offset.top || 0),
+      bottom: this.y + this.height - (offset.bottom || 0),
+    };
+  }
 
-/**
- * Checks if this object collides with another one.
- * @param {MoveableObject} mo - The other object.
- * @returns {boolean} true if the hit boxes overlap.
- */
-isColliding(mo) {
-  const a = this.getHitBox();
-  const b = mo.getHitBox();
-  return (
-    a.right > b.left && a.left < b.right && a.bottom > b.top && a.top < b.bottom
-  );
-}
+  /**
+   * Checks if this object collides with another one.
+   * @param {MoveableObject} mo - The other object.
+   * @returns {boolean} true if the hit boxes overlap.
+   */
+  isColliding(mo) {
+    const a = this.getHitBox();
+    const b = mo.getHitBox();
+    return (
+      a.right > b.left &&
+      a.left < b.right &&
+      a.bottom > b.top &&
+      a.top < b.bottom
+    );
+  }
   /**
    * Shows the next image of an animation (loops over the given images).
    * @param {string[]} images - Image paths that were preloaded into the image cache.
@@ -161,8 +164,9 @@ isColliding(mo) {
    * speed and flips the looking direction.
    */
   changeDirection() {
-    if (this.x <= 0) {
-      this.x = 0;
+    const minX = this.world.level.level_start_x;
+    if (this.x <= minX) {
+      this.x = minX;
       this.speedX *= -1;
       this.otherDirection = !this.otherDirection;
     }

@@ -189,6 +189,7 @@ class Endboss extends MoveableObject {
    */
   takeDamage(amount) {
     this.energy = Math.max(0, this.energy - amount);
+    this.world.statusbarEnemy.setPercentage(this.energy);
     this.lastHit = new Date().getTime();
     this.currentImage = 0;
     if (this.energy > 0) this.world.playSFX(this.world.sfx.endbossHurt);

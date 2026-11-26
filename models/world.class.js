@@ -3,6 +3,8 @@ class World {
   statusbarHeart = new Statusbar("HEART");
   statusbarPoison = new Statusbar("POISON");
   statusbarCoins = new Statusbar("COINS");
+  statusbarHeart = new Statusbar("HEART");
+  statusbarEnemy = new StatusbarEnemy();
   level = level1;
   canvas;
   ctx;
@@ -62,8 +64,12 @@ class World {
    * On a hit the character takes damage and the heart status bar is updated.
    */
   checkCollisions() {
+    const slapping = this.character.attackType === "FINSLAP";
+    const slapBox = slapping ? this.getFinSlapBox() : null;
     this.level.enemies.forEach((enemy) => {
-      if (!enemy.dead && !enemy.isDead() && this.character.isColliding(enemy)) {
+      if (enemy.dead || enemy.isDead()) return;
+      if (slapBox && enemy.isColliding(slapBox)) return;
+      if (this.character.isColliding(enemy)) {
         if (!this.character.isHurt()) this.playHurtSFX(enemy);
         this.character.hit(enemy);
         this.character.isMoving();
@@ -209,6 +215,7 @@ class World {
     this.addToMap(this.statusbarPoison);
     this.addToMap(this.statusbarHeart);
     this.addToMap(this.statusbarCoins);
+    this.addToMap(this.statusbarEnemy);
   }
 
   /**

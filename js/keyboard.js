@@ -26,6 +26,9 @@ const TOUCH_BUTTONS = {
   "btn-space": "SPACE",
 };
 
+window.addEventListener("keydown", (event) => setKeyState(event, true));
+window.addEventListener("keyup", (event) => setKeyState(event, false));
+
 /**
  * Sets the keyboard state for a pressed or released key.
  * Keys that are not in KEY_MAP are ignored.
@@ -64,6 +67,10 @@ function addTouchListeners(id, name) {
   });
 }
 
+Object.entries(TOUCH_BUTTONS).forEach(([id, name]) =>
+  addTouchListeners(id, name),
+);
+
 /**
  * Sets the keyboard state for a touched mobile button, prevents the default
  * touch behavior (scrolling, zooming, emulated mouse events) and toggles the
@@ -78,9 +85,4 @@ function setTouchState(event, name, isPressed) {
   event.currentTarget.classList.toggle("pressed", isPressed);
 }
 
-window.addEventListener("keydown", (event) => setKeyState(event, true));
-window.addEventListener("keyup", (event) => setKeyState(event, false));
 
-Object.entries(TOUCH_BUTTONS).forEach(([id, name]) =>
-  addTouchListeners(id, name),
-);

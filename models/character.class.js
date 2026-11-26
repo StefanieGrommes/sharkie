@@ -1,6 +1,6 @@
 class Character extends MoveableObject {
   y = 220;
-  x = 120;
+  x = -640;
   height = 250;
   width = 220;
   speedX = 10;
@@ -160,11 +160,11 @@ class Character extends MoveableObject {
    * Plays he attack animation if not dead.
    */
   startAttack(type) {
-  if (this.attackType || this.isDead()) return;
-  this.attackType = type;
-  this.currentImage = 0;
-  this.playAttackAnimation();
-  return true;
+    if (this.attackType || this.isDead()) return;
+    this.attackType = type;
+    this.currentImage = 0;
+    this.playAttackAnimation();
+    return true;
   }
 
   /**
@@ -205,7 +205,15 @@ class Character extends MoveableObject {
    */
   sharkieSwim() {
     const key = this.world.keyboard;
-    if (key.RIGHT || key.LEFT || key.UP || key.DOWN || key.B || key.F || key.SPACE) {
+    if (
+      key.RIGHT ||
+      key.LEFT ||
+      key.UP ||
+      key.DOWN ||
+      key.B ||
+      key.F ||
+      key.SPACE
+    ) {
       this.isMoving();
     }
     this.swim();

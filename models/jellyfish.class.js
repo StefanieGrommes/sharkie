@@ -72,7 +72,7 @@ class Jellyfish extends MoveableObject {
     this.loadImage(this.images[0]);
     this.loadImages(this.images);
     this.x = 200 + Math.random() * (2160 - this.width - 200);
-    this.y = (Math.random() * (GAME_HEIGHT - this.height)) + 20 ;
+    this.y = Math.random() * (GAME_HEIGHT - this.height) + 20;
     this.speedY = 0.2 + Math.random() * 0.4;
     this.variant = variant;
     this.loadImages(this.IMAGES_DEAD[variant]);

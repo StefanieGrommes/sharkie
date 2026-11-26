@@ -72,7 +72,7 @@ function showInstructions() {
                     <ul>
                         <h3> ATTACKING</h3>
                         <li>
-                        <span>Fin_slap</span>
+                        <span>Fin Slap</span>
                         <div class="preview-btn">F</div>
                         </li>
                         <li>

@@ -1,9 +1,9 @@
 class ThrowableObject extends MoveableObject {
-   offset = {
+  offset = {
     top: 20,
     bottom: 20,
     left: 5,
-    right: 5
+    right: 5,
   };
 
   /**

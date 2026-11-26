@@ -10,6 +10,28 @@ const allSounds = [];
 const gameContainer = document.getElementById("game-zone");
 const startScreen = document.querySelector(".start-screen-container");
 let paused = false;
+let backgroundmusic;
+let masterVolume = parseFloat(localStorage.getItem("masterVolume") ?? "0.5");
+const closeMenuBtn = document.getElementById("close-menu-btn");
+const menuContainer = document.getElementById("menu-container");
+
+document.getElementById("volume-btn").addEventListener("click", toggleVolume);
+document.getElementById("menu-content").addEventListener("click", (event) => {
+  if (event.target.closest("#menu-volume-btn")) toggleVolume(event);
+  if (event.target.closest("#menu-fullscreen-btn")) toggleFullscreen();
+});
+document.addEventListener("fullscreenchange", () => {
+  changeFullscreenBtn();
+});
+document.getElementById("help-btn").addEventListener("click", openMenu);
+document.getElementById("settings-btn").addEventListener("click", openMenu);
+document.getElementById("legal-btn").addEventListener("click", openMenu);
+closeMenuBtn.addEventListener("click", closeMenu);
+document.addEventListener("click", closeMenu);
+menuContainer.addEventListener("close", resumeGame);
+document
+  .getElementById("fullscreen-btn")
+  .addEventListener("click", toggleFullscreen);
 
 /**
  * Starts the game: hides the start screen, shows the game zone,
@@ -23,22 +45,13 @@ function init() {
   document.body.style.backgroundImage = "";
   canvas = document.getElementById("canvas");
   setCanvasResolution();
+  createBackgroundMusic();
   checkVolumeSettings();
   initLevel1();
   document.body.classList.add("playing");
   world = new World(canvas, keyboard);
   showSettings();
 }
-
-document.getElementById("volume-btn").addEventListener("click", toggleVolume);
-document.getElementById("menu-content").addEventListener("click", (event) => {
-  if (event.target.closest("#menu-volume-btn")) toggleVolume(event);
-  if (event.target.closest("#menu-fullscreen-btn")) toggleFullscreen();
-});
-
-document.addEventListener("fullscreenchange", () => {
-  changeFullscreenBtn();
-});
 
 /**
  * Makes the settings buttons (fullscreen, volume, menu) visible.
@@ -56,8 +69,6 @@ function setCanvasResolution() {
   canvas.height = GAME_HEIGHT;
 }
 
-let masterVolume = parseFloat(localStorage.getItem("masterVolume") ?? "0.5");
-
 /**
  * Sets the master volume, saves it in localStorage and applies it to all active sounds.
  * @param {number|string} amount - New volume between 0 and 1.
@@ -69,15 +80,6 @@ function changeVolume(amount) {
     sound.volume = masterVolume;
   });
 }
-
-document.getElementById("help-btn").addEventListener("click", openMenu);
-document.getElementById("settings-btn").addEventListener("click", openMenu);
-document.getElementById("legal-btn").addEventListener("click", openMenu);
-
-const closeMenuBtn = document.getElementById("close-menu-btn");
-closeMenuBtn.addEventListener("click", closeMenu);
-document.addEventListener("click", closeMenu);
-const menuContainer = document.getElementById("menu-container");
 
 /**
  * Closes the options overlay dialog.
@@ -97,11 +99,10 @@ function openMenu(event) {
   const clickedBtn = event.currentTarget;
   if (clickedBtn.id === "help-btn" || clickedBtn.id === "settings-btn") {
     renderInstructions();
-  } else if (clickedBtn.id === "legal-btn"){
+  } else if (clickedBtn.id === "legal-btn") {
     renderImprint();
-    }
   }
-
+}
 
 /**
  * Closes the menu dialog, but only if the click hit the backdrop
@@ -120,8 +121,6 @@ function pauseGame() {
   paused = true;
   Object.keys(keyboard).forEach((key) => (keyboard[key] = false));
 }
-
-menuContainer.addEventListener("close", resumeGame);
 
 /**
  * Resumes the game after a pause.
@@ -165,10 +164,6 @@ function setStoppableFunction(fn, time) {
   }, time);
   intervalIds.push(id);
 }
-
-document
-  .getElementById("fullscreen-btn")
-  .addEventListener("click", toggleFullscreen);
 
 /**
  * Toggles fullscreen mode for the main element.
@@ -285,12 +280,15 @@ function showStartScreen() {
   startScreen.classList.add("d-flex");
 }
 
-const backgroundmusic = new Audio(
-  "./audio/AFRO014017_SUIKERBOSSIE_SONOTON.mp3",
-);
-backgroundmusic.loop = true;
-backgroundmusic.volume = masterVolume;
-allSounds.push(backgroundmusic);
+/**
+ * Creates the background-music, sets the volume and pushes the audio to the allSounds Array.
+ */
+function createBackgroundMusic() {
+  backgroundmusic = new Audio("./audio/Sonoton-Suikerbossie.mp3");
+  backgroundmusic.loop = true;
+  backgroundmusic.volume = masterVolume;
+  allSounds.push(backgroundmusic);
+}
 
 /**
  * Reads the saved sound setting from localStorage, turns the sound on or off

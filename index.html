@@ -14,6 +14,7 @@
   <script defer src="./models/jellyfish.class.js"></script>
   <script defer src="./models/background.class.js"></script>
   <script defer src="./models/statusbar.class.js"></script>
+  <script defer src="./models/statusbar-enemy.class.js"></script>
   <script defer src="./models/world.class.js"></script>
   <script defer src="./models/level.class.js"></script>
   <script defer src="./models/endboss.class.js"></script>
@@ -34,7 +35,7 @@
     <h1 id="game-name" class="game-name">Sharkie</h1>
   </header>
   <main>
-    <div class="rotate-overlay">Turn your device to play</div>
+
 
     <div class="start-screen-container">
       <div class="start-screen-upper-btns d-flex">
@@ -47,25 +48,26 @@
     </div>
 
     <div id="game-zone" class="game-zone d-none">
+      <div class="rotate-overlay">Turn your device to play</div>
       <canvas id="canvas" width="720" height="480"></canvas>
-<div id="game-over-screen" class="game-over-screen d-none">
-      <img src="./img/6.Botones/Tittles/Game Over/Recurso 9.png" alt="" />
+      <div id="game-over-screen" class="game-over-screen d-none">
+        <img src="./img/6.Botones/Tittles/Game Over/Recurso 9.png" alt="" />
 
-      <div class="winscreen-btn">
-        <button class="options-btn" onclick="endGame()">Home</button>
-        <button class="options-btn" onclick="restartGame()">Retry</button>
-      </div>
-    </div>
-
-    <div id="win-screen" class="win-screen d-none">
-      <img src="./img/6.Botones/Try_again/Mesa_de_trabajo_1.png" alt="" />
-      <div class="winscreen-btn">
-        <button class="options-btn" onclick="endGame()">Home</button>
-        <button class="options-btn" onclick="restartGame()">Retry</button>
+        <div class="winscreen-btn">
+          <button class="options-btn" onclick="endGame()">Home</button>
+          <button class="options-btn" onclick="restartGame()">Retry</button>
+        </div>
       </div>
 
+      <div id="win-screen" class="win-screen d-none">
+        <img src="./img/6.Botones/Try_again/Mesa_de_trabajo_1.png" alt="" />
+        <div class="winscreen-btn">
+          <button class="options-btn" onclick="endGame()">Home</button>
+          <button class="options-btn" onclick="restartGame()">Retry</button>
+        </div>
 
-    </div>
+
+      </div>
       <div class="settings d-none">
         <button class="game-btn fullscreen-btn" id="fullscreen-btn">
           <img class="fullscreen" src="./img/7.Buttons/fullscreen.png" alt="fullscreen image">

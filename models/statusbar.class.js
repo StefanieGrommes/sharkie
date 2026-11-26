@@ -26,7 +26,7 @@ class Statusbar extends DrawableObject {
     ],
   };
 
-  static POSITIONS = { HEART: 10, COINS: 430, POISON: 220 };
+  static POSITIONS = { HEART: 10, COINS: 305, POISON: 155 };
   percentage = 100;
 
   /**
@@ -41,8 +41,8 @@ class Statusbar extends DrawableObject {
     this.loadImages(this.images);
     this.x = Statusbar.POSITIONS[variant];
     this.y = 0;
-    this.width = 200;
-    this.height = 50;
+    this.width = 110;
+    this.height = 35;
     this.setPercentage(variant === "HEART" ? 100 : 0);
   }
 

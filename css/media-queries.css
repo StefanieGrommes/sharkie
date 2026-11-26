@@ -12,6 +12,10 @@
 
 @media  (orientation: portrait) and (max-width: 870px),
         (orientation: portrait) and (pointer: coarse) {
+  body {
+    background-image: URL('./../img/3.Background/BackgroundImage/landing-page-portrait.png');
+  }
+
   .rotate-overlay {
     display: flex;
   }
