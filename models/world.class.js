@@ -54,7 +54,7 @@ class World {
   run() {
     setStoppableFunction(() => this.checkCollisions(), 200);
     setStoppableFunction(() => this.checkCollectibles(), 200);
-    setStoppableFunction(() => this.checkThrowObjects(), 200);
+    setStoppableFunction(() => this.checkThrowObjects(), 60);
     setStoppableFunction(() => this.checkBubbleCollisions(), 50);
     setStoppableFunction(() => this.checkGameEnd(), 200);
   }

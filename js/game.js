@@ -15,42 +15,90 @@ let masterVolume = parseFloat(localStorage.getItem("masterVolume") ?? "0.5");
 const closeMenuBtn = document.getElementById("close-menu-btn");
 const menuContainer = document.getElementById("menu-container");
 
-document.getElementById("volume-btn").addEventListener("click", toggleVolume);
-document.getElementById("menu-content").addEventListener("click", (event) => {
-  if (event.target.closest("#menu-volume-btn")) toggleVolume(event);
-  if (event.target.closest("#menu-fullscreen-btn")) toggleFullscreen();
-});
-document.addEventListener("fullscreenchange", () => {
-  changeFullscreenBtn();
-});
-document.getElementById("help-btn").addEventListener("click", openMenu);
-document.getElementById("settings-btn").addEventListener("click", openMenu);
-document.getElementById("legal-btn").addEventListener("click", openMenu);
-closeMenuBtn.addEventListener("click", closeMenu);
-document.addEventListener("click", closeMenu);
-menuContainer.addEventListener("close", resumeGame);
-document
-  .getElementById("fullscreen-btn")
-  .addEventListener("click", toggleFullscreen);
-
 /**
- * Starts the game: hides the start screen, shows the game zone,
- * sets up the canvas, sound and level and creates the world.
+ * Starts the game: switches from the start screen to the game zone
+ * and sets up the game.
  */
 function init() {
+  showGameZone();
+  setupGame();
+}
+
+/**
+ * Hides the start screen, shows the game zone and switches the body to the playing state.
+ */
+function showGameZone() {
   startScreen.classList.add("d-none");
   startScreen.classList.remove("d-flex");
   gameContainer.classList.remove("d-none");
   gameContainer.classList.add("d-flex");
   document.body.style.backgroundImage = "";
+  document.body.classList.add("playing");
+}
+
+/**
+ * Sets up canvas, sound and level, creates the world and shows the settings buttons.
+ */
+function setupGame() {
   canvas = document.getElementById("canvas");
   setCanvasResolution();
   createBackgroundMusic();
   checkVolumeSettings();
   initLevel1();
-  document.body.classList.add("playing");
   world = new World(canvas, keyboard);
   showSettings();
+}
+
+/**
+ * Registers the listeners of all buttons. Must run only once.
+ */
+function initAllBtns() {
+  initFullscreenBtns();
+  initMenuBtns();
+  initVolumeBtn();
+  initResumeBtn();
+}
+
+/**
+ * Registers the listeners for the fullscreen button and for fullscreen changes.
+ */
+function initFullscreenBtns() {
+  document
+    .getElementById("fullscreen-btn")
+    .addEventListener("click", toggleFullscreen);
+  document.addEventListener("fullscreenchange", () => {
+    changeFullscreenBtn();
+  });
+}
+
+/**
+ * Registers the listeners for opening and closing the menu and for the
+ * volume and fullscreen buttons inside the menu content.
+ */
+function initMenuBtns() {
+  document.getElementById("help-btn").addEventListener("click", openMenu);
+  document.getElementById("settings-btn").addEventListener("click", openMenu);
+  document.getElementById("legal-btn").addEventListener("click", openMenu);
+  closeMenuBtn.addEventListener("click", closeMenu);
+  document.addEventListener("click", closeMenu);
+  document.getElementById("menu-content").addEventListener("click", (event) => {
+    if (event.target.closest("#menu-volume-btn")) toggleVolume(event);
+    if (event.target.closest("#menu-fullscreen-btn")) toggleFullscreen();
+  });
+}
+
+/**
+ * Registers the click listener of the volume button.
+ */
+function initVolumeBtn() {
+  document.getElementById("volume-btn").addEventListener("click", toggleVolume);
+}
+
+/**
+ * Resumes the game when the menu dialog is closed.
+ */
+function initResumeBtn() {
+  menuContainer.addEventListener("close", resumeGame);
 }
 
 /**
@@ -133,7 +181,12 @@ function resumeGame() {
  * Renders the controls and settings into the menu and syncs the button icons.
  */
 function renderInstructions() {
-  document.getElementById("menu-content").innerHTML = showInstructions();
+  if (screen.width < 968) {
+    document.getElementById("menu-content").innerHTML =
+      showMobileInstructions();
+  } else {
+    document.getElementById("menu-content").innerHTML = showInstructions();
+  }
   changeFullscreenBtn();
   changeVolumeBtn();
 }

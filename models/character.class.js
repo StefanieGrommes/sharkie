@@ -204,6 +204,15 @@ class Character extends MoveableObject {
    * moves the character and updates the camera position.
    */
   sharkieSwim() {
+    this.checkMovementKeys();
+    this.swim();
+    this.updateCamera();
+  }
+
+  /**
+   * Saves the time of the last movement if any movement or attack key is pressed.
+   */
+  checkMovementKeys() {
     const key = this.world.keyboard;
     if (
       key.RIGHT ||
@@ -216,7 +225,13 @@ class Character extends MoveableObject {
     ) {
       this.isMoving();
     }
-    this.swim();
+  }
+
+  /**
+   * Centers the camera on the character and keeps it within the level bounds
+   * (level_start_x to level_end_x).
+   */
+  updateCamera() {
     const level = this.world.level;
     const minCam = this.world.canvas.width - level.level_end_x;
     const maxCam = -level.level_start_x;
@@ -301,8 +316,6 @@ class Character extends MoveableObject {
     if (this.attackType === "FINSLAP") this.finSlapFrame();
     else this.bubbleFrame();
     if (this.currentImage >= imgs.length) {
-      if (this.attackType === "BUBBLE") this.world.throwBubble(false);
-      if (this.attackType === "POISON") this.world.throwBubble(true);
       this.attackType = null;
       this.currentImage = 0;
     }
@@ -321,7 +334,8 @@ class Character extends MoveableObject {
    */
   bubbleFrame() {
     if (this.currentImage !== 6) return;
-    const s = this.world.sfx;
-    this.world.playSFX(this.attackType === "POISON" ? s.poison : s.bubble);
+    const sfx = this.world.sfx;
+    this.world.playSFX(this.attackType === "POISON" ? sfx.poison : sfx.bubble);
+    this.world.throwBubble(this.attackType === "POISON");
   }
 }

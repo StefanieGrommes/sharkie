@@ -84,5 +84,3 @@ function setTouchState(event, name, isPressed) {
   keyboard[name] = isPressed;
   event.currentTarget.classList.toggle("pressed", isPressed);
 }
-
-

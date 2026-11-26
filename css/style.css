@@ -107,6 +107,20 @@ main:fullscreen .game-zone {
   padding: 0;
 }
 
+.controls-list > ul {
+  width: 100%;
+  max-width: 320px;
+  padding: 0;
+  list-style: none;
+}
+
+.controls-list > ul:not(.menu-settings) li {
+  display: grid;
+  grid-template-columns: 1fr 120px;
+  align-items: center;
+  gap: 20px;
+}
+
 .controls-list li {
   display: flex;
   align-items: center;
@@ -351,7 +365,8 @@ h3 {
   color: var(--hover-color);
   border-color: white;
   font-size: 20px;
-  width: 60px;
+  width: 120px;
+  white-space: nowrap;
   height: 24px;
   padding: clamp(10px, 2vw, 18px) clamp(24px, 5vw, 50px);
 }

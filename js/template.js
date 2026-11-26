@@ -98,3 +98,55 @@ function showInstructions() {
                     </ul>
                     </ol>`;
 }
+
+function showMobileInstructions() {
+  return `<ol class="controls-list">
+                    <h2>Controls</h2>
+                    <ul>
+                        <h3> MOVING </h3>
+                        <li>
+                        <span>Move left</span>
+                        <div class="preview-btn">←</div>
+                        </li>
+                        <li>
+                        <span>Move right</span>
+                        <div class="preview-btn">→</div>
+                        </li>
+                        <li>
+                        <span>Move up</span>
+                        <div class="preview-btn">↑</div>
+                        </li>
+                        <li>
+                        <span>Move down</span>
+                        <div class="preview-btn">↓</div>
+                        </li>
+                    </ul>
+                    <ul>
+                        <h3> ATTACKING</h3>
+                        <li>
+                        <span>Finslap</span>
+                        <div class="preview-btn">Finslap</div>
+                        </li>
+                        <li>
+                        <span>Bubble Attack</span>
+                        <div class="preview-btn">Bubble</div>
+                        </li>
+                        <li>
+                        <span>Poison Attack</span>
+                        <div class="preview-btn">Poison</div>
+                        </li>
+                    </ul>
+                    <h2>Settings</h2>
+                    <ul class="menu-settings">
+                        <li><button class="game-btn fullscreen-btn" id="menu-fullscreen-btn">
+                            <img class="fullscreen-img" src="./img/7.Buttons/fullscreen.png" alt="fullscreen image">
+                        </button></li>
+                        <li><button class="game-btn volume-btn-slider"><input type="range" id="volumeSlider" min="0" max="1" step="0.1"
+                            value="${masterVolume}" class="volume-slider" oninput="changeVolume(this.value)">
+                        </button></li>
+                        <li><button class="game-btn volume-btn" id="menu-volume-btn">
+                            <img class="img-volume" src="./img/7.Buttons/volume.png" alt="sound image">
+                        </button></li>
+                    </ul>
+                    </ol>`;
+}
